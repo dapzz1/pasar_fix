@@ -4,7 +4,7 @@ import { productBrands, productTypes } from '@/lib/db/schema/map-product';
 import { stallProductBrands, stalls } from '@/lib/db/schema/stall';
 import { protectedProcedure } from '@/lib/orpc';
 
-export const getStallProductBrand = protectedProcedure
+export const getStallProductBrands = protectedProcedure
   .input(
     z.object({
       stallId: z.string().optional(),
@@ -34,17 +34,31 @@ export const getStallProductBrand = protectedProcedure
         eq(productBrands.productTypeId, productTypes.id)
       );
 
-    const conditions: ReturnType<typeof eq>[] = [];
-    if (input.stallId) {
-      conditions.push(eq(stallProductBrands.stallId, input.stallId));
-    }
-    if (input.productBrandId) {
-      conditions.push(
-        eq(stallProductBrands.productBrandId, input.productBrandId)
-      );
-    }
+        const conditions: any[] = [];
 
-    return {
-      data: await baseQuery.where(and(...conditions)).orderBy(asc(stalls.name)),
-    };
+        if (input.stallId) {
+          conditions.push(
+            eq(
+              stallProductBrands.stallId,
+              input.stallId
+            )
+          );
+        }
+
+        if (input.productBrandId) {
+          conditions.push(
+            eq(
+              stallProductBrands.productBrandId,
+              input.productBrandId
+            )
+          );
+        }
+
+        return {
+          data: await (
+            conditions.length
+              ? baseQuery.where(and(...conditions))
+              : baseQuery
+          ).orderBy(asc(stalls.name)),
+        };
   });

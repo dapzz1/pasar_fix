@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import { createFileRoute } from '@tanstack/react-router';
 
 import {
@@ -24,15 +23,21 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+
 import { Input } from '@/components/ui/input';
-
 import { Button } from '@/components/ui/button';
-
 import { Search } from 'lucide-react';
-
 import { toast } from 'sonner';
-
 import { orpc } from '@/lib/orpc/client';
+import { EditStallForm } from './-components/edit-stall-form';
+import { CreateStallModal } from './-components/create-stall-modal';
+import { ManageStallProducts } from './-components/manage-stall-products';
 
 export const Route = createFileRoute(
   '/admin/stall/'
@@ -52,6 +57,44 @@ function RouteComponent() {
 
   const [limit, setLimit] =
     useState(10);
+
+    const [
+      editingItem,
+      setEditingItem,
+    ] = useState<any>(null);
+
+    const [
+    productItem,
+    setProductItem,
+  ] = useState<any>(null);
+
+    const deleteMutation =
+  useMutation(
+    orpc.admin.stall.delete.mutationOptions(
+      {
+        onSuccess:
+          async () => {
+            toast.success(
+              'Stall deleted successfully'
+            );
+
+            await queryClient.invalidateQueries(
+              orpc.admin.stall.get.queryOptions(
+                {
+                  input: {},
+                }
+              )
+            );
+          },
+
+        onError: () => {
+          toast.error(
+            'Failed to delete stall'
+          );
+        },
+      }
+    )
+  );
 
   const {
     data: stalls,
@@ -224,9 +267,7 @@ function RouteComponent() {
           </div>
 
           <div className="flex w-full flex-wrap gap-2 sm:w-auto">
-            <Button>
-              + Add Stall
-            </Button>
+           <CreateStallModal />
 
             <Button
               variant="outline"
@@ -413,20 +454,37 @@ function RouteComponent() {
                             <Button
                               size="sm"
                               variant="outline"
-                            >
+                              onClick={() =>
+                                setEditingItem(item)
+                              }
+>
                               Edit
                             </Button>
 
                             <Button
                               size="sm"
                               variant="secondary"
+                              onClick={() =>
+                                setProductItem(item)
+                              }
                             >
                               Products
                             </Button>
 
                             <Button
-                              size="sm"
                               variant="destructive"
+                              onClick={() => {
+                                const confirmed =
+                                  confirm(
+                                    'Delete this stall?'
+                                  );
+
+                                if (confirmed) {
+                                  deleteMutation.mutate({
+                                    id: item.id,
+                                  });
+                                }
+                              }}
                             >
                               Delete
                             </Button>
@@ -484,6 +542,52 @@ function RouteComponent() {
           )}
         </CardContent>
       </Card>
+      <Dialog
+        open={!!editingItem}
+        onOpenChange={(open) => {
+          if (!open) {
+            setEditingItem(null);
+          }
+        }}
+      >
+        <DialogContent className="sm:max-w-3xl overflow-visible">
+          <DialogHeader>
+            <DialogTitle>
+              Edit Stall
+            </DialogTitle>
+          </DialogHeader>
+
+          <EditStallForm
+            editingItem={
+              editingItem
+            }
+            onSuccess={() =>
+              setEditingItem(null)
+            }
+          />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={!!productItem}
+        onOpenChange={(open) => {
+          if (!open) {
+            setProductItem(null);
+          }
+        }}
+      >
+        <DialogContent className="sm:max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>
+              Manage Products
+            </DialogTitle>
+          </DialogHeader>
+
+          <ManageStallProducts
+            stall={productItem}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

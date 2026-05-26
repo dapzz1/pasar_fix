@@ -1,0 +1,14 @@
+name: Ping Supabase
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping API
+        run: |
+          curl -I https://aexttgffealjdewbvppt.supabase.co

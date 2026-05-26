@@ -21,23 +21,26 @@ import { createProductType } from '@/routes/admin/product/-app/create-product-ty
 import { deleteProductType } from '@/routes/admin/product/-app/delete-product-type';
 import { getProductTypes } from '@/routes/admin/product/-app/get-product-types';
 import { updateProductType } from '@/routes/admin/product/-app/update-product-type';
+
 import { createProductBrand } from '@/routes/admin/product/product-brand/-app/create-product-brand';
 import { deleteProductBrand } from '@/routes/admin/product/product-brand/-app/delete-product-brand';
 import { getProductBrands } from '@/routes/admin/product/product-brand/-app/get-product-brands';
 import { updateProductBrand } from '@/routes/admin/product/product-brand/-app/update-product-brand';
+
 import { createProductDosage } from '@/routes/admin/product/product-dosage/-app/create-product-dosage';
 import { deleteProductDosage } from '@/routes/admin/product/product-dosage/-app/delete-product-dosage';
 import { getProductDosages } from '@/routes/admin/product/product-dosage/-app/get-product-dosages';
 import { updateProductDosage } from '@/routes/admin/product/product-dosage/-app/update-product-dosage';
+
 import { createProvince } from '@/routes/admin/region/province/-app/create-province';
 import { deleteProvince } from '@/routes/admin/region/province/-app/delete-province';
 import { getProvinces } from '@/routes/admin/region/province/-app/get-provinces';
 import { updateProvince } from '@/routes/admin/region/province/-app/update-province';
+
 import { createRegency } from '@/routes/admin/region/regency/-app/create-regency';
 import { deleteRegency } from '@/routes/admin/region/regency/-app/delete-regency';
 import { getRegencies } from '@/routes/admin/region/regency/-app/get-regencies';
 import { updateRegency } from '@/routes/admin/region/regency/-app/update-regency';
-import { getStallProductBrand } from '@/routes/admin/stall/-app/get-stall-product-brand';
 
 import { deleteUser } from '@/routes/admin/user/-app/delete-user';
 import { getUserById } from '@/routes/admin/user/-app/get-user-by-id';
@@ -61,6 +64,12 @@ import { deleteDailySales } from '@/routes/admin/sale/sale-daily/-app/delete-dai
 import { updateDailySales } from '@/routes/admin/sale/sale-daily/-app/update-daily-sales';
 
 import { getStalls } from '@/routes/admin/stall/-app/get-stalls';
+import { createStall } from '@/routes/admin/stall/-app/create-stall';
+import { updateStall } from '@/routes/admin/stall/-app/update-stall';
+import { deleteStall } from '@/routes/admin/stall/-app/delete-stall';
+
+import { getStallProductBrands } from '@/routes/admin/stall/-app/get-stall-product-brand';
+import { assignProductBrand } from '@/routes/admin/stall/-app/assign-product-brand';
 /**
 
  * Main oRPC Router
@@ -231,7 +240,19 @@ export default {
 
     stall: {
       get: getStalls,
-      getStallProduct: getStallProductBrand,
+      getStallProduct: getStallProductBrands,
+      create: createStall,
+      update: updateStall,
+      delete: deleteStall,
+
+      stall_product_brand: {
+        get: getStallProductBrands,
+          get_product_brands:
+            getProductBrands,
+
+              assign:
+                assignProductBrand,
+      },
     },
 
     user: {

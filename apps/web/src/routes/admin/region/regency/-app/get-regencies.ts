@@ -9,7 +9,8 @@ export const getRegencies = protectedProcedure
       page: z.number().optional(),
       limit: z.number().optional(),
       search: z.string().optional(),
-      provinceId: z.uuid().optional(),
+        provinceId:
+        z.string().uuid().optional(),
     })
   )
   .handler(async ({ input, context }) => {
@@ -28,7 +29,7 @@ export const getRegencies = protectedProcedure
       .from(regencies)
       .innerJoin(provinces, eq(regencies.provinceId, provinces.id));
 
-    const conditions: ReturnType<typeof ilike>[] = [];
+    const conditions: any[] = [];
     if (input.provinceId) {
       conditions.push(eq(regencies.provinceId, input.provinceId));
     }
