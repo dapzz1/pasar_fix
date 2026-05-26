@@ -1,5 +1,7 @@
 [build]
-  command = "cd apps/web && bun run build"
+  base = "apps/web"
+  command = "bun run build"
+  publish = "dist"
 
 [functions]
   node_bundler = "esbuild"
