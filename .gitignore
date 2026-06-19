@@ -1,3 +1,67 @@
-node_modules
-.turbo
+# Dependencies and package-manager state
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Environment variables and local secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+.dev.vars*
+*.local
+*.pem
+
+# Build outputs and framework caches
+.turbo/
+.next/
+.output/
+.nitro/
+.tanstack/
+.vinxi/
+.react-router/
+.open-next/
+dist/
+build/
+out/
+coverage/
+dev-dist/
+*.tsbuildinfo
+next-env.d.ts
+
+# Deployment tooling
+.netlify/
+.vercel/
+.wrangler/
+
+# Logs and diagnostic output
+*.log
+*.log.*
+build_log*.txt
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Generated translations
+src/locales/**/*.js
+src/locales/**/*.mjs
+src/routes/**/-locales/*.js
+src/routes/**/-locales/*.mjs
+
+# IDE and local tool state
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.claude/settings.local.json
+.serena/cache/
+
+# Operating-system files
 .DS_Store
+Thumbs.db
+Desktop.ini
