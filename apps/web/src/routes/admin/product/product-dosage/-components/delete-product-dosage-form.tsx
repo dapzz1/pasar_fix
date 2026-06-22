@@ -17,7 +17,10 @@ export function DeleteProductDosageForm({
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  productDosage: { id: string; productBrandName?: string } | null;
+  productDosage: {
+    id: string;
+    productBrandName?: string | null;
+  } | null;
   onDelete: (id: string) => void;
 }) {
   const queryClient = useQueryClient();

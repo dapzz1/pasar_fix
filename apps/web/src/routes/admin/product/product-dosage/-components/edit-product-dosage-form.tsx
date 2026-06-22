@@ -48,6 +48,7 @@ export function EditProductDosageForm({
       productBrandId: current?.productBrandId ?? '',
       dosage: current?.dosage ?? 0,
       unit: current?.unit ?? '',
+      year: current?.year ?? '',
     },
     validators: { onBlur: () => ({ fields: {} }) as any },
     onSubmit: async ({ value }) => {
@@ -56,7 +57,9 @@ export function EditProductDosageForm({
           id: current?.id as string,
           dosage: Number(value.dosage),
           unit: value.unit,
+          year: value.year,
         });
+
         toast.success('Product dosage updated successfully!');
         onOpenChange(false);
       } catch (_error) {
@@ -70,6 +73,7 @@ export function EditProductDosageForm({
     form.setFieldValue('productBrandId', current?.productBrandId ?? '');
     form.setFieldValue('dosage', current?.dosage ?? 0);
     form.setFieldValue('unit', current?.unit ?? '');
+    form.setFieldValue('year', current?.year ?? '');
   }, [open, current, form]);
 
   return (
@@ -115,6 +119,10 @@ export function EditProductDosageForm({
               {(field) => (
                 <field.textField label="Unit" placeholder="e.g. kg/ha" />
               )}
+            </form.AppField>
+
+            <form.AppField name="year">
+              {(field) => <field.textField label="Year" placeholder="2026" />}
             </form.AppField>
 
             <div />

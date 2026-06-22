@@ -92,7 +92,14 @@ function RouteComponent() {
                       <div className="flex items-start justify-between">
                         <div>
                           <CardTitle className="text-lg">
-                            <Link to={`./${pb.id}`}>{pb.name}</Link>
+                            <Link
+                              to="/admin/product/product-dosage/$productBrand"
+                              params={{
+                                productBrand: pb.id,
+                              }}
+                            >
+                              {pb.name}
+                            </Link>
                           </CardTitle>
                         </div>
                       </div>

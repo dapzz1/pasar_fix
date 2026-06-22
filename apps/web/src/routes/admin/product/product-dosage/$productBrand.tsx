@@ -18,12 +18,13 @@ import { EditProductDosageForm } from './-components/edit-product-dosage-form';
 
 type ProductDosageListItem = {
   id: string;
-  commodityTypeId?: string;
-  commodityTypeName?: string;
-  productBrandId?: string;
-  productBrandName?: string;
-  dosage?: number;
-  unit?: string;
+  commodityTypeId?: string | null;
+  commodityTypeName?: string | null;
+  productBrandId?: string | null;
+  productBrandName?: string | null;
+  dosage?: number | null;
+  unit?: string | null;
+  year?: string | null;
 };
 
 export const Route = createFileRoute(
@@ -163,7 +164,7 @@ function RouteComponent() {
                 </p>
               );
             }
-            const filteredList = filtered.filter((d) =>
+            const filteredList = (filtered ?? []).filter((d) =>
               (d.productBrandName || d.commodityTypeName || '')
                 .toLowerCase()
                 .includes(searchTerm.toLowerCase())
@@ -182,7 +183,10 @@ function RouteComponent() {
                             {d.commodityTypeName ?? '—'}
                           </CardTitle>
                           <CardDescription className="mt-1 text-xs">
-                            Dosage: {d.dosage ?? '—'} {d.unit ?? ''}
+                            <p>
+                              Dosage: {d.dosage ?? '—'} {d.unit ?? ''}
+                            </p>
+                            <p>Year: {d.year ?? '—'}</p>
                           </CardDescription>
                         </div>
                       </div>

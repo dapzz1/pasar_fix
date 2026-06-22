@@ -1,9 +1,17 @@
+import { ClientOnly } from '@tanstack/react-router';
 import type React from 'react';
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import type { AdministrativeLevel } from '../-app/administrative-boundaries-service';
 import type { FilterCriteria, MarketingMapProps } from '../-domain/marketing';
-import DynamicMap from './dynamic-map';
 import { useMapParams } from './map-context';
+
+const DynamicMap = lazy(() => import('./dynamic-map'));
+
+const MapFallback = () => (
+  <div className="flex h-full w-full items-center justify-center bg-muted text-muted-foreground">
+    <p>Loading map...</p>
+  </div>
+);
 
 const MarketingMap: React.FC<MarketingMapProps> = ({
   filters = {},
@@ -56,15 +64,19 @@ const MarketingMap: React.FC<MarketingMapProps> = ({
   return (
     <div className="flex h-screen w-full" data-testid="marketing-map-container">
       <div className="relative flex-1">
-        <DynamicMap
-          administrativeLevel={currentLevel}
-          filters={updatedFilters}
-          onMapViewChange={onMapViewChange}
-          selectedCommodityType={selectedCommodityType}
-          selectedLandType={selectedLandType}
-          selectedProductBrand={selectedBrand}
-          year={selectedYear}
-        />
+        <ClientOnly fallback={<MapFallback />}>
+          <Suspense fallback={<MapFallback />}>
+            <DynamicMap
+              administrativeLevel={currentLevel}
+              filters={updatedFilters}
+              onMapViewChange={onMapViewChange}
+              selectedCommodityType={selectedCommodityType}
+              selectedLandType={selectedLandType}
+              selectedProductBrand={selectedBrand}
+              year={selectedYear}
+            />
+          </Suspense>
+        </ClientOnly>
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ export const updateProductDosage = protectedProcedure
       id: z.string(),
       dosage: z.number().optional(),
       unit: z.string().optional(),
+      year: z.string().optional(),
     })
   )
   .handler(async ({ input, context }) => {
@@ -16,7 +17,7 @@ export const updateProductDosage = protectedProcedure
     const updateData: Record<string, any> = {};
     if (rest.dosage !== undefined) updateData.dosage = rest.dosage;
     if (rest.unit !== undefined) updateData.unit = rest.unit;
-
+    if (rest.year !== undefined) updateData.year = rest.year;
     if (Object.keys(updateData).length === 0) {
       return { data: null };
     }
@@ -31,6 +32,8 @@ export const updateProductDosage = protectedProcedure
       return { data: updated };
     } catch (error: any) {
       console.error('updateProductDosage error:', error);
-      throw new ORPCError('INTERNAL', 'Failed to update product dosage');
+      throw new ORPCError('INTERNAL', {
+        message: 'Failed to update product dosage',
+      });
     }
   });

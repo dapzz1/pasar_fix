@@ -46,6 +46,7 @@ export function CreateProductDosageForm({
       productBrandId: '',
       dosage: 0,
       unit: '',
+      year: new Date().getFullYear(),
     },
     validators: { onBlur: () => ({ fields: {} }) as any },
     onSubmit: async ({ value }) => {
@@ -55,6 +56,7 @@ export function CreateProductDosageForm({
           productBrandId: value.productBrandId,
           dosage: Number(value.dosage),
           unit: value.unit,
+          year: String(new Date().getFullYear()),
         });
         toast.success('Product dosage created successfully!');
         onOpenChange(false);
@@ -121,6 +123,10 @@ export function CreateProductDosageForm({
               {(field) => (
                 <field.textField label="Unit" placeholder="e.g. kg/ha" />
               )}
+            </form.AppField>
+
+            <form.AppField name="year">
+              {(field) => <field.textField label="Year" placeholder="2026" />}
             </form.AppField>
 
             <div className="mt-7 flex justify-end">

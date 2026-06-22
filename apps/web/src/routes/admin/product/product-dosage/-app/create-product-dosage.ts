@@ -9,6 +9,7 @@ export const createProductDosage = protectedProcedure
       productBrandId: z.string(),
       dosage: z.number(),
       unit: z.string(),
+      year: z.string().optional(),
     })
   )
   .handler(async ({ input, context }) => {
@@ -20,6 +21,7 @@ export const createProductDosage = protectedProcedure
           productBrandId: input.productBrandId,
           dosage: input.dosage,
           unit: input.unit,
+          year: input.year,
         })
         .returning();
 
@@ -27,8 +29,12 @@ export const createProductDosage = protectedProcedure
     } catch (error: any) {
       console.error('createProductDosage error:', error);
       if (error?.code === '23505') {
-        throw new ORPCError('CONFLICT', 'Product dosage already exists');
+        throw new ORPCError('CONFLICT', {
+          message: 'Product dosage already exists',
+        });
       }
-      throw new ORPCError('INTERNAL', 'Failed to create product dosage');
+      throw new ORPCError('INTERNAL', {
+        message: 'Failed to create product dosage',
+      });
     }
   });

@@ -147,7 +147,7 @@ const BoundaryDisplay: React.FC<{
   return <GeoJSON data={boundaryData} style={boundaryStyle} />;
 };
 
-const DynamicMap: React.FC<DynamicMapProps> = ({
+export default function DynamicMap({
   administrativeLevel,
   selectedProductBrand,
   selectedLandType,
@@ -155,7 +155,7 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
   year,
   filters,
   onMapViewChange,
-}) => {
+}: DynamicMapProps) {
   const { t } = useLingui();
   const [showStallMarkers, setShowStallMarkers] = useState<boolean>(false);
   const [showChoropleth, setShowChoropleth] = useState<boolean>(false);
@@ -276,6 +276,4 @@ const DynamicMap: React.FC<DynamicMapProps> = ({
       <MapViewHandler onMapViewChange={onMapViewChange} />
     </MapContainer>
   );
-};
-
-export default DynamicMap;
+}

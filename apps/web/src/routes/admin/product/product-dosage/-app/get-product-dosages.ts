@@ -25,6 +25,7 @@ export const getProductDosages = protectedProcedure
         productBrandName: productBrands.name,
         dosage: productDosages.dosage,
         unit: productDosages.unit,
+        year: productDosages.year,
       })
       .from(productDosages)
       .innerJoin(
