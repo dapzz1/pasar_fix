@@ -1,4 +1,200 @@
-# 🚀 Betterz Stack Template
+# PASAR — Platform Analisis Strategi dan Realisasi Pasar
+
+<div align="center">
+
+![PASAR animated header](https://capsule-render.vercel.app/api?type=waving&height=260&color=0:052e16,45:166534,100:4ade80&text=PASAR&fontColor=ffffff&fontSize=72&fontAlignY=38&desc=Platform%20Analisis%20Strategi%20dan%20Realisasi%20Pasar&descAlignY=59&animation=fadeIn)
+
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=900&color=16A34A&center=true&vCenter=true&width=900&lines=Marketing+Intelligence+berbasis+peta;Potensi+provinsi+dan+kabupaten%2Fkota;Monitoring+komoditas%2C+lahan%2C+kios%2C+dan+penjualan;Dashboard+administrasi+yang+terhubung+ke+database)](https://git.io/typing-svg)
+
+[![React](https://img.shields.io/badge/React-19.1-149ECA?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![TanStack](https://img.shields.io/badge/TanStack-Start-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)](https://tanstack.com/start)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Drizzle-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Bun](https://img.shields.io/badge/Bun-1.2-000000?style=for-the-badge&logo=bun&logoColor=white)](https://bun.sh/)
+
+**Aplikasi pemetaan dan pengelolaan data pasar untuk mendukung pengembangan produk baru, pemantauan potensi wilayah, serta evaluasi aktivitas penjualan.**
+
+[Fitur](#fitur-utama) · [Arsitektur](#arsitektur-aplikasi) · [Instalasi](#menjalankan-proyek) · [Dokumentasi lama](#dokumentasi-template-dan-referensi-teknis)
+
+</div>
+
+---
+
+## Tentang PASAR
+
+PASAR menggabungkan data wilayah, potensi produk, komoditas, jenis lahan, kios, dan realisasi penjualan ke dalam satu aplikasi. Informasi tersebut disajikan melalui landing page, peta interaktif, serta admin panel berbasis data aktual.
+
+Sistem ini ditujukan untuk membantu tim Manajemen Produk Baru dalam:
+
+- Memetakan potensi produk pada tingkat provinsi dan kabupaten/kota.
+- Membandingkan nilai potensi antarwilayah melalui warna peta choropleth.
+- Mengelola master data wilayah, komoditas, lahan, produk, kios, dan pengguna.
+- Memantau data realisasi penjualan dan penjualan harian.
+- Melihat ringkasan operasional melalui dashboard admin yang terhubung ke database.
+- Mendukung pengambilan keputusan berbasis data pasar dan aktivitas lapangan.
+
+## Fitur Utama
+
+| Modul | Kemampuan |
+| --- | --- |
+| Landing page | Informasi program kerja, agenda monitoring, struktur pimpinan, statistik, dan akses cepat ke peta |
+| Marketing map | Peta Leaflet interaktif, batas administratif, marker kios, filter, popup, legenda, dan choropleth potensi |
+| Province Potential | CRUD potensi produk per provinsi dan integrasi warna ke peta |
+| Regency Potential | CRUD potensi produk per kabupaten/kota |
+| Dashboard admin | Ringkasan provinsi, kabupaten/kota, jenis lahan, komoditas, produk, kios, penjualan, dan cakupan data potensi |
+| Region management | Pengelolaan data provinsi dan kabupaten/kota |
+| Product management | Pengelolaan tipe produk, merek produk, dan dosis produk |
+| Land & commodity | Pengelolaan tipe lahan serta komoditas tingkat provinsi dan kabupaten/kota |
+| Stall management | Data kios, lokasi geografis, pemilik, kriteria, dan relasi produk |
+| Sales management | Realisasi penjualan dan pencatatan penjualan harian |
+| Authentication | Login, sesi pengguna, route protection, dan endpoint terproteksi |
+| Internationalization | Katalog bahasa Inggris dan Indonesia menggunakan Lingui |
+
+## Struktur Pimpinan
+
+| Peran | Nama | Jabatan |
+| --- | --- | --- |
+| PM | **Achmad Zaid** | PM Manajemen Produk Baru |
+| SMD I | **Erwin Indra P** | SMD I Manajemen Produk Baru |
+
+## Alur Data Peta
+
+```mermaid
+flowchart LR
+    A[Admin Panel] -->|CRUD| B[(PostgreSQL)]
+    B --> C[oRPC API]
+    C --> D[TanStack Query]
+    D --> E[Province & Regency Potential]
+    E --> F[Leaflet Choropleth]
+    D --> G[Dashboard Admin]
+    D --> H[Stall Markers]
+```
+
+Data potential disimpan melalui admin panel, dibaca melalui endpoint oRPC, lalu dicocokkan dengan kode wilayah pada GeoJSON. Nilai tersebut menentukan warna wilayah, legenda, dan informasi popup pada peta.
+
+## Arsitektur Aplikasi
+
+```text
+pasar_fix/
+├── apps/
+│   └── web/
+│       ├── public/data/                  # GeoJSON dan aset publik
+│       └── src/
+│           ├── components/               # Komponen UI bersama
+│           ├── lib/
+│           │   ├── auth/                 # Better Auth
+│           │   ├── db/                   # Drizzle schema dan migrations
+│           │   ├── orpc/                 # API router dan client
+│           │   └── lingui/               # Infrastruktur i18n
+│           └── routes/
+│               ├── admin/                # Dashboard dan seluruh CRUD admin
+│               ├── map/                  # Marketing map dan choropleth
+│               ├── auth/                 # Login dan signup
+│               └── index.tsx             # Landing page
+├── netlify.toml
+├── vercel.json
+└── package.json
+```
+
+### Teknologi
+
+- **Frontend:** React 19, TanStack Start/Router/Query, Tailwind CSS 4, dan shadcn/ui.
+- **Map:** Leaflet dan React Leaflet dengan data GeoJSON.
+- **Backend:** API type-safe menggunakan oRPC.
+- **Database:** PostgreSQL, Drizzle ORM, dan Drizzle Kit.
+- **Authentication:** Better Auth.
+- **Validation & forms:** Zod, React Hook Form, dan TanStack Form.
+- **Charts:** Recharts.
+- **i18n:** Lingui.
+- **Tooling:** Bun, Turborepo, TypeScript, Biome, Ultracite, dan Vitest.
+
+## Menjalankan Proyek
+
+### Persyaratan
+
+- Bun 1.2 atau lebih baru.
+- PostgreSQL atau Docker.
+- Git.
+
+### Instalasi
+
+```bash
+git clone https://github.com/dapzz1/pasar_fix.git
+cd pasar_fix
+bun install
+```
+
+### Konfigurasi environment
+
+Salin template environment dan isi nilainya sesuai lingkungan lokal:
+
+```bash
+cp apps/web/.env.example apps/web/.env
+```
+
+Variabel minimum:
+
+```env
+DATABASE_URL=postgresql://postgres:password@localhost:5432/pasar
+BETTER_AUTH_SECRET=ganti-dengan-secret-minimal-32-karakter
+BETTER_AUTH_URL=http://localhost:3000
+CORS_ORIGIN=http://localhost:3000
+VITE_BETTER_AUTH_URL=http://localhost:3000
+VITE_APP_TITLE=PASAR
+```
+
+> Jangan commit `.env`, kredensial database, OAuth secret, token, atau URL tunnel pribadi.
+
+### Database dan development server
+
+```bash
+bun run db:start
+bun run db:push
+bun run dev
+```
+
+Buka [http://localhost:3000](http://localhost:3000).
+
+## Perintah Penting
+
+| Perintah | Keterangan |
+| --- | --- |
+| `bun run dev` | Menjalankan aplikasi dalam mode development |
+| `bun run build` | Membuat production build |
+| `bun run check-types` | Menjalankan pemeriksaan TypeScript |
+| `bun run check` | Menjalankan pemeriksaan Biome |
+| `bun run db:push` | Menyinkronkan schema ke database |
+| `bun run db:generate` | Membuat migration Drizzle |
+| `bun run db:migrate` | Menjalankan migration |
+| `bun run db:studio` | Membuka Drizzle Studio |
+| `bun run db:start` | Menjalankan PostgreSQL melalui Docker |
+| `bun run db:stop` | Menghentikan container database |
+
+## Deployment
+
+Repository menyediakan konfigurasi untuk:
+
+- **Vercel:** build dari `apps/web` dan output `.output/public`.
+- **Netlify:** build dari workspace `apps/web`.
+- **Server mandiri:** jalankan production server dengan `bun run start` dari `apps/web`.
+
+Pastikan seluruh environment variable production diatur melalui dashboard platform deployment dan tidak ditulis langsung di repository.
+
+## Keamanan dan Kontribusi
+
+- Jangan memasukkan file `.env` atau data pribadi ke commit.
+- Gunakan migration untuk perubahan schema production.
+- Jalankan lint, typecheck, dan build sebelum membuat pull request.
+- Buat commit berdasarkan satu perubahan logis agar riwayat mudah ditinjau.
+- Laporkan masalah melalui [GitHub Issues](https://github.com/dapzz1/pasar_fix/issues).
+
+## Dokumentasi Template dan Referensi Teknis
+
+Bagian berikut merupakan dokumentasi teknis template awal. Isinya tetap dipertahankan sebagai referensi arsitektur, autentikasi, database, i18n, dan workflow pengembangan.
+
+---
+
+### 🚀 Betterz Stack Template
 
 > **Production-ready full-stack TypeScript template** with unified oRPC architecture, Clean Architecture principles, and modern development tooling.
 
