@@ -1,15 +1,23 @@
 import z from 'zod';
 
 export const StallSchema = z.object({
-  name: z.string(),
-  address: z.string(),
-  provinceId: z.string(),
-  regencyId: z.string(),
-  latitude: z.number(),
-  longitude: z.number(),
-  owner: z.string(),
-  noTelp: z.string(),
-  criteria: z.string(),
+  id: z.string().uuid().optional(),
 
-  productBrandIds: z.array(z.string()).default([]),
+  name: z.string(),
+
+  address: z.string().optional(),
+
+  regencyId: z.string().uuid(),
+
+  provinceId: z.string().uuid(),
+
+  latitude: z.coerce.number().optional(),
+
+  longitude: z.coerce.number().optional(),
+
+  owner: z.string().optional(),
+
+  noTelp: z.string().optional(),
+
+  criteria: z.string().optional(),
 });

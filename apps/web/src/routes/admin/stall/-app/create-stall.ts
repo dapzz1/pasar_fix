@@ -1,4 +1,4 @@
-import { stallProductBrands, stalls } from '@/lib/db/schema/stall';
+import { stalls } from '@/lib/db/schema/stall';
 
 import { protectedProcedure } from '@/lib/orpc';
 
@@ -11,25 +11,24 @@ export const createStall = protectedProcedure
       .insert(stalls)
       .values({
         name: input.name,
+
         address: input.address,
+
         provinceId: input.provinceId,
+
         regencyId: input.regencyId,
+
         latitude: input.latitude,
+
         longitude: input.longitude,
+
         owner: input.owner,
+
         noTelp: input.noTelp,
+
         criteria: input.criteria,
       })
       .returning();
-
-    if (input.productBrandIds?.length) {
-      await context.db.insert(stallProductBrands).values(
-        input.productBrandIds.map((brandId) => ({
-          stallId: data.id,
-          productBrandId: brandId,
-        }))
-      );
-    }
 
     return data;
   });

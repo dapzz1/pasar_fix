@@ -46,11 +46,8 @@ export function CreateStallForm({ onSuccess }: { onSuccess?: () => void }) {
       owner: '',
       noTelp: '',
       criteria: '',
-
-      productBrandIds: [],
     },
   });
-
   const provinceId = form.watch('provinceId');
 
   const { data: provinces } = useQuery(
@@ -66,11 +63,7 @@ export function CreateStallForm({ onSuccess }: { onSuccess?: () => void }) {
       },
     })
   );
-  const { data: productBrands } = useQuery(
-    orpc.admin.product.product_brand.get.queryOptions({
-      input: {},
-    })
-  );
+
   const createMutation = useMutation(
     orpc.admin.stall.create.mutationOptions({
       onSuccess: async () => {
@@ -92,7 +85,6 @@ export function CreateStallForm({ onSuccess }: { onSuccess?: () => void }) {
       },
     })
   );
-
   const onSubmit = (values: FormValues) => {
     createMutation.mutate(values);
   };
@@ -308,39 +300,6 @@ export function CreateStallForm({ onSuccess }: { onSuccess?: () => void }) {
                   value={field.value ?? ''}
                 />
               </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="productBrandIds"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product Brands</FormLabel>
-
-              <div className="max-h-48 space-y-2 overflow-y-auto rounded-md border p-3">
-                {productBrands?.data?.map((brand: any) => (
-                  <label className="flex items-center gap-2" key={brand.id}>
-                    <input
-                      checked={(field.value || []).includes(brand.id)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          field.onChange([...(field.value || []), brand.id]);
-                        } else {
-                          field.onChange(
-                            (field.value || []).filter((id) => id !== brand.id)
-                          );
-                        }
-                      }}
-                      type="checkbox"
-                    />
-
-                    <span>{brand.name}</span>
-                  </label>
-                ))}
-              </div>
 
               <FormMessage />
             </FormItem>

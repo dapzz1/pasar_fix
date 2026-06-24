@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
+import type { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -24,9 +24,7 @@ import {
 import { orpc } from '@/lib/orpc/client';
 import { StallSchema } from '../-domain/schema';
 
-const formSchema = StallSchema.extend({
-  id: z.string(),
-});
+const formSchema = StallSchema;
 
 type FormValues = z.input<typeof formSchema>;
 
@@ -53,7 +51,6 @@ export function EditStallForm({
       owner: '',
       noTelp: '',
       criteria: '',
-      productBrandIds: [],
     },
   });
 
@@ -70,8 +67,6 @@ export function EditStallForm({
         owner: editingItem.owner ?? '',
         noTelp: editingItem.notelp ?? '',
         criteria: editingItem.criteria ?? '',
-
-        productBrandIds: editingItem.productBrandIds ?? [],
       });
     }
   }, [editingItem]);
@@ -91,11 +86,7 @@ export function EditStallForm({
       },
     })
   );
-  const { data: productBrands } = useQuery(
-    orpc.admin.product.product_brand.get.queryOptions({
-      input: {},
-    })
-  );
+
   const updateMutation = useMutation(
     orpc.admin.stall.update.mutationOptions({
       onSuccess: async () => {
@@ -115,7 +106,6 @@ export function EditStallForm({
       },
     })
   );
-
   const onSubmit = (values: FormValues) => {
     updateMutation.mutate(values);
   };
@@ -238,16 +228,9 @@ export function EditStallForm({
 
               <FormControl>
                 <Input
-                  onChange={(e) =>
-                    field.onChange(
-                      e.target.value === ''
-                        ? 0
-                        : Number.parseFloat(e.target.value)
-                    )
-                  }
-                  placeholder="-7.734521"
-                  type="text"
-                  value={field.value ?? ''}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                  type="number"
+                  value={typeof field.value === 'number' ? field.value : ''}
                 />
               </FormControl>
 
@@ -265,16 +248,9 @@ export function EditStallForm({
 
               <FormControl>
                 <Input
-                  onChange={(e) =>
-                    field.onChange(
-                      e.target.value === ''
-                        ? 0
-                        : Number.parseFloat(e.target.value)
-                    )
-                  }
-                  placeholder="112.918274"
-                  type="text"
-                  value={field.value ?? ''}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                  type="number"
+                  value={typeof field.value === 'number' ? field.value : ''}
                 />
               </FormControl>
 
@@ -325,43 +301,6 @@ export function EditStallForm({
               <FormControl>
                 <Input {...field} />
               </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="productBrandIds"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product Brands</FormLabel>
-
-              <div className="h-24 overflow-y-scroll rounded-md border p-3">
-                <div className="space-y-2">
-                  {productBrands?.data?.map((brand: any) => (
-                    <label className="flex items-center gap-2" key={brand.id}>
-                      <input
-                        checked={(field.value || []).includes(brand.id)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            field.onChange([...(field.value || []), brand.id]);
-                          } else {
-                            field.onChange(
-                              (field.value || []).filter(
-                                (id) => id !== brand.id
-                              )
-                            );
-                          }
-                        }}
-                        type="checkbox"
-                      />
-
-                      <span>{brand.name}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
 
               <FormMessage />
             </FormItem>

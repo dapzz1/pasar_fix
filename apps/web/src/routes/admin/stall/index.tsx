@@ -327,7 +327,7 @@ function RouteComponent() {
         }}
         open={!!editingItem}
       >
-        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-4xl">
+        <DialogContent className="overflow-visible sm:max-w-3xl">
           <DialogHeader>
             <DialogTitle>Edit Stall</DialogTitle>
           </DialogHeader>
