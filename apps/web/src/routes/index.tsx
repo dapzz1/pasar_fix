@@ -79,6 +79,19 @@ const responsibilities = [
   'Memenuhi aspek legal dan good corporate governance',
 ] as const;
 
+const orgStructure = {
+  leader: {
+    name: 'Achmad Zaid',
+    title: 'PM Manajemen Produk Baru',
+    role: 'PM',
+  },
+  deputy: {
+    name: 'Erwin Indra P',
+    title: 'SMD I Manajemen Produk Baru',
+    role: 'SMD I',
+  },
+} as const;
+
 function HomePage() {
   const { user } = Route.useRouteContext();
   const canLoadStats = Boolean(user);
@@ -286,6 +299,30 @@ function HomePage() {
             pengembangan jaringan untuk memastikan strategi selalu berbasis
             kondisi pasar.
           </p>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            <article className="rounded-2xl border border-[#d8d1c4] bg-white p-5 shadow-emerald-950/5 shadow-sm">
+              <p className="font-semibold text-emerald-700 text-xs uppercase tracking-[0.18em]">
+                {orgStructure.leader.role}
+              </p>
+              <h3 className="mt-3 font-semibold font-serif text-xl">
+                {orgStructure.leader.name}
+              </h3>
+              <p className="mt-1 text-[#66776d] text-sm">
+                {orgStructure.leader.title}
+              </p>
+            </article>
+            <article className="rounded-2xl border border-[#d8d1c4] bg-white p-5 shadow-emerald-950/5 shadow-sm">
+              <p className="font-semibold text-emerald-700 text-xs uppercase tracking-[0.18em]">
+                {orgStructure.deputy.role}
+              </p>
+              <h3 className="mt-3 font-semibold font-serif text-xl">
+                {orgStructure.deputy.name}
+              </h3>
+              <p className="mt-1 text-[#66776d] text-sm">
+                {orgStructure.deputy.title}
+              </p>
+            </article>
+          </div>
           <div className="mt-8 flex gap-4">
             <div className="flex size-12 items-center justify-center rounded-full bg-[#0d3a25] text-emerald-300">
               <Users className="size-5" />
