@@ -1,17 +1,102 @@
 import { useQuery } from '@tanstack/react-query';
 import L from 'leaflet';
 import type React from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { GeoJSON, useMap } from 'react-leaflet';
 import { orpc } from '@/lib/orpc/client';
 
 interface ChoroplethMapProps {
-  productBrandId?: string | undefined;
-  landTypeId?: string | undefined;
-  commodityTypeId?: string | undefined;
+  productBrandId?: string;
+  landTypeId?: string;
+  commodityTypeId?: string;
   onLoadingChange?: (loading: boolean) => void;
-  year?: string | undefined;
+  year?: string;
 }
+
+interface ProvinceProperties {
+  [key: string]: unknown;
+  code?: string | number;
+  name?: string;
+  potential?: number | null;
+  productBrandId?: string | null;
+  productBrandName?: string | null;
+  provinceCode?: string;
+}
+
+interface PotentialMetadata {
+  potential: number;
+  productBrandId: string;
+  productBrandName: string;
+}
+
+type ProvinceFeature = Parameters<
+  NonNullable<L.GeoJSONOptions<ProvinceProperties>['onEachFeature']>
+>[0];
+
+interface ProvinceFeatureCollection {
+  features: ProvinceFeature[];
+  type: 'FeatureCollection';
+}
+
+const COLOR_SCALE = [
+  '#ffffb2',
+  '#fed976',
+  '#fd8d3c',
+  '#f03b20',
+  '#bd0026',
+] as const;
+const NO_DATA_COLOR = '#e5e7eb';
+
+const normalizeProvinceCode = (value: string | number | null | undefined) =>
+  String(value ?? '').trim();
+
+const isProvinceFeatureCollection = (
+  value: unknown
+): value is ProvinceFeatureCollection => {
+  if (!(value && typeof value === 'object')) {
+    return false;
+  }
+
+  const candidate = value as {
+    type?: unknown;
+    features?: unknown;
+  };
+  return (
+    candidate.type === 'FeatureCollection' && Array.isArray(candidate.features)
+  );
+};
+
+const getColor = (value: number, min: number, max: number) => {
+  if (max === min) {
+    return COLOR_SCALE.at(-1) ?? COLOR_SCALE[0];
+  }
+
+  const ratio = (value - min) / (max - min);
+  const index = Math.min(
+    COLOR_SCALE.length - 1,
+    Math.floor(ratio * COLOR_SCALE.length)
+  );
+  return COLOR_SCALE[index];
+};
+
+const createLegendRow = (color: string, label: string) => {
+  const row = L.DomUtil.create('div');
+  row.style.alignItems = 'center';
+  row.style.display = 'flex';
+  row.style.marginBottom = '6px';
+
+  const swatch = L.DomUtil.create('i', '', row);
+  swatch.style.background = color;
+  swatch.style.border = '1px solid #ccc';
+  swatch.style.display = 'inline-block';
+  swatch.style.height = '14px';
+  swatch.style.marginRight = '8px';
+  swatch.style.width = '18px';
+
+  const text = L.DomUtil.create('span', '', row);
+  text.textContent = label;
+  return row;
+};
 
 const ChoroplethMap: React.FC<ChoroplethMapProps> = ({
   productBrandId,
@@ -19,273 +104,136 @@ const ChoroplethMap: React.FC<ChoroplethMapProps> = ({
   onLoadingChange,
 }) => {
   const map = useMap();
-  const [featureCollection, setFeatureCollection] = useState<any | null>(null);
-  console.log('Selected Brand:', productBrandId);
   const potentialsData = useQuery(
     orpc.admin.potential.province_potential.get.queryOptions({
       input: { productBrandId, year },
     })
   );
-  console.log('Selected Brand:', productBrandId);
-
-  console.log('FULL DATA:', JSON.stringify(potentialsData.data, null, 2));
-  useEffect(() => {
-    console.log('FULL DATA', potentialsData.data);
-  }, [potentialsData.data]);
-
-  // Fetch provinces list and build a map of provinceCode -> province metadata
-  const provincesData = useQuery(
-    orpc.admin.region.province.get.queryOptions({ input: {} })
-  );
-
-  const provinceMap = useMemo(() => {
-    const m: Record<
-      string,
-      { id: string; name: string; code: string; area: number }
-    > = {};
-    (provincesData?.data?.data ?? []).forEach((prov: any) => {
-      if (prov && prov.code) m[prov.code] = prov;
-    });
-    return m;
-  }, [provincesData]);
-
-  // (onLoadingChange will be called later after `enriched` is computed)
-
-  // Load all province geojson files and merge into a single FeatureCollection
-  // useEffect(() => {
-  //   let mounted = true;
-  //   const loadAll = async () => {
-  //     try {
-  //       const codes = Object.keys(provinceMap).length
-  //         ? Object.keys(provinceMap)
-  //         : [];
-  //       console.log('Loading province geojsons for codes:', codes);
-  //       console.log(
-  //         'Province codes with id+area:',
-  //         Object.entries(provinceMap).map(([code, prov]) => ({
-  //           code,
-  //           id: prov.id,
-  //           name: prov.name,
-  //           area: prov.area,
-  //         }))
-  //       );
-  //       console.log(provinceMap);
-  //       const fetches = Object.entries(provinceMap)
-  //         .map(([code, prov]) => ({
-  //           code,
-  //           id: prov.id,
-  //           name: prov.name,
-  //           area: prov.area,
-  //         }))
-  //         .map(async ({ code, id, area }) => {
-  //           const res = await fetch(`/data/indonesia-boundary.geojson`);
-  //           if (!res.ok) return null;
-  //           const json = await res.json();
-
-  //           const features =
-  //             json.type === 'FeatureCollection' ? json.features : [json];
-  //           // Attach a provinceCode property so we can match later
-  //           features.forEach((f: any) => {
-  //             if (!f.properties) f.properties = {};
-  //             f.properties.provinceCode = code;
-  //             f.properties.provinceId = id;
-  //             f.properties.area = area;
-  //           });
-  //           return features;
-  //         });
-
-  //       const all = await Promise.all(fetches);
-  //       const mergedFeatures = all.flat().filter(Boolean);
-  //       console.log(`Loaded ${mergedFeatures.length} province features`);
-  //       console.log(mergedFeatures);
-  //       if (mounted) {
-  //         console.log('Setting featureCollection with merged features');
-  //         setFeatureCollection({
-  //           type: 'FeatureCollection',
-  //           features: mergedFeatures,
-  //         });
-  //       }
-  //     } catch (e) {
-  //       console.error('Failed loading province geojsons', e);
-  //     }
-  //   };
-
-  //   loadAll();
-  //   return () => {
-  //     mounted = false;
-  //   };
-  // }, [provinceMap]);
-
-  const { data: geoJsonData } = useQuery({
+  const geoJsonData = useQuery({
     queryKey: ['indonesia-geojson'],
     queryFn: async () => {
-      // Pastikan file ada di folder public/data/
-      const res = await fetch('/data/indonesia-boundary.geojson');
-      if (!res.ok) throw new Error('Failed to load map data');
-      return res.json();
+      const response = await fetch('/data/indonesia-boundary.geojson');
+      if (!response.ok) {
+        throw new Error('Failed to load map data');
+      }
+
+      const data: unknown = await response.json();
+      if (!isProvinceFeatureCollection(data)) {
+        throw new Error('Invalid province map data');
+      }
+      return data;
     },
-    staleTime: Number.POSITIVE_INFINITY, // Data peta jarang berubah, simpan selamanya di cache
+    staleTime: Number.POSITIVE_INFINITY,
     refetchOnWindowFocus: false,
   });
 
-  // Logic merging (enriched) tetap bisa dipakai, tapi sumber datanya dari geoJsonData
-  useEffect(() => {
-    if (geoJsonData) {
-      setFeatureCollection(geoJsonData);
-    }
-  }, [geoJsonData]);
-
-  // Merge potentials into features' properties
   const enriched = useMemo(() => {
-    if (!featureCollection) return null;
-    // Build potentials map keyed by provinceId and include productBrandName
-    const potentials = (potentialsData.data?.data ?? []).reduce(
-      (
-        acc: Record<
-          string,
-          {
-            potential: number;
-            productBrandName?: string;
-            productBrandId?: string;
-          }
-        >,
-        row: any
-      ) => {
-        if (!row) {
-          return acc;
-        }
-        const key = String(
-          row.provinceId ?? row.province_id ?? row.provinceCode ?? ''
-        );
-        if (!key) {
-          return acc;
-        }
-        acc[key] = {
-          potential: row.potential ? Number(row.potential) / 1000 : 0,
-          productBrandName:
-            row.productBrandName ??
-            row.product_brand_name ??
-            row.brandName ??
-            null,
-          productBrandId:
-            row.productBrandId ?? row.product_brand_id ?? row.brandId ?? null,
-        };
-        return acc;
-      },
-      {} as Record<
-        string,
-        {
-          potential: number;
-          productBrandName?: string;
-          productBrandId?: string;
-        }
-      >
-    );
-
-    const features = featureCollection.features.map((f: any) => {
-      const copy = { ...f, properties: { ...(f.properties || {}) } };
-      const code = String(copy.properties.code);
-      // Keep provinceCode explicitly and also set provinceId fallback for compatibility
-      copy.properties.provinceCode = code;
-      // get provinceId from find code in provinceMap
-      const provinceMeta = provinceMap[code];
-      copy.properties.provinceId = provinceMeta ? provinceMeta.id : null;
-      const meta = potentials[String(copy.properties.provinceId ?? '')] ?? null;
-      copy.properties.potential = meta?.potential ? meta.potential : 0;
-      copy.properties.productBrandName = meta?.productBrandName ?? null;
-      copy.properties.productBrandId = meta?.productBrandId ?? null;
-      return copy;
-    });
-
-    // compute min/max for legend
-    const values = features.map((f: any) =>
-      Number(f.properties.potential ? f.properties.potential : 0)
-    );
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-
-    return { type: 'FeatureCollection', features, stats: { min, max } };
-  }, [featureCollection, potentialsData.data]);
-
-  // Create a deterministic key so React will remount the GeoJSON layer
-  // whenever feature potentials or province codes change. This forces
-  // Leaflet to recreate the underlying L.GeoJSON layer and re-bind styles.
-  const geoKey = useMemo(() => {
-    if (!enriched) return 'empty';
-    // Use provinceCode and potential — concise and reflects visible changes
-    return (
-      `${year ?? 'all'}:` +
-      enriched.features
-        .map(
-          (f: any) =>
-            `${String(f.properties?.provinceCode ?? f.properties?.code ?? f.properties?.id ?? '')}:${String(f.properties?.potential ?? 0)}`
-        )
-        .join('|')
-    );
-  }, [enriched, year]);
-
-  // Report loading status to parent when queries or enriched change
-  useEffect(() => {
-    const loading = Boolean(
-      (potentialsData.isLoading ?? false) ||
-        (provincesData.isLoading ?? false) ||
-        !enriched
-    );
-    if (typeof onLoadingChange === 'function') onLoadingChange(loading);
-  }, [
-    potentialsData.isLoading,
-    provincesData.isLoading,
-    enriched,
-    onLoadingChange,
-  ]);
-  // Color scale helper
-  const getColor = (value: number, min: number, max: number) => {
-    if (max === min) return '#ffffb2';
-    const ratio = (value - min) / (max - min);
-    // Gradient from light yellow -> orange -> red -> purple
-    const colors = ['#ffffb2', '#fed976', '#fd8d3c', '#f03b20', '#bd0026'];
-    const idx = Math.min(colors.length - 1, Math.floor(ratio * colors.length));
-    return colors[idx];
-  };
-
-  // Legend control: show exact numeric ranges with thousand separators
-  useEffect(() => {
-    if (!enriched) return;
-    const { min, max } = enriched.stats;
-    const steps = 5;
-    const breaks: number[] = [];
-    for (let i = 0; i < steps; i++) {
-      breaks.push(min + (i / (steps - 1)) * (max - min));
+    if (!geoJsonData.data) {
+      return null;
     }
 
-    const fmt = new Intl.NumberFormat(undefined);
+    const potentialsByCode = new Map<string, PotentialMetadata>();
+    for (const row of potentialsData.data?.data ?? []) {
+      const provinceCode = normalizeProvinceCode(row.provinceCode);
+      if (!provinceCode) {
+        continue;
+      }
 
-    const legend: any = (L.control as any)({ position: 'bottomright' });
+      potentialsByCode.set(provinceCode, {
+        potential: Number(row.potential ?? 0),
+        productBrandId: row.productBrandId,
+        productBrandName: row.productBrandName,
+      });
+    }
+
+    const features = geoJsonData.data.features.map((feature) => {
+      const properties = feature.properties ?? {};
+      const provinceCode = normalizeProvinceCode(properties.code);
+      const metadata = potentialsByCode.get(provinceCode);
+
+      return {
+        ...feature,
+        properties: {
+          ...properties,
+          potential: metadata?.potential ?? null,
+          productBrandId: metadata?.productBrandId ?? null,
+          productBrandName: metadata?.productBrandName ?? null,
+          provinceCode,
+        },
+      };
+    });
+    const values = features.flatMap((feature) =>
+      typeof feature.properties.potential === 'number'
+        ? [feature.properties.potential]
+        : []
+    );
+
+    return {
+      type: 'FeatureCollection' as const,
+      features,
+      stats: {
+        min: values.length > 0 ? Math.min(...values) : 0,
+        max: values.length > 0 ? Math.max(...values) : 0,
+      },
+    };
+  }, [geoJsonData.data, potentialsData.data]);
+
+  const geoKey = useMemo(() => {
+    if (!enriched) {
+      return 'empty';
+    }
+
+    const featureValues = enriched.features
+      .map(
+        (feature) =>
+          `${feature.properties.provinceCode}:${String(feature.properties.potential ?? 'none')}`
+      )
+      .join('|');
+    return `${productBrandId ?? 'all'}:${year ?? 'all'}:${featureValues}`;
+  }, [enriched, productBrandId, year]);
+
+  useEffect(() => {
+    onLoadingChange?.(
+      potentialsData.isLoading || geoJsonData.isLoading || !enriched
+    );
+  }, [
+    enriched,
+    geoJsonData.isLoading,
+    onLoadingChange,
+    potentialsData.isLoading,
+  ]);
+
+  useEffect(() => {
+    if (!enriched) {
+      return;
+    }
+
+    const { min, max } = enriched.stats;
+    const steps = COLOR_SCALE.length;
+    const formatter = new Intl.NumberFormat();
+    const legend = new L.Control({ position: 'bottomright' });
+
     legend.onAdd = () => {
-      const div = L.DomUtil.create(
+      const container = L.DomUtil.create(
         'div',
         'info legend bg-white p-2 rounded shadow text-xs'
       );
-      const labels: string[] = [];
+      const interval = max === min ? 0 : (max - min) / (steps - 1);
 
-      for (let i = 0; i < breaks.length; i++) {
-        const fromVal = Math.round(breaks[i]);
-        const color = getColor(breaks[i], min, max);
-        let labelText: string;
-        if (i < breaks.length - 1) {
-          const toVal = Math.round(breaks[i + 1]);
-          labelText = `${fmt.format(fromVal)} – ${fmt.format(toVal)}`;
-        } else {
-          labelText = `≥ ${fmt.format(fromVal)}`;
-        }
-
-        labels.push(
-          `<div style="display:flex;align-items:center;margin-bottom:6px;"><i style="background:${color};width:18px;height:14px;display:inline-block;margin-right:8px;border:1px solid #ccc;"></i><span>${labelText}</span></div>`
-        );
+      let index = 0;
+      while (index < steps) {
+        const fromValue = min + index * interval;
+        const nextValue = min + (index + 1) * interval;
+        const label =
+          index < steps - 1
+            ? `${formatter.format(Math.round(fromValue))} – ${formatter.format(Math.round(nextValue))}`
+            : `≥ ${formatter.format(Math.round(fromValue))}`;
+        container.append(createLegendRow(getColor(fromValue, min, max), label));
+        index += 1;
       }
 
-      div.innerHTML = labels.join('');
-      return div;
+      container.append(createLegendRow(NO_DATA_COLOR, 'No data'));
+      return container;
     };
 
     legend.addTo(map);
@@ -294,37 +242,50 @@ const ChoroplethMap: React.FC<ChoroplethMapProps> = ({
     };
   }, [enriched, map]);
 
-  if (!enriched) return null;
+  if (!enriched) {
+    return null;
+  }
 
-  const style = (feature: any) => {
-    const v = Number(feature.properties?.potential ?? 0);
-    const color = getColor(v, enriched.stats.min, enriched.stats.max);
-    const opts: L.PathOptions = {
-      fillColor: color,
-      weight: 1,
-      opacity: 1,
+  const style = (feature?: ProvinceFeature): L.PathOptions => {
+    const potential = feature?.properties.potential;
+    return {
       color: '#444',
       dashArray: '1',
+      fillColor:
+        typeof potential === 'number'
+          ? getColor(potential, enriched.stats.min, enriched.stats.max)
+          : NO_DATA_COLOR,
       fillOpacity: 0.8,
+      opacity: 1,
+      weight: 1,
     };
-    return opts;
   };
 
-  const onEachFeature = (feature: any, layer: any) => {
-    const name = feature.properties?.name ?? 'Unknown';
-    // add productBrandName
+  const onEachFeature = (feature: ProvinceFeature, layer: L.Layer) => {
+    const name =
+      typeof feature.properties.name === 'string'
+        ? feature.properties.name
+        : 'Unknown';
     const productBrandName =
-      feature.properties?.productBrandName ?? 'Unknown Brand';
-    const potential = feature.properties?.potential ?? 0;
-    const formatted_potential = Number(potential).toLocaleString();
-    layer.bindPopup(
-      `<strong>${name}</strong><br/><b>Product:</b> ${productBrandName}<br/><b>Product Potential:</b> ${formatted_potential} ton`
-    );
+      feature.properties.productBrandName ?? 'No product data';
+    const potential = feature.properties.potential;
+    const potentialText =
+      typeof potential === 'number'
+        ? `${potential.toLocaleString()} ton`
+        : 'No data';
+    const popup = L.DomUtil.create('div');
+    const title = L.DomUtil.create('strong', '', popup);
+    title.textContent = name;
+    popup.append(document.createElement('br'));
+    popup.append(`Product: ${productBrandName}`);
+    popup.append(document.createElement('br'));
+    popup.append(`Product Potential: ${potentialText}`);
+    layer.bindPopup(popup);
   };
 
   return (
     <GeoJSON
-      data={enriched as any}
+      data={enriched}
       key={geoKey}
       onEachFeature={onEachFeature}
       style={style}

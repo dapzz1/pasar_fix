@@ -1,4 +1,5 @@
 import { protectedProcedure, publicProcedure } from '@/lib/orpc';
+import { getDashboardSummary } from '@/routes/admin/-app/get-dashboard-summary';
 import { createCommodityType } from '@/routes/admin/commodity/-app/create-commodity-type';
 import { deleteCommodityType } from '@/routes/admin/commodity/-app/delete-commodity-type';
 import { getCommodityTypes } from '@/routes/admin/commodity/-app/get-commodity-types';
@@ -17,7 +18,14 @@ import { deleteProvinceLand } from '@/routes/admin/land/province-land/-app/delet
 import { getProvinceLands } from '@/routes/admin/land/province-land/-app/get-province-lands';
 import { updateProvinceLand } from '@/routes/admin/land/province-land/-app/update-province-land';
 import { getRegencyLands } from '@/routes/admin/land/regency-land/-app/get-regency-lands';
+import { createProvincePotential } from '@/routes/admin/potential/province_potential/-app/create-province-potential';
+import { deleteProvincePotential } from '@/routes/admin/potential/province_potential/-app/delete-province-potential';
 import { getProvincePotentials } from '@/routes/admin/potential/province_potential/-app/get-province-potentials';
+import { updateProvincePotential } from '@/routes/admin/potential/province_potential/-app/update-province-potential';
+import { createRegencyPotential } from '@/routes/admin/potential/regency_potential/-app/create-regency-potential';
+import { deleteRegencyPotential } from '@/routes/admin/potential/regency_potential/-app/delete-regency-potential';
+import { getRegencyPotentials } from '@/routes/admin/potential/regency_potential/-app/get-regency-potentials';
+import { updateRegencyPotential } from '@/routes/admin/potential/regency_potential/-app/update-regency-potential';
 import { createProductType } from '@/routes/admin/product/-app/create-product-type';
 import { deleteProductType } from '@/routes/admin/product/-app/delete-product-type';
 import { getProductTypes } from '@/routes/admin/product/-app/get-product-types';
@@ -120,6 +128,9 @@ export default {
   map: {},
 
   admin: {
+    dashboard: {
+      getSummary: getDashboardSummary,
+    },
     region: {
       province: {
         get: getProvinces,
@@ -198,15 +209,15 @@ export default {
     potential: {
       province_potential: {
         get: getProvincePotentials,
-        // createProvincePotential,
-        // updateProvincePotential,
-        // deleteProvincePotential,
+        create: createProvincePotential,
+        update: updateProvincePotential,
+        delete: deleteProvincePotential,
       },
       regency_potential: {
-        // getRegencyPotentials,
-        // createRegencyPotential,
-        // updateRegencyPotential,
-        // deleteRegencyPotential,
+        get: getRegencyPotentials,
+        create: createRegencyPotential,
+        update: updateRegencyPotential,
+        delete: deleteRegencyPotential,
       },
     },
 

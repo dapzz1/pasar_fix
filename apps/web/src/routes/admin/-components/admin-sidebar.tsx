@@ -16,6 +16,7 @@ import {
 import {
   globalNavigationItems,
   marketingMapNavigationItems,
+  potentialNavigationItems,
   saleNavigationItems,
   stallNavigationItems,
   userNavigationItems,
@@ -93,6 +94,8 @@ export function AdminSidebar({
         <NavMain items={globalNavigationItems} label="Overview" />
 
         <NavMain items={marketingMapNavigationItems} label="Marketing Map" />
+
+        <NavMain items={potentialNavigationItems} label="Potential" />
 
         <NavMain items={saleNavigationItems} label="Sale" />
 

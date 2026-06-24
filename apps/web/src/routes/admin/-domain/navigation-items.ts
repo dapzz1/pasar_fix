@@ -112,6 +112,24 @@ export const stallNavigationItems: NavigationItem[] = [
   },
 ];
 
+export const potentialNavigationItems: NavigationItem[] = [
+  {
+    title: 'Potential',
+    url: '/admin/potential/province_potential',
+    icon: Activity,
+    items: [
+      {
+        title: 'Province Potential',
+        url: '/admin/potential/province_potential',
+      },
+      {
+        title: 'Regency Potential',
+        url: '/admin/potential/regency_potential',
+      },
+    ],
+  },
+];
+
 export const userNavigationItems: NavigationItem[] = [
   {
     title: 'User Management',

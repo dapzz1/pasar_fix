@@ -27,10 +27,12 @@ export const getProvincePotentials = protectedProcedure
       .select({
         id: provincePotentials.id,
         provinceId: provincePotentials.provinceId,
+        productBrandId: provincePotentials.productBrandId,
         provinceCode: provinces.code,
         provinceName: provinces.name,
         productBrandName: productBrands.name,
         potential: provincePotentials.potential,
+        description: provincePotentials.description,
         year: provincePotentials.year,
         updatedAt: provincePotentials.updatedAt,
       })

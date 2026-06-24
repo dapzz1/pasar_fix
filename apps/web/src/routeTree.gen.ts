@@ -39,6 +39,8 @@ import { Route as AdminRegionRegencyIndexRouteImport } from './routes/admin/regi
 import { Route as AdminRegionProvinceIndexRouteImport } from './routes/admin/region/province/index'
 import { Route as AdminProductProductDosageIndexRouteImport } from './routes/admin/product/product-dosage/index'
 import { Route as AdminProductProductBrandIndexRouteImport } from './routes/admin/product/product-brand/index'
+import { Route as AdminPotentialRegency_potentialIndexRouteImport } from './routes/admin/potential/regency_potential/index'
+import { Route as AdminPotentialProvince_potentialIndexRouteImport } from './routes/admin/potential/province_potential/index'
 import { Route as AdminLandRegencyLandIndexRouteImport } from './routes/admin/land/regency-land/index'
 import { Route as AdminLandProvinceLandIndexRouteImport } from './routes/admin/land/province-land/index'
 import { Route as AdminCommodityRegencyCommodityIndexRouteImport } from './routes/admin/commodity/regency-commodity/index'
@@ -195,6 +197,18 @@ const AdminProductProductBrandIndexRoute =
     path: '/product/product-brand/',
     getParentRoute: () => AdminRouteRoute,
   } as any)
+const AdminPotentialRegency_potentialIndexRoute =
+  AdminPotentialRegency_potentialIndexRouteImport.update({
+    id: '/potential/regency_potential/',
+    path: '/potential/regency_potential/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminPotentialProvince_potentialIndexRoute =
+  AdminPotentialProvince_potentialIndexRouteImport.update({
+    id: '/potential/province_potential/',
+    path: '/potential/province_potential/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
 const AdminLandRegencyLandIndexRoute =
   AdminLandRegencyLandIndexRouteImport.update({
     id: '/land/regency-land/',
@@ -284,6 +298,8 @@ export interface FileRoutesByFullPath {
   '/admin/commodity/regency-commodity': typeof AdminCommodityRegencyCommodityIndexRoute
   '/admin/land/province-land': typeof AdminLandProvinceLandIndexRoute
   '/admin/land/regency-land': typeof AdminLandRegencyLandIndexRoute
+  '/admin/potential/province_potential': typeof AdminPotentialProvince_potentialIndexRoute
+  '/admin/potential/regency_potential': typeof AdminPotentialRegency_potentialIndexRoute
   '/admin/product/product-brand': typeof AdminProductProductBrandIndexRoute
   '/admin/product/product-dosage': typeof AdminProductProductDosageIndexRoute
   '/admin/region/province': typeof AdminRegionProvinceIndexRoute
@@ -319,6 +335,8 @@ export interface FileRoutesByTo {
   '/admin/commodity/regency-commodity': typeof AdminCommodityRegencyCommodityIndexRoute
   '/admin/land/province-land': typeof AdminLandProvinceLandIndexRoute
   '/admin/land/regency-land': typeof AdminLandRegencyLandIndexRoute
+  '/admin/potential/province_potential': typeof AdminPotentialProvince_potentialIndexRoute
+  '/admin/potential/regency_potential': typeof AdminPotentialRegency_potentialIndexRoute
   '/admin/product/product-brand': typeof AdminProductProductBrandIndexRoute
   '/admin/product/product-dosage': typeof AdminProductProductDosageIndexRoute
   '/admin/region/province': typeof AdminRegionProvinceIndexRoute
@@ -357,6 +375,8 @@ export interface FileRoutesById {
   '/admin/commodity/regency-commodity/': typeof AdminCommodityRegencyCommodityIndexRoute
   '/admin/land/province-land/': typeof AdminLandProvinceLandIndexRoute
   '/admin/land/regency-land/': typeof AdminLandRegencyLandIndexRoute
+  '/admin/potential/province_potential/': typeof AdminPotentialProvince_potentialIndexRoute
+  '/admin/potential/regency_potential/': typeof AdminPotentialRegency_potentialIndexRoute
   '/admin/product/product-brand/': typeof AdminProductProductBrandIndexRoute
   '/admin/product/product-dosage/': typeof AdminProductProductDosageIndexRoute
   '/admin/region/province/': typeof AdminRegionProvinceIndexRoute
@@ -396,6 +416,8 @@ export interface FileRouteTypes {
     | '/admin/commodity/regency-commodity'
     | '/admin/land/province-land'
     | '/admin/land/regency-land'
+    | '/admin/potential/province_potential'
+    | '/admin/potential/regency_potential'
     | '/admin/product/product-brand'
     | '/admin/product/product-dosage'
     | '/admin/region/province'
@@ -431,6 +453,8 @@ export interface FileRouteTypes {
     | '/admin/commodity/regency-commodity'
     | '/admin/land/province-land'
     | '/admin/land/regency-land'
+    | '/admin/potential/province_potential'
+    | '/admin/potential/regency_potential'
     | '/admin/product/product-brand'
     | '/admin/product/product-dosage'
     | '/admin/region/province'
@@ -468,6 +492,8 @@ export interface FileRouteTypes {
     | '/admin/commodity/regency-commodity/'
     | '/admin/land/province-land/'
     | '/admin/land/regency-land/'
+    | '/admin/potential/province_potential/'
+    | '/admin/potential/regency_potential/'
     | '/admin/product/product-brand/'
     | '/admin/product/product-dosage/'
     | '/admin/region/province/'
@@ -720,6 +746,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProductProductBrandIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/potential/regency_potential/': {
+      id: '/admin/potential/regency_potential/'
+      path: '/potential/regency_potential'
+      fullPath: '/admin/potential/regency_potential'
+      preLoaderRoute: typeof AdminPotentialRegency_potentialIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/potential/province_potential/': {
+      id: '/admin/potential/province_potential/'
+      path: '/potential/province_potential'
+      fullPath: '/admin/potential/province_potential'
+      preLoaderRoute: typeof AdminPotentialProvince_potentialIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/land/regency-land/': {
       id: '/admin/land/regency-land/'
       path: '/land/regency-land'
@@ -812,6 +852,8 @@ interface AdminRouteRouteChildren {
   AdminCommodityRegencyCommodityIndexRoute: typeof AdminCommodityRegencyCommodityIndexRoute
   AdminLandProvinceLandIndexRoute: typeof AdminLandProvinceLandIndexRoute
   AdminLandRegencyLandIndexRoute: typeof AdminLandRegencyLandIndexRoute
+  AdminPotentialProvince_potentialIndexRoute: typeof AdminPotentialProvince_potentialIndexRoute
+  AdminPotentialRegency_potentialIndexRoute: typeof AdminPotentialRegency_potentialIndexRoute
   AdminProductProductBrandIndexRoute: typeof AdminProductProductBrandIndexRoute
   AdminProductProductDosageIndexRoute: typeof AdminProductProductDosageIndexRoute
   AdminRegionProvinceIndexRoute: typeof AdminRegionProvinceIndexRoute
@@ -838,6 +880,10 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
     AdminCommodityRegencyCommodityIndexRoute,
   AdminLandProvinceLandIndexRoute: AdminLandProvinceLandIndexRoute,
   AdminLandRegencyLandIndexRoute: AdminLandRegencyLandIndexRoute,
+  AdminPotentialProvince_potentialIndexRoute:
+    AdminPotentialProvince_potentialIndexRoute,
+  AdminPotentialRegency_potentialIndexRoute:
+    AdminPotentialRegency_potentialIndexRoute,
   AdminProductProductBrandIndexRoute: AdminProductProductBrandIndexRoute,
   AdminProductProductDosageIndexRoute: AdminProductProductDosageIndexRoute,
   AdminRegionProvinceIndexRoute: AdminRegionProvinceIndexRoute,
