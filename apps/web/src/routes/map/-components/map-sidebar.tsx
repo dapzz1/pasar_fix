@@ -176,12 +176,16 @@ export function MapSidebar({
       (provincePotential?.data as Array<{
         updatedAt: string | number | Date;
       }>) ?? [];
-    if (!items.length) return;
+    if (!items.length) {
+      return;
+    }
     const latestMs = items.reduce((max: number, item) => {
       const t = Number(new Date(item.updatedAt));
       return t > max ? t : max;
     }, 0);
-    if (!latestMs) return;
+    if (!latestMs) {
+      return;
+    }
     return i18n.date(new Date(latestMs), {
       year: 'numeric',
       month: 'short',
@@ -260,19 +264,22 @@ export function MapSidebar({
 
   return (
     <Sidebar
-      className={className}
+      className={`border-emerald-950 text-emerald-50 [&_[data-sidebar=sidebar]]:bg-[#082c1d] ${className ?? ''}`}
       collapsible="icon"
       variant="sidebar"
       {...props}
     >
       {/* Header with Branding */}
-      <SidebarHeader>
+      <SidebarHeader className="border-emerald-300/10 border-b bg-[#082c1d] px-3 py-3">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg">
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">
+                <span className="truncate font-semibold text-emerald-50">
                   <Trans>Marketing Map Control</Trans>
+                </span>
+                <span className="truncate text-[10px] text-emerald-300/70 uppercase tracking-[0.16em]">
+                  Filters & layers
                 </span>
               </div>
             </SidebarMenuButton>
@@ -281,7 +288,7 @@ export function MapSidebar({
       </SidebarHeader>
 
       {/* Main Content */}
-      <SidebarContent>
+      <SidebarContent className="bg-[#082c1d] text-emerald-50 [&_[data-sidebar=menu-item]]:ml-0 [&_[data-sidebar=menu-item]]:px-3 [&_[data-slot=select-trigger]]:w-full [&_[data-slot=select-trigger]]:border-white/10 [&_[data-slot=select-trigger]]:bg-white/5 [&_[data-slot=select-trigger]]:text-emerald-50 [&_label]:text-emerald-100/70">
         <SidebarMenu>
           {/* Year selection */}
           <SidebarMenuItem className="mt-2 ml-4">
@@ -507,7 +514,7 @@ export function MapSidebar({
         </SidebarMenu>
 
         {/* Bottom information block */}
-        <div className="mt-6 border-t px-4 py-3 text-muted-foreground text-xs">
+        <div className="mt-6 border-emerald-300/10 border-t px-4 py-4 text-emerald-100/55 text-xs">
           <p className="mb-2">
             <Trans>
               This data is based on data consisting of 14 commodities:

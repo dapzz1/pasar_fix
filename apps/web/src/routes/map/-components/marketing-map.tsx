@@ -62,7 +62,7 @@ const MarketingMap: React.FC<MarketingMapProps> = ({
   };
 
   return (
-    <div className="flex h-screen w-full" data-testid="marketing-map-container">
+    <div className="flex h-full w-full" data-testid="marketing-map-container">
       <div className="relative flex-1">
         <ClientOnly fallback={<MapFallback />}>
           <Suspense fallback={<MapFallback />}>

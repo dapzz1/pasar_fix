@@ -36,7 +36,7 @@ const rootSearchSchema = z.object({
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   validateSearch: rootSearchSchema,
-  beforeLoad: async ({ context }) => {
+  beforeLoad: async () => {
     /**
      * Load user session using unified oRPC architecture
      *
@@ -81,6 +81,7 @@ function RootDocument() {
   const isAdminRoute = matches.some((match) =>
     match.pathname.startsWith('/admin')
   );
+  const isMapRoute = matches.some((match) => match.pathname.startsWith('/map'));
 
   return (
     <html lang={i18n.locale}>
@@ -89,7 +90,7 @@ function RootDocument() {
         <HeadContent />
       </head>
       <body>
-        {!isAdminRoute && <Header />}
+        {!(isAdminRoute || isMapRoute) && <Header />}
         <Outlet />
         {/* <TanStackRouterDevtools /> */}
         {/* <TanStackQueryLayout /> */}
