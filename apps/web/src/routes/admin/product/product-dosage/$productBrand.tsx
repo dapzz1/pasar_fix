@@ -148,10 +148,7 @@ function RouteComponent() {
               />
               <Search className="absolute top-2.5 left-3 h-4 w-4" />
             </div>
-            <Button className="min-w-[100px]" onClick={handleCreate}>
-              <Plus className="mr-2 h-4 w-4" />
-              Add
-            </Button>
+            <Button disabled>Manage Dosages</Button>
           </div>
         </CardHeader>
         <CardContent>

@@ -40,49 +40,29 @@ export const getRegencyLands = protectedProcedure
         year: regencyLands.year,
       })
       .from(regencyLands)
-      .innerJoin(
-        landTypes,
-        eq(regencyLands.landTypeId, landTypes.id)
-      )
-      .innerJoin(
-        regencies,
-        eq(regencyLands.regencyId, regencies.id)
-      );
+      .innerJoin(landTypes, eq(regencyLands.landTypeId, landTypes.id))
+      .innerJoin(regencies, eq(regencyLands.regencyId, regencies.id));
 
-    const conditions: ReturnType<
-      typeof eq | typeof or
-    >[] = [];
+    const conditions: ReturnType<typeof eq | typeof or>[] = [];
 
     if (input.regencyId) {
-      conditions.push(
-        eq(regencyLands.regencyId, input.regencyId)
-      );
+      conditions.push(eq(regencyLands.regencyId, input.regencyId));
     }
 
     if (input.landTypeId) {
-      conditions.push(
-        eq(regencyLands.landTypeId, input.landTypeId)
-      );
+      conditions.push(eq(regencyLands.landTypeId, input.landTypeId));
     }
 
     if (input.search) {
       conditions.push(
         or(
-          ilike(
-            regencies.name,
-            `%${input.search}%`
-          ),
-          ilike(
-            landTypes.name,
-            `%${input.search}%`
-          )
+          ilike(regencies.name, `%${input.search}%`),
+          ilike(landTypes.name, `%${input.search}%`)
         )
       );
     }
 
-    const query = baseQuery
-      .where(and(...conditions))
-      .orderBy(regencies.name);
+    const query = baseQuery.where(and(...conditions)).orderBy(regencies.name);
 
     const finalQuery =
       limit !== undefined

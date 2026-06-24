@@ -6,52 +6,32 @@ import { protectedProcedure } from '@/lib/orpc';
 
 import { StallSchema } from '../-domain/schema';
 
-export const updateStall =
-  protectedProcedure
-    .input(StallSchema)
-    .handler(
-      async ({
-        input,
-        context,
-      }) => {
-        const [data] =
-          await context.db
-            .update(stalls)
-            .set({
-              name: input.name,
+export const updateStall = protectedProcedure
+  .input(StallSchema)
+  .handler(async ({ input, context }) => {
+    const [data] = await context.db
+      .update(stalls)
+      .set({
+        name: input.name,
 
-              address:
-                input.address,
+        address: input.address,
 
-              provinceId:
-                input.provinceId,
+        provinceId: input.provinceId,
 
-              regencyId:
-                input.regencyId,
+        regencyId: input.regencyId,
 
-              latitude:
-                input.latitude,
+        latitude: input.latitude,
 
-              longitude:
-                input.longitude,
+        longitude: input.longitude,
 
-              owner:
-                input.owner,
+        owner: input.owner,
 
-              noTelp:
-                input.noTelp,
+        noTelp: input.noTelp,
 
-              criteria:
-                input.criteria,
-            })
-            .where(
-              eq(
-                stalls.id,
-                input.id!
-              )
-            )
-            .returning();
+        criteria: input.criteria,
+      })
+      .where(eq(stalls.id, input.id!))
+      .returning();
 
-        return data;
-      }
-    );
+    return data;
+  });

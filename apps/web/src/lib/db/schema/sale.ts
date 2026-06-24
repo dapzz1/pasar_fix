@@ -9,48 +9,35 @@ import {
 } from 'drizzle-orm/pg-core';
 import { productBrands } from './map-product';
 
-export const dailySales = pgTable(
-  'daily_sales',
-  {
-    id: uuid('id')
-      .primaryKey()
-      .defaultRandom(),
+export const dailySales = pgTable('daily_sales', {
+  id: uuid('id').primaryKey().defaultRandom(),
 
-    date: date('date').notNull(),
+  date: date('date').notNull(),
 
-    month: varchar('month'),
+  month: varchar('month'),
 
-    year: varchar('year').default(
-      sql`EXTRACT(YEAR FROM CURRENT_DATE)::text`
-    ),
+  year: varchar('year').default(sql`EXTRACT(YEAR FROM CURRENT_DATE)::text`),
 
-    productBrandId: uuid(
-      'product_brand_id'
-    )
-      .notNull()
-      .references(() => productBrands.id),
+  productBrandId: uuid('product_brand_id')
+    .notNull()
+    .references(() => productBrands.id),
 
-    provinceId: uuid('province_id'),
+  provinceId: uuid('province_id'),
 
-    qty: real('qty'),
+  qty: real('qty'),
 
-    revenue: real('revenue'),
+  revenue: real('revenue'),
 
-    target: real('target'),
+  target: real('target'),
 
-    notes: varchar('notes'),
+  notes: varchar('notes'),
 
-    realization: real('realization'),
+  realization: real('realization'),
 
-    createdAt: timestamp(
-      'created_at'
-    ).defaultNow(),
+  createdAt: timestamp('created_at').defaultNow(),
 
-    updatedAt: timestamp(
-      'updated_at'
-    ).defaultNow(),
-  }
-);
+  updatedAt: timestamp('updated_at').defaultNow(),
+});
 
 export const salesRealizations = pgTable('sales_realizations', {
   id: uuid('id').primaryKey().defaultRandom(),

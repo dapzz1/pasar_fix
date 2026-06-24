@@ -5,10 +5,10 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
 
-   server: {
+  server: {
     allowedHosts: ['brenna-unleaky-first.ngrok-free.dev'],
   },
-  
+
   test: {
     environment: 'jsdom',
     setupFiles: ['../vitest.setup.ts'], // Relative path to root setup file

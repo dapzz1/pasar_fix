@@ -7,30 +7,21 @@ export const SalesRealizationSchema = z.object({
 
   productBrandId: z.string().uuid(),
 
-  realizationDaily:
-    z.number().nullable().optional(),
+  realizationDaily: z.number().nullable().optional(),
 
-  month:
-    z.string().nullable().optional(),
+  month: z.string().nullable().optional(),
 
-  realizationMonthly:
-    z.number().nullable().optional(),
+  realizationMonthly: z.number().nullable().optional(),
 
-  rkapMonthly:
-    z.number().nullable().optional(),
+  rkapMonthly: z.number().nullable().optional(),
 
-  realizationYtd:
-    z.number().nullable().optional(),
+  realizationYtd: z.number().nullable().optional(),
 
-  rkapYtd:
-    z.number().nullable().optional(),
+  rkapYtd: z.number().nullable().optional(),
 
-  year:
-    z.string().nullable().optional(),
+  year: z.string().nullable().optional(),
 
-  rkapYearly:
-    z.number().nullable().optional(),
+  rkapYearly: z.number().nullable().optional(),
 
-  realizationLastYear:
-    z.number().nullable().optional(),
+  realizationLastYear: z.number().nullable().optional(),
 });

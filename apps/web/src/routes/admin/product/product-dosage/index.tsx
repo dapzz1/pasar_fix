@@ -93,10 +93,10 @@ function RouteComponent() {
                         <div>
                           <CardTitle className="text-lg">
                             <Link
-                              to="/admin/product/product-dosage/$productBrand"
                               params={{
                                 productBrand: pb.id,
                               }}
+                              to="/admin/product/product-dosage/$productBrand"
                             >
                               {pb.name}
                             </Link>

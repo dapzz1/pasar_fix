@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
+import { saveAs } from 'file-saver';
 import { Search } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import * as XLSX from 'xlsx';
 import z from 'zod';
-import { SalesRealizationTable } from './-components/sales-realization-table';
-import { EditSalesRealizationModal } from './-components/edit-sales-realization-modal';
-import { CreateSalesRealizationModal } from './-components/create-sales-realization-modal';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -13,11 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { orpc } from '@/lib/orpc/client';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 import {
   Select,
   SelectContent,
@@ -25,6 +21,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { orpc } from '@/lib/orpc/client';
+import { CreateSalesRealizationModal } from './-components/create-sales-realization-modal';
+import { EditSalesRealizationModal } from './-components/edit-sales-realization-modal';
+import { SalesRealizationTable } from './-components/sales-realization-table';
 
 export const Route = createFileRoute('/admin/sale/')({
   component: RouteComponent,
@@ -152,7 +152,7 @@ function RouteComponent() {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card>
           <CardContent className="p-6">
-            <p className="text-sm text-muted-foreground">Total Data</p>
+            <p className="text-muted-foreground text-sm">Total Data</p>
 
             <h2 className="mt-2 font-bold text-3xl">
               {salesRealizationsList.length}
@@ -162,7 +162,7 @@ function RouteComponent() {
 
         <Card>
           <CardContent className="p-6">
-            <p className="text-sm text-muted-foreground">Total Realization</p>
+            <p className="text-muted-foreground text-sm">Total Realization</p>
 
             <h2 className="mt-2 font-bold text-3xl">
               {totalRealization.toLocaleString()}
@@ -172,7 +172,7 @@ function RouteComponent() {
 
         <Card>
           <CardContent className="p-6">
-            <p className="text-sm text-muted-foreground">Total RKAP</p>
+            <p className="text-muted-foreground text-sm">Total RKAP</p>
 
             <h2 className="mt-2 font-bold text-3xl">
               {totalRkap.toLocaleString()}
@@ -192,16 +192,16 @@ function RouteComponent() {
           <div className="flex w-full flex-wrap gap-2 sm:w-auto">
             <CreateSalesRealizationModal />
 
-            <Button variant="outline" onClick={exportToExcel}>
+            <Button onClick={exportToExcel} variant="outline">
               Export Excel
             </Button>
 
             <Select
-              value={String(limit)}
               onValueChange={(value) => {
                 setLimit(Number(value));
                 setPage(1);
               }}
+              value={String(limit)}
             >
               <SelectTrigger className="w-[120px]">
                 <SelectValue />
@@ -221,8 +221,6 @@ function RouteComponent() {
             <div className="relative min-w-[250px] flex-1">
               <Input
                 className="pl-10"
-                placeholder="Search sales realization..."
-                value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
 
@@ -230,6 +228,8 @@ function RouteComponent() {
                     q: e.target.value || undefined,
                   });
                 }}
+                placeholder="Search sales realization..."
+                value={searchTerm}
               />
 
               <Search className="absolute top-3 left-3 h-4 w-4 text-muted-foreground" />
@@ -246,26 +246,26 @@ function RouteComponent() {
             </p>
           ) : (
             <SalesRealizationTable
-              salesRealizationsList={salesRealizationsList}
               deleteMutation={deleteMutation}
+              salesRealizationsList={salesRealizationsList}
               setEditingItem={setEditingItem}
             />
           )}
           <div className="mt-4 flex items-center justify-between">
             <Button
-              variant="outline"
               disabled={page === 1}
               onClick={() => setPage((prev) => prev - 1)}
+              variant="outline"
             >
               Previous
             </Button>
 
-            <p className="text-sm text-muted-foreground">Page {page}</p>
+            <p className="text-muted-foreground text-sm">Page {page}</p>
 
             <Button
-              variant="outline"
               disabled={salesRealizationsList.length < 10}
               onClick={() => setPage((prev) => prev + 1)}
+              variant="outline"
             >
               Next
             </Button>

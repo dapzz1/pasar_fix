@@ -1,21 +1,13 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-
+import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
-
-import { toast } from 'sonner';
-
-import { Button } from '@/components/ui/button';
 
 import { Input } from '@/components/ui/input';
 
@@ -40,273 +32,200 @@ export function EditDailySalesModal({
 
   setEditingItem,
 }: Props) {
-  const queryClient =
-    useQueryClient();
+  const queryClient = useQueryClient();
 
-  const { data: productBrands } =
-    useQuery(
-      orpc.admin.product.product_brand.get.queryOptions(
-        {
-          input: {},
-        }
-      )
-    );
+  const { data: productBrands } = useQuery(
+    orpc.admin.product.product_brand.get.queryOptions({
+      input: {},
+    })
+  );
 
-  const [form, setForm] =
-    useState({
-      id: '',
+  const [form, setForm] = useState({
+    id: '',
 
-      date: '',
+    date: '',
 
-      month: '',
+    month: '',
 
-      year: '',
+    year: '',
 
-      productBrandId: '',
+    productBrandId: '',
 
-      qty: '',
+    qty: '',
 
-      revenue: '',
+    revenue: '',
 
-      target: '',
+    target: '',
 
-      notes: '',
-    });
+    notes: '',
+  });
 
   useEffect(() => {
     if (editingItem) {
       setForm({
         id: editingItem.id,
 
-        date:
-          editingItem.date || '',
+        date: editingItem.date || '',
 
-        month:
-          editingItem.month || '',
+        month: editingItem.month || '',
 
-        year:
-          editingItem.year || '',
+        year: editingItem.year || '',
 
-        productBrandId:
-          editingItem.productBrandId ||
-          '',
+        productBrandId: editingItem.productBrandId || '',
 
-        qty:
-          editingItem.qty?.toString() ||
-          '',
+        qty: editingItem.qty?.toString() || '',
 
-        revenue:
-          editingItem.revenue?.toString() ||
-          '',
+        revenue: editingItem.revenue?.toString() || '',
 
-        target:
-          editingItem.target?.toString() ||
-          '',
+        target: editingItem.target?.toString() || '',
 
-        notes:
-          editingItem.notes || '',
+        notes: editingItem.notes || '',
       });
     }
   }, [editingItem]);
 
-  const updateMutation =
-    useMutation(
-      orpc.admin.sale.daily_sales.update.mutationOptions(
-        {
-          onSuccess:
-            async () => {
-              await queryClient.invalidateQueries();
+  const updateMutation = useMutation(
+    orpc.admin.sale.daily_sales.update.mutationOptions({
+      onSuccess: async () => {
+        await queryClient.invalidateQueries();
 
-              toast.success(
-                'Daily sales updated!'
-              );
+        toast.success('Daily sales updated!');
 
-              setEditingItem(
-                null
-              );
-            },
+        setEditingItem(null);
+      },
 
-          onError: () => {
-            toast.error(
-              'Failed to update daily sales'
-            );
-          },
-        }
-      )
-    );
+      onError: () => {
+        toast.error('Failed to update daily sales');
+      },
+    })
+  );
 
   return (
-    <Dialog
-      open={!!editingItem}
-      onOpenChange={() =>
-        setEditingItem(null)
-      }
-    >
+    <Dialog onOpenChange={() => setEditingItem(null)} open={!!editingItem}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>
-            Edit Daily Sales
-          </DialogTitle>
+          <DialogTitle>Edit Daily Sales</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           <Input
-            type="date"
-            value={form.date}
             onChange={(e) =>
               setForm({
                 ...form,
-                date:
-                  e.target.value,
+                date: e.target.value,
               })
             }
+            type="date"
+            value={form.date}
           />
 
           <Select
-            value={
-              form.productBrandId
-            }
-            onValueChange={(
-              value
-            ) =>
+            onValueChange={(value) =>
               setForm({
                 ...form,
-                productBrandId:
-                  value,
+                productBrandId: value,
               })
             }
+            value={form.productBrandId}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select Product Brand" />
             </SelectTrigger>
 
             <SelectContent>
-              {productBrands?.data?.map(
-                (
-                  brand: any
-                ) => (
-                  <SelectItem
-                    key={
-                      brand.id
-                    }
-                    value={
-                      brand.id
-                    }
-                  >
-                    {
-                      brand.name
-                    }
-                  </SelectItem>
-                )
-              )}
+              {productBrands?.data?.map((brand: any) => (
+                <SelectItem key={brand.id} value={brand.id}>
+                  {brand.name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
 
           <Input
+            onChange={(e) =>
+              setForm({
+                ...form,
+                month: e.target.value,
+              })
+            }
             placeholder="Month"
             value={form.month}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                month:
-                  e.target.value,
-              })
-            }
           />
 
           <Input
+            onChange={(e) =>
+              setForm({
+                ...form,
+                year: e.target.value,
+              })
+            }
             placeholder="Year"
             value={form.year}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                year:
-                  e.target.value,
-              })
-            }
           />
 
           <Input
+            onChange={(e) =>
+              setForm({
+                ...form,
+                qty: e.target.value,
+              })
+            }
             placeholder="Qty"
             type="number"
             value={form.qty}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                qty:
-                  e.target.value,
-              })
-            }
           />
 
           <Input
+            onChange={(e) =>
+              setForm({
+                ...form,
+                revenue: e.target.value,
+              })
+            }
             placeholder="Revenue"
             type="number"
             value={form.revenue}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                revenue:
-                  e.target.value,
-              })
-            }
           />
 
           <Input
+            onChange={(e) =>
+              setForm({
+                ...form,
+                target: e.target.value,
+              })
+            }
             placeholder="Target"
             type="number"
             value={form.target}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                target:
-                  e.target.value,
-              })
-            }
           />
 
           <Input
-            placeholder="Notes"
-            value={form.notes}
             onChange={(e) =>
               setForm({
                 ...form,
-                notes:
-                  e.target.value,
+                notes: e.target.value,
               })
             }
+            placeholder="Notes"
+            value={form.notes}
           />
 
           <Button
             className="w-full"
-            disabled={
-              updateMutation.isPending
-            }
+            disabled={updateMutation.isPending}
             onClick={() =>
               updateMutation.mutate({
                 ...form,
 
-                qty: Number(
-                  form.qty || 0
-                ),
+                qty: Number(form.qty || 0),
 
-                revenue:
-                  Number(
-                    form.revenue ||
-                      0
-                  ),
+                revenue: Number(form.revenue || 0),
 
-                target:
-                  Number(
-                    form.target ||
-                      0
-                  ),
+                target: Number(form.target || 0),
               })
             }
           >
-            {updateMutation.isPending
-              ? 'Updating...'
-              : 'Update Daily Sales'}
+            {updateMutation.isPending ? 'Updating...' : 'Update Daily Sales'}
           </Button>
         </div>
       </DialogContent>

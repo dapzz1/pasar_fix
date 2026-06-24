@@ -34,31 +34,22 @@ export const getStallProductBrands = protectedProcedure
         eq(productBrands.productTypeId, productTypes.id)
       );
 
-        const conditions: any[] = [];
+    const conditions: any[] = [];
 
-        if (input.stallId) {
-          conditions.push(
-            eq(
-              stallProductBrands.stallId,
-              input.stallId
-            )
-          );
-        }
+    if (input.stallId) {
+      conditions.push(eq(stallProductBrands.stallId, input.stallId));
+    }
 
-        if (input.productBrandId) {
-          conditions.push(
-            eq(
-              stallProductBrands.productBrandId,
-              input.productBrandId
-            )
-          );
-        }
+    if (input.productBrandId) {
+      conditions.push(
+        eq(stallProductBrands.productBrandId, input.productBrandId)
+      );
+    }
 
-        return {
-          data: await (
-            conditions.length
-              ? baseQuery.where(and(...conditions))
-              : baseQuery
-          ).orderBy(asc(stalls.name)),
-        };
+    return {
+      data: await (conditions.length
+        ? baseQuery.where(and(...conditions))
+        : baseQuery
+      ).orderBy(asc(stalls.name)),
+    };
   });

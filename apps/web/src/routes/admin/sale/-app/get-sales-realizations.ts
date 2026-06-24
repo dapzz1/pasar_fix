@@ -7,8 +7,6 @@ import { salesRealizations } from '@/lib/db/schema/sale';
 
 import { protectedProcedure } from '@/lib/orpc';
 
-
-
 export const getSalesRealizations = protectedProcedure
   .input(
     z.object({
@@ -27,67 +25,46 @@ export const getSalesRealizations = protectedProcedure
       .select({
         id: salesRealizations.id,
 
-        productBrandId:
-          salesRealizations.productBrandId,
+        productBrandId: salesRealizations.productBrandId,
 
-        productBrandName:
-          productBrands.name,
+        productBrandName: productBrands.name,
 
-        reportDate:
-          salesRealizations.reportDate,
+        reportDate: salesRealizations.reportDate,
 
-        realizationDaily:
-          salesRealizations.realizationDaily,
+        realizationDaily: salesRealizations.realizationDaily,
 
         month: salesRealizations.month,
 
-        realizationMonthly:
-          salesRealizations.realizationMonthly,
+        realizationMonthly: salesRealizations.realizationMonthly,
 
-        rkapMonthly:
-          salesRealizations.rkapMonthly,
+        rkapMonthly: salesRealizations.rkapMonthly,
 
-        realizationYtd:
-          salesRealizations.realizationYtd,
+        realizationYtd: salesRealizations.realizationYtd,
 
-        rkapYtd:
-          salesRealizations.rkapYtd,
+        rkapYtd: salesRealizations.rkapYtd,
 
-        rkapYearly:
-          salesRealizations.rkapYearly,
+        rkapYearly: salesRealizations.rkapYearly,
 
-        realizationLastYear:
-          salesRealizations.realizationLastYear,
+        realizationLastYear: salesRealizations.realizationLastYear,
 
         year: salesRealizations.year,
       })
       .from(salesRealizations)
       .innerJoin(
         productBrands,
-        eq(
-          salesRealizations.productBrandId,
-          productBrands.id
-        )
+        eq(salesRealizations.productBrandId, productBrands.id)
       );
 
     const conditions: ReturnType<typeof ilike>[] = [];
 
     if (input.productBrandId) {
       conditions.push(
-        eq(
-          salesRealizations.productBrandId,
-          input.productBrandId
-        )
+        eq(salesRealizations.productBrandId, input.productBrandId)
       );
     }
 
     if (input.search) {
-      conditions.push(
-        ilike(
-          productBrands.name,
-          `%${input.search}%`
-        )
-      );
+      conditions.push(ilike(productBrands.name, `%${input.search}%`));
     }
 
     return {

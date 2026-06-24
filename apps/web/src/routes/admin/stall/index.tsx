@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
-
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-
+import { createFileRoute } from '@tanstack/react-router';
+import { Search } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -10,7 +11,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -18,21 +25,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
-import { toast } from 'sonner';
 import { orpc } from '@/lib/orpc/client';
-import { EditStallForm } from './-components/edit-stall-form';
 import { CreateStallModal } from './-components/create-stall-modal';
+import { EditStallForm } from './-components/edit-stall-form';
 import { ManageStallProducts } from './-components/manage-stall-products';
 
 export const Route = createFileRoute('/admin/stall/')({
@@ -143,7 +138,7 @@ function RouteComponent() {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card>
           <CardContent className="p-6">
-            <p className="text-sm text-muted-foreground">Total Stalls</p>
+            <p className="text-muted-foreground text-sm">Total Stalls</p>
 
             <h2 className="mt-2 font-bold text-3xl">{stallsList.length}</h2>
           </CardContent>
@@ -151,7 +146,7 @@ function RouteComponent() {
 
         <Card>
           <CardContent className="p-6">
-            <p className="text-sm text-muted-foreground">Total Provinces</p>
+            <p className="text-muted-foreground text-sm">Total Provinces</p>
 
             <h2 className="mt-2 font-bold text-3xl">{totalProvince}</h2>
           </CardContent>
@@ -159,7 +154,7 @@ function RouteComponent() {
 
         <Card>
           <CardContent className="p-6">
-            <p className="text-sm text-muted-foreground">Total Regencies</p>
+            <p className="text-muted-foreground text-sm">Total Regencies</p>
 
             <h2 className="mt-2 font-bold text-3xl">{totalRegency}</h2>
           </CardContent>
@@ -177,13 +172,13 @@ function RouteComponent() {
           <div className="flex w-full flex-wrap gap-2 sm:w-auto">
             <CreateStallModal />
 
-            <Button variant="outline" onClick={exportToExcel}>
+            <Button onClick={exportToExcel} variant="outline">
               Export Excel
             </Button>
 
             <Select
-              value={String(limit)}
               onValueChange={(value) => setLimit(Number(value))}
+              value={String(limit)}
             >
               <SelectTrigger className="w-[120px]">
                 <SelectValue />
@@ -203,9 +198,9 @@ function RouteComponent() {
             <div className="relative min-w-[250px] flex-1">
               <Input
                 className="pl-10"
+                onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search stall..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
               />
 
               <Search className="absolute top-3 left-3 h-4 w-4 text-muted-foreground" />
@@ -245,7 +240,7 @@ function RouteComponent() {
 
                 <tbody>
                   {stallsList.map((item: any) => (
-                    <tr key={item.id} className="border-b hover:bg-muted/30">
+                    <tr className="border-b hover:bg-muted/30" key={item.id}>
                       <td className="p-3">{item.name}</td>
 
                       <td className="p-3">{item.provinceName}</td>
@@ -265,23 +260,22 @@ function RouteComponent() {
                       <td className="p-3">
                         <div className="flex gap-2">
                           <Button
+                            onClick={() => setEditingItem(item)}
                             size="sm"
                             variant="outline"
-                            onClick={() => setEditingItem(item)}
                           >
                             Edit
                           </Button>
 
                           <Button
+                            onClick={() => setProductItem(item)}
                             size="sm"
                             variant="secondary"
-                            onClick={() => setProductItem(item)}
                           >
                             Products
                           </Button>
 
                           <Button
-                            variant="destructive"
                             onClick={() => {
                               const confirmed = confirm('Delete this stall?');
 
@@ -291,6 +285,7 @@ function RouteComponent() {
                                 });
                               }
                             }}
+                            variant="destructive"
                           >
                             Delete
                           </Button>
@@ -303,19 +298,19 @@ function RouteComponent() {
 
               <div className="mt-4 flex items-center justify-between">
                 <Button
-                  variant="outline"
                   disabled={page === 1}
                   onClick={() => setPage((prev) => prev - 1)}
+                  variant="outline"
                 >
                   Previous
                 </Button>
 
-                <p className="text-sm text-muted-foreground">Page {page}</p>
+                <p className="text-muted-foreground text-sm">Page {page}</p>
 
                 <Button
-                  variant="outline"
                   disabled={stallsList.length < limit}
                   onClick={() => setPage((prev) => prev + 1)}
+                  variant="outline"
                 >
                   Next
                 </Button>
@@ -325,14 +320,14 @@ function RouteComponent() {
         </CardContent>
       </Card>
       <Dialog
-        open={!!editingItem}
         onOpenChange={(open) => {
           if (!open) {
             setEditingItem(null);
           }
         }}
+        open={!!editingItem}
       >
-        <DialogContent className="sm:max-w-3xl overflow-visible">
+        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-4xl">
           <DialogHeader>
             <DialogTitle>Edit Stall</DialogTitle>
           </DialogHeader>
@@ -345,12 +340,12 @@ function RouteComponent() {
       </Dialog>
 
       <Dialog
-        open={!!productItem}
         onOpenChange={(open) => {
           if (!open) {
             setProductItem(null);
           }
         }}
+        open={!!productItem}
       >
         <DialogContent className="sm:max-w-3xl">
           <DialogHeader>

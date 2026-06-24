@@ -160,3 +160,194 @@ msgstr "Semangka"
 #: src/routes/map/-components/map-sidebar.tsx
 msgid "Year"
 msgstr "Tahun"
+#: src/routes/index.tsx
+msgid "Desember 2025 · Komp. Mitra Bisnis"
+msgstr "Desember 2025 · Komp. Mitra Bisnis"
+
+#: src/routes/index.tsx
+msgid "Manajemen"
+msgstr "Manajemen"
+
+#: src/routes/index.tsx
+msgid "Produk Baru"
+msgstr "Produk Baru"
+
+#: src/routes/index.tsx
+msgid "Pemasaran, market intelligence, dan brand awareness untuk produk baru Petrokimia Gresik."
+msgstr "Pemasaran, market intelligence, dan brand awareness untuk produk baru Petrokimia Gresik."
+
+#: src/routes/index.tsx
+msgid "Lihat Peta Pemasaran"
+msgstr "Lihat Peta Pemasaran"
+
+#: src/routes/index.tsx
+msgid "Program Kerja"
+msgstr "Program Kerja"
+
+#: src/routes/index.tsx
+msgid "Provinsi"
+msgstr "Provinsi"
+
+#: src/routes/index.tsx
+msgid "Wilayah terdaftar"
+msgstr "Wilayah terdaftar"
+
+#: src/routes/index.tsx
+msgid "Komoditas"
+msgstr "Komoditas"
+
+#: src/routes/index.tsx
+msgid "Aktif di pasar"
+msgstr "Aktif di pasar"
+
+#: src/routes/index.tsx
+msgid "Brand Produk"
+msgstr "Brand Produk"
+
+#: src/routes/index.tsx
+msgid "Dalam portofolio"
+msgstr "Dalam portofolio"
+
+#: src/routes/index.tsx
+msgid "Kios"
+msgstr "Kios"
+
+#: src/routes/index.tsx
+msgid "Jaringan distribusi"
+msgstr "Jaringan distribusi"
+
+#: src/routes/index.tsx
+msgid "Program Kerja Utama"
+msgstr "Program Kerja Utama"
+
+#: src/routes/index.tsx
+msgid "Tiga Pilar Kegiatan Pemasaran"
+msgstr "Tiga Pilar Kegiatan Pemasaran"
+
+#: src/routes/index.tsx
+msgid "Peta Pasar & Strategi Penjualan"
+msgstr "Peta Pasar & Strategi Penjualan"
+
+#: src/routes/index.tsx
+msgid "Identifikasi kebutuhan konsumen dan pemetaan sales channel untuk produk baru."
+msgstr "Identifikasi kebutuhan konsumen dan pemetaan sales channel untuk produk baru."
+
+#: src/routes/index.tsx
+msgid "Roadshow Customer"
+msgstr "Roadshow Customer"
+
+#: src/routes/index.tsx
+msgid "Kunjungan end user, monitoring pasar, dan penguatan jaringan distribusi lapangan."
+msgstr "Kunjungan end user, monitoring pasar, dan penguatan jaringan distribusi lapangan."
+
+#: src/routes/index.tsx
+msgid "Sosialisasi & Demplot"
+msgstr "Sosialisasi & Demplot"
+
+#: src/routes/index.tsx
+msgid "Penguatan brand awareness dan edukasi produk melalui demonstrasi plot aktif."
+msgstr "Penguatan brand awareness dan edukasi produk melalui demonstrasi plot aktif."
+
+#: src/routes/index.tsx
+msgid "Monitoring & Penetrasi 2026"
+msgstr "Monitoring & Penetrasi 2026"
+
+#: src/routes/index.tsx
+msgid "Program Lapangan Prioritas"
+msgstr "Program Lapangan Prioritas"
+
+#: src/routes/index.tsx
+msgid "Monitoring Pasar Produk Baru"
+msgstr "Monitoring Pasar Produk Baru"
+
+#: src/routes/index.tsx
+msgid "Jawa & Bali"
+msgstr "Jawa & Bali"
+
+#: src/routes/index.tsx
+msgid "Juni – September 2026"
+msgstr "Juni – September 2026"
+
+#: src/routes/index.tsx
+msgid "Monitoring Kerjasama Demplot"
+msgstr "Monitoring Kerjasama Demplot"
+
+#: src/routes/index.tsx
+msgid "Biofertil & Petro Gladiator"
+msgstr "Biofertil & Petro Gladiator"
+
+#: src/routes/index.tsx
+msgid "Februari 2026"
+msgstr "Februari 2026"
+
+#: src/routes/index.tsx
+msgid "Penetrasi Pasar Petro Fish"
+msgstr "Penetrasi Pasar Petro Fish"
+
+#: src/routes/index.tsx
+msgid "Usaha tambak skala menengah–besar"
+msgstr "Usaha tambak skala menengah–besar"
+
+#: src/routes/index.tsx
+msgid "April – Mei 2026"
+msgstr "April – Mei 2026"
+
+#: src/routes/index.tsx
+msgid "Struktur Organisasi"
+msgstr "Struktur Organisasi"
+
+#: src/routes/index.tsx
+msgid "Tim Manajemen Produk Baru 2025"
+msgstr "Tim Manajemen Produk Baru 2025"
+
+#: src/routes/index.tsx
+msgid "PM — Pimpinan"
+msgstr "PM — Pimpinan"
+
+#: src/routes/index.tsx
+msgid "PM Manajemen Produk Baru"
+msgstr "PM Manajemen Produk Baru"
+
+#: src/routes/index.tsx
+msgid "SMD I — Wakil"
+msgstr "SMD I — Wakil"
+
+#: src/routes/index.tsx
+msgid "SMD I Manajemen Produk Baru"
+msgstr "SMD I Manajemen Produk Baru"
+
+#: src/routes/index.tsx
+msgid "Tanggung Jawab Utama"
+msgstr "Tanggung Jawab Utama"
+
+#: src/routes/index.tsx
+msgid "Pemetaan pasar dan pengembangan produk baru"
+msgstr "Pemetaan pasar dan pengembangan produk baru"
+
+#: src/routes/index.tsx
+msgid "Memastikan target penjualan & evaluasi pencapaian"
+msgstr "Memastikan target penjualan & evaluasi pencapaian"
+
+#: src/routes/index.tsx
+msgid "Mengembangkan strategi penjualan yang adaptif"
+msgstr "Mengembangkan strategi penjualan yang adaptif"
+
+#: src/routes/index.tsx
+msgid "Sosialisasi change management internal & eksternal"
+msgstr "Sosialisasi change management internal & eksternal"
+
+#: src/routes/index.tsx
+msgid "Memenuhi aspek legal & good corporate governance"
+msgstr "Memenuhi aspek legal & good corporate governance"
+
+#: src/routes/index.tsx
+msgid "Jelajahi Peta Pemasaran"
+msgstr "Jelajahi Peta Pemasaran"
+
+#: src/routes/index.tsx
+msgid "Lihat persebaran pasar dan potensi produk baru Petrokimia Gresik secara visual dan interaktif."
+msgstr "Lihat persebaran pasar dan potensi produk baru Petrokimia Gresik secara visual dan interaktif."
+
+#: src/routes/index.tsx
+msgid "Buka Peta →"
+msgstr "Buka Peta →"

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { Edit, Plus, Search, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import z from 'zod';
@@ -174,8 +174,18 @@ function RouteComponent() {
                           </p>
                         )}
                       </div>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        <Link
+                          params={{
+                            productBrand: pb.id,
+                          }}
+                          to="/admin/product/product-dosage/$productBrand"
+                        >
+                          <Button size="sm" variant="secondary">
+                            Dosages
+                          </Button>
+                        </Link>
 
-                      <div className="absolute right-4 bottom-4 flex gap-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                         <Button
                           onClick={() => handleEdit(pb)}
                           size="sm"
@@ -183,6 +193,7 @@ function RouteComponent() {
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
+
                         <Button
                           onClick={() => handleDelete(pb)}
                           size="sm"

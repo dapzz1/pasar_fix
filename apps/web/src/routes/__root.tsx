@@ -49,9 +49,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     const session = await orpc.auth.getSession.call({});
 
     return {
-        user: session?.user || null,
-  };
-},
+      user: session?.user || null,
+    };
+  },
 
   head: () => ({
     meta: [

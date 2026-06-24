@@ -1,6 +1,6 @@
 import z from 'zod';
 import { productBrands } from '@/lib/db/schema/map-product';
-import { ORPCError, protectedProcedure } from '@/lib/orpc';
+import { protectedProcedure } from '@/lib/orpc';
 
 export const createProductBrand = protectedProcedure
   .input(
@@ -13,6 +13,8 @@ export const createProductBrand = protectedProcedure
   )
   .handler(async ({ input, context }) => {
     try {
+      console.log('INPUT =>', input);
+
       const [created] = await context.db
         .insert(productBrands)
         .values({
@@ -23,12 +25,20 @@ export const createProductBrand = protectedProcedure
         })
         .returning();
 
+      console.log('CREATED =>', created);
+
       return { data: created };
     } catch (error: any) {
-      console.error('createProductBrand error:', error);
-      if (error?.code === '23505') {
-        throw new ORPCError('CONFLICT', 'Product brand already exists');
-      }
-      throw new ORPCError('INTERNAL', 'Failed to create product brand');
+      console.error('=================================');
+      console.error('FULL ERROR =>');
+      console.error(error);
+      console.error('CODE =>', error?.code);
+      console.error('DETAIL =>', error?.detail);
+      console.error('CONSTRAINT =>', error?.constraint);
+      console.error('TABLE =>', error?.table);
+      console.error('WHERE =>', error?.where);
+      console.error('=================================');
+
+      throw error;
     }
   });

@@ -39,22 +39,13 @@ export function EditSalesRealizationModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-semibold text-xl">
-            Edit Sales Realization
-          </h2>
+          <h2 className="font-semibold text-xl">Edit Sales Realization</h2>
 
-          <button
-            onClick={() =>
-              setEditingItem(null)
-            }
-          >
-            ✕
-          </button>
+          <button onClick={() => setEditingItem(null)}>✕</button>
         </div>
 
         <div className="space-y-4">
           <Input
-            value={editingItem.month}
             onChange={(e) =>
               setEditingItem({
                 ...editingItem,
@@ -62,10 +53,10 @@ export function EditSalesRealizationModal({
               })
             }
             placeholder="Month"
+            value={editingItem.month}
           />
 
           <Input
-            value={editingItem.year}
             onChange={(e) =>
               setEditingItem({
                 ...editingItem,
@@ -73,117 +64,101 @@ export function EditSalesRealizationModal({
               })
             }
             placeholder="Year"
+            value={editingItem.year}
           />
 
           <Input
-            type="number"
-            value={editingItem.realizationDaily}
             onChange={(e) =>
               setEditingItem({
                 ...editingItem,
-                realizationDaily:
-                  Number(e.target.value),
+                realizationDaily: Number(e.target.value),
               })
             }
             placeholder="Realization Daily"
+            type="number"
+            value={editingItem.realizationDaily}
           />
 
           <Input
-            type="number"
-            value={
-              editingItem.realizationMonthly
-            }
             onChange={(e) =>
               setEditingItem({
                 ...editingItem,
-                realizationMonthly:
-                  Number(e.target.value),
+                realizationMonthly: Number(e.target.value),
               })
             }
             placeholder="Realization Monthly"
+            type="number"
+            value={editingItem.realizationMonthly}
           />
 
           <Input
-            type="number"
-            value={editingItem.rkapMonthly}
             onChange={(e) =>
               setEditingItem({
                 ...editingItem,
-                rkapMonthly: Number(
-                  e.target.value
-                ),
+                rkapMonthly: Number(e.target.value),
               })
             }
             placeholder="RKAP Monthly"
+            type="number"
+            value={editingItem.rkapMonthly}
           />
 
           <Input
-            type="number"
-            value={editingItem.realizationYtd}
             onChange={(e) =>
               setEditingItem({
                 ...editingItem,
-                realizationYtd:
-                  Number(e.target.value),
+                realizationYtd: Number(e.target.value),
               })
             }
             placeholder="Realization YTD"
+            type="number"
+            value={editingItem.realizationYtd}
           />
 
           <Input
-            type="number"
-            value={editingItem.rkapYtd}
             onChange={(e) =>
               setEditingItem({
                 ...editingItem,
-                rkapYtd: Number(
-                  e.target.value
-                ),
+                rkapYtd: Number(e.target.value),
               })
             }
             placeholder="RKAP YTD"
+            type="number"
+            value={editingItem.rkapYtd}
           />
 
           <Input
-            type="number"
-            value={editingItem.rkapYearly}
             onChange={(e) =>
               setEditingItem({
                 ...editingItem,
-                rkapYearly: Number(
-                  e.target.value
-                ),
+                rkapYearly: Number(e.target.value),
               })
             }
             placeholder="RKAP Yearly"
+            type="number"
+            value={editingItem.rkapYearly}
           />
 
           <Input
-            type="number"
-            value={editingItem.realizationLastYear}
             onChange={(e) =>
               setEditingItem({
                 ...editingItem,
-                realizationLastYear: Number(
-                  e.target.value
-                ),
+                realizationLastYear: Number(e.target.value),
               })
             }
             placeholder="Realization Last Year"
+            type="number"
+            value={editingItem.realizationLastYear}
           />
 
           <Button
             className="w-full"
             disabled={updateMutation.isPending}
             onClick={() => {
-              updateMutation.mutate(
-                editingItem
-              );
+              updateMutation.mutate(editingItem);
             }}
           >
-            {updateMutation.isPending
-              ? 'Saving...'
-              : 'Save Changes'}
+            {updateMutation.isPending ? 'Saving...' : 'Save Changes'}
           </Button>
         </div>
       </div>

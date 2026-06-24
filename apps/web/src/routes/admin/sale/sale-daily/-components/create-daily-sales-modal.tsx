@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -8,37 +8,23 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-import { Button } from '@/components/ui/button';
-
 import { CreateDailySalesForm } from './create-daily-sales-form';
 
 export function CreateDailySalesModal() {
-  const [open, setOpen] =
-    useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={setOpen}
-    >
+    <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-        <Button>
-          + Add Daily Sales
-        </Button>
+        <Button>+ Add Daily Sales</Button>
       </DialogTrigger>
 
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>
-            Create Daily Sales
-          </DialogTitle>
+          <DialogTitle>Create Daily Sales</DialogTitle>
         </DialogHeader>
 
-        <CreateDailySalesForm
-          onSuccess={() =>
-            setOpen(false)
-          }
-        />
+        <CreateDailySalesForm onSuccess={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   );

@@ -1,19 +1,10 @@
-import { useEffect } from 'react';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
-
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-
-import { orpc } from '@/lib/orpc/client';
-
-import { StallSchema } from '../-domain/schema';
-
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -22,11 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-
 import { Input } from '@/components/ui/input';
-
-import { Button } from '@/components/ui/button';
-
 import {
   Select,
   SelectContent,
@@ -34,12 +21,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { orpc } from '@/lib/orpc/client';
+import { StallSchema } from '../-domain/schema';
 
-const formSchema =
-  StallSchema;
+const formSchema = StallSchema.extend({
+  id: z.string(),
+});
 
-type FormValues =
-  z.input<typeof formSchema>;
+type FormValues = z.input<typeof formSchema>;
 
 export function EditStallForm({
   editingItem,
@@ -48,156 +37,101 @@ export function EditStallForm({
   editingItem: any;
   onSuccess?: () => void;
 }) {
-  const queryClient =
-    useQueryClient();
+  const queryClient = useQueryClient();
 
-  const form =
-    useForm<FormValues>({
-      resolver:
-        zodResolver(
-          formSchema
-        ),
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
 
-      defaultValues: {
-        id: '',
-        name: '',
-        address: '',
-        provinceId: '',
-        regencyId: '',
-        latitude: 0,
-        longitude: 0,
-        owner: '',
-        noTelp: '',
-        criteria: '',
-      },
-    });
+    defaultValues: {
+      id: '',
+      name: '',
+      address: '',
+      provinceId: '',
+      regencyId: '',
+      latitude: 0,
+      longitude: 0,
+      owner: '',
+      noTelp: '',
+      criteria: '',
+      productBrandIds: [],
+    },
+  });
 
   useEffect(() => {
     if (editingItem) {
       form.reset({
         id: editingItem.id,
-        name:
-          editingItem.name ?? '',
-        address:
-          editingItem.address ??
-          '',
-        provinceId:
-          editingItem.provinceId ??
-          '',
-        regencyId:
-          editingItem.regencyId ??
-          '',
-        latitude:
-          editingItem.latitude ??
-          0,
-        longitude:
-          editingItem.longitude ??
-          0,
-        owner:
-          editingItem.owner ??
-          '',
-        noTelp:
-          editingItem.notelp ??
-          '',
-        criteria:
-          editingItem.criteria ??
-          '',
+        name: editingItem.name ?? '',
+        address: editingItem.address ?? '',
+        provinceId: editingItem.provinceId ?? '',
+        regencyId: editingItem.regencyId ?? '',
+        latitude: editingItem.latitude ?? 0,
+        longitude: editingItem.longitude ?? 0,
+        owner: editingItem.owner ?? '',
+        noTelp: editingItem.notelp ?? '',
+        criteria: editingItem.criteria ?? '',
+
+        productBrandIds: editingItem.productBrandIds ?? [],
       });
     }
   }, [editingItem]);
 
-  const provinceId =
-    form.watch(
-      'provinceId'
-    );
+  const provinceId = form.watch('provinceId');
 
-  const {
-    data: provinces,
-  } = useQuery(
-    orpc.admin.region.province.get.queryOptions(
-      {
-        input: {},
-      }
-    )
+  const { data: provinces } = useQuery(
+    orpc.admin.region.province.get.queryOptions({
+      input: {},
+    })
   );
 
-  const {
-    data: regencies,
-  } = useQuery(
-    orpc.admin.region.regency.get.queryOptions(
-      {
-        input: {
-          provinceId:
-            provinceId ||
-            undefined,
-        },
-      }
-    )
+  const { data: regencies } = useQuery(
+    orpc.admin.region.regency.get.queryOptions({
+      input: {
+        provinceId: provinceId || undefined,
+      },
+    })
+  );
+  const { data: productBrands } = useQuery(
+    orpc.admin.product.product_brand.get.queryOptions({
+      input: {},
+    })
+  );
+  const updateMutation = useMutation(
+    orpc.admin.stall.update.mutationOptions({
+      onSuccess: async () => {
+        toast.success('Stall updated successfully');
+
+        await queryClient.invalidateQueries(
+          orpc.admin.stall.get.queryOptions({
+            input: {},
+          })
+        );
+
+        onSuccess?.();
+      },
+
+      onError: () => {
+        toast.error('Failed to update stall');
+      },
+    })
   );
 
-  const updateMutation =
-    useMutation(
-      orpc.admin.stall.update.mutationOptions(
-        {
-          onSuccess:
-            async () => {
-              toast.success(
-                'Stall updated successfully'
-              );
-
-              await queryClient.invalidateQueries(
-                orpc.admin.stall.get.queryOptions(
-                  {
-                    input: {},
-                  }
-                )
-              );
-
-              onSuccess?.();
-            },
-
-          onError: () => {
-            toast.error(
-              'Failed to update stall'
-            );
-          },
-        }
-      )
-    );
-
-  const onSubmit = (
-    values: FormValues
-  ) => {
-    updateMutation.mutate(
-      values
-    );
+  const onSubmit = (values: FormValues) => {
+    updateMutation.mutate(values);
   };
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(
-          onSubmit
-        )}
-        className="space-y-4"
-      >
+      <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
-          control={
-            form.control
-          }
+          control={form.control}
           name="name"
-          render={({
-            field,
-          }) => (
+          render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Stall Name
-              </FormLabel>
+              <FormLabel>Stall Name</FormLabel>
 
               <FormControl>
-                <Input
-                  {...field}
-                />
+                <Input {...field} />
               </FormControl>
 
               <FormMessage />
@@ -206,26 +140,13 @@ export function EditStallForm({
         />
 
         <FormField
-          control={
-            form.control
-          }
+          control={form.control}
           name="provinceId"
-          render={({
-            field,
-          }) => (
+          render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Province
-              </FormLabel>
+              <FormLabel>Province</FormLabel>
 
-              <Select
-                value={
-                  field.value
-                }
-                onValueChange={
-                  field.onChange
-                }
-              >
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select province" />
@@ -233,29 +154,16 @@ export function EditStallForm({
                 </FormControl>
 
                 <SelectContent
-                  position="popper"
-                  sideOffset={4}
                   avoidCollisions={false}
                   className="max-h-60"
+                  position="popper"
+                  sideOffset={4}
                 >
-                  {provinces?.data?.map(
-                    (
-                      item: any
-                    ) => (
-                      <SelectItem
-                        key={
-                          item.id
-                        }
-                        value={
-                          item.id
-                        }
-                      >
-                        {
-                          item.name
-                        }
-                      </SelectItem>
-                    )
-                  )}
+                  {provinces?.data?.map((item: any) => (
+                    <SelectItem key={item.id} value={item.id}>
+                      {item.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
@@ -265,65 +173,38 @@ export function EditStallForm({
         />
 
         <FormField
-          control={
-            form.control
-          }
+          control={form.control}
           name="regencyId"
-          render={({
-            field,
-          }) => (
+          render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Regency
-              </FormLabel>
+              <FormLabel>Regency</FormLabel>
 
               <Select
-                disabled={
-                  !provinceId
-                }
-                value={
-                  field.value
-                }
-                onValueChange={
-                  field.onChange
-                }
+                disabled={!provinceId}
+                onValueChange={field.onChange}
+                value={field.value}
               >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue
                       placeholder={
-                        provinceId
-                          ? 'Select regency'
-                          : 'Select province first'
+                        provinceId ? 'Select regency' : 'Select province first'
                       }
                     />
                   </SelectTrigger>
                 </FormControl>
 
                 <SelectContent
-                  position="popper"
-                  sideOffset={4}
                   avoidCollisions={false}
                   className="max-h-60"
+                  position="popper"
+                  sideOffset={4}
                 >
-                  {regencies?.data?.map(
-                    (
-                      item: any
-                    ) => (
-                      <SelectItem
-                        key={
-                          item.id
-                        }
-                        value={
-                          item.id
-                        }
-                      >
-                        {
-                          item.name
-                        }
-                      </SelectItem>
-                    )
-                  )}
+                  {regencies?.data?.map((item: any) => (
+                    <SelectItem key={item.id} value={item.id}>
+                      {item.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
@@ -333,22 +214,14 @@ export function EditStallForm({
         />
 
         <FormField
-          control={
-            form.control
-          }
+          control={form.control}
           name="address"
-          render={({
-            field,
-          }) => (
+          render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Address
-              </FormLabel>
+              <FormLabel>Address</FormLabel>
 
               <FormControl>
-                <Input
-                  {...field}
-                />
+                <Input {...field} />
               </FormControl>
 
               <FormMessage />
@@ -357,37 +230,24 @@ export function EditStallForm({
         />
 
         <FormField
-          control={
-            form.control
-          }
+          control={form.control}
           name="latitude"
-          render={({
-            field,
-          }) => (
+          render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Latitude
-              </FormLabel>
+              <FormLabel>Latitude</FormLabel>
 
               <FormControl>
                 <Input
-                  type="number"
-                  value={
-                    typeof field.value ===
-                    'number'
-                      ? field.value
-                      : ''
-                  }
-                  onChange={(
-                    e
-                  ) =>
+                  onChange={(e) =>
                     field.onChange(
-                      Number(
-                        e.target
-                          .value
-                      )
+                      e.target.value === ''
+                        ? 0
+                        : Number.parseFloat(e.target.value)
                     )
                   }
+                  placeholder="-7.734521"
+                  type="text"
+                  value={field.value ?? ''}
                 />
               </FormControl>
 
@@ -397,37 +257,24 @@ export function EditStallForm({
         />
 
         <FormField
-          control={
-            form.control
-          }
+          control={form.control}
           name="longitude"
-          render={({
-            field,
-          }) => (
+          render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Longitude
-              </FormLabel>
+              <FormLabel>Longitude</FormLabel>
 
               <FormControl>
                 <Input
-                  type="number"
-                  value={
-                    typeof field.value ===
-                    'number'
-                      ? field.value
-                      : ''
-                  }
-                  onChange={(
-                    e
-                  ) =>
+                  onChange={(e) =>
                     field.onChange(
-                      Number(
-                        e.target
-                          .value
-                      )
+                      e.target.value === ''
+                        ? 0
+                        : Number.parseFloat(e.target.value)
                     )
                   }
+                  placeholder="112.918274"
+                  type="text"
+                  value={field.value ?? ''}
                 />
               </FormControl>
 
@@ -437,22 +284,14 @@ export function EditStallForm({
         />
 
         <FormField
-          control={
-            form.control
-          }
+          control={form.control}
           name="owner"
-          render={({
-            field,
-          }) => (
+          render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Owner
-              </FormLabel>
+              <FormLabel>Owner</FormLabel>
 
               <FormControl>
-                <Input
-                  {...field}
-                />
+                <Input {...field} />
               </FormControl>
 
               <FormMessage />
@@ -461,22 +300,14 @@ export function EditStallForm({
         />
 
         <FormField
-          control={
-            form.control
-          }
+          control={form.control}
           name="noTelp"
-          render={({
-            field,
-          }) => (
+          render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Phone
-              </FormLabel>
+              <FormLabel>Phone</FormLabel>
 
               <FormControl>
-                <Input
-                  {...field}
-                />
+                <Input {...field} />
               </FormControl>
 
               <FormMessage />
@@ -485,39 +316,63 @@ export function EditStallForm({
         />
 
         <FormField
-          control={
-            form.control
-          }
+          control={form.control}
           name="criteria"
-          render={({
-            field,
-          }) => (
+          render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Criteria
-              </FormLabel>
+              <FormLabel>Criteria</FormLabel>
 
               <FormControl>
-                <Input
-                  {...field}
-                />
+                <Input {...field} />
               </FormControl>
 
               <FormMessage />
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="productBrandIds"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Product Brands</FormLabel>
 
+              <div className="h-24 overflow-y-scroll rounded-md border p-3">
+                <div className="space-y-2">
+                  {productBrands?.data?.map((brand: any) => (
+                    <label className="flex items-center gap-2" key={brand.id}>
+                      <input
+                        checked={(field.value || []).includes(brand.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            field.onChange([...(field.value || []), brand.id]);
+                          } else {
+                            field.onChange(
+                              (field.value || []).filter(
+                                (id) => id !== brand.id
+                              )
+                            );
+                          }
+                        }}
+                        type="checkbox"
+                      />
+
+                      <span>{brand.name}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button
-          type="submit"
-          disabled={
-            updateMutation.isPending
-          }
           className="w-full"
+          disabled={updateMutation.isPending}
+          type="submit"
         >
-          {updateMutation.isPending
-            ? 'Updating...'
-            : 'Update Stall'}
+          {updateMutation.isPending ? 'Updating...' : 'Update Stall'}
         </Button>
       </form>
     </Form>

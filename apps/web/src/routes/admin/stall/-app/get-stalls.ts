@@ -55,11 +55,7 @@ export const getStalls = protectedProcedure
 
     return {
       data: await baseQuery
-       .where(
-          conditions.length > 0
-            ? and(...conditions)
-            : undefined
-        )
+        .where(conditions.length > 0 ? and(...conditions) : undefined)
         .orderBy(asc(stalls.name))
         .limit(limit)
         .offset(offset),
@@ -67,11 +63,7 @@ export const getStalls = protectedProcedure
       total: await context.db
         .select({ count: count() })
         .from(stalls)
-        .where(
-          conditions.length > 0
-            ? and(...conditions)
-            : undefined
-        )
+        .where(conditions.length > 0 ? and(...conditions) : undefined)
         .then(([{ count }]) => Number(count)),
     };
   });

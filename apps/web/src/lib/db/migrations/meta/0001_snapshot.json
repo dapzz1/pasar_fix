@@ -93,12 +93,8 @@
           "name": "account_user_id_user_id_fk",
           "tableFrom": "account",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -168,12 +164,8 @@
           "name": "session_user_id_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -183,9 +175,7 @@
         "session_token_unique": {
           "name": "session_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -252,9 +242,7 @@
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -393,12 +381,8 @@
           "name": "commodity_types_land_type_id_land_types_id_fk",
           "tableFrom": "commodity_types",
           "tableTo": "land_types",
-          "columnsFrom": [
-            "land_type_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["land_type_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -519,12 +503,8 @@
           "name": "product_brands_product_type_id_product_types_id_fk",
           "tableFrom": "product_brands",
           "tableTo": "product_types",
-          "columnsFrom": [
-            "product_type_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["product_type_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -591,12 +571,8 @@
           "name": "product_dosages_commodity_type_id_commodity_types_id_fk",
           "tableFrom": "product_dosages",
           "tableTo": "commodity_types",
-          "columnsFrom": [
-            "commodity_type_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["commodity_type_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -604,12 +580,8 @@
           "name": "product_dosages_product_brand_id_product_brands_id_fk",
           "tableFrom": "product_dosages",
           "tableTo": "product_brands",
-          "columnsFrom": [
-            "product_brand_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["product_brand_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -730,12 +702,8 @@
           "name": "province_commodities_province_id_provinces_id_fk",
           "tableFrom": "province_commodities",
           "tableTo": "provinces",
-          "columnsFrom": [
-            "province_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["province_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -743,12 +711,8 @@
           "name": "province_commodities_commodity_type_id_commodity_types_id_fk",
           "tableFrom": "province_commodities",
           "tableTo": "commodity_types",
-          "columnsFrom": [
-            "commodity_type_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["commodity_type_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -816,12 +780,8 @@
           "name": "province_lands_province_id_provinces_id_fk",
           "tableFrom": "province_lands",
           "tableTo": "provinces",
-          "columnsFrom": [
-            "province_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["province_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -829,12 +789,8 @@
           "name": "province_lands_land_type_id_land_types_id_fk",
           "tableFrom": "province_lands",
           "tableTo": "land_types",
-          "columnsFrom": [
-            "land_type_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["land_type_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -908,12 +864,8 @@
           "name": "province_potentials_province_id_provinces_id_fk",
           "tableFrom": "province_potentials",
           "tableTo": "provinces",
-          "columnsFrom": [
-            "province_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["province_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -921,12 +873,8 @@
           "name": "province_potentials_product_brand_id_product_brands_id_fk",
           "tableFrom": "province_potentials",
           "tableTo": "product_brands",
-          "columnsFrom": [
-            "product_brand_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["product_brand_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -995,9 +943,7 @@
         "provinces_code_unique": {
           "name": "provinces_code_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "code"
-          ]
+          "columns": ["code"]
         }
       },
       "policies": {},
@@ -1067,12 +1013,8 @@
           "name": "regencies_province_id_provinces_id_fk",
           "tableFrom": "regencies",
           "tableTo": "provinces",
-          "columnsFrom": [
-            "province_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["province_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1082,9 +1024,7 @@
         "regencies_code_unique": {
           "name": "regencies_code_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "code"
-          ]
+          "columns": ["code"]
         }
       },
       "policies": {},
@@ -1148,12 +1088,8 @@
           "name": "regency_commodities_regency_id_regencies_id_fk",
           "tableFrom": "regency_commodities",
           "tableTo": "regencies",
-          "columnsFrom": [
-            "regency_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["regency_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1161,12 +1097,8 @@
           "name": "regency_commodities_commodity_type_id_commodity_types_id_fk",
           "tableFrom": "regency_commodities",
           "tableTo": "commodity_types",
-          "columnsFrom": [
-            "commodity_type_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["commodity_type_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1234,12 +1166,8 @@
           "name": "regency_lands_regency_id_regencies_id_fk",
           "tableFrom": "regency_lands",
           "tableTo": "regencies",
-          "columnsFrom": [
-            "regency_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["regency_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1247,12 +1175,8 @@
           "name": "regency_lands_land_type_id_land_types_id_fk",
           "tableFrom": "regency_lands",
           "tableTo": "land_types",
-          "columnsFrom": [
-            "land_type_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["land_type_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1326,12 +1250,8 @@
           "name": "regency_potentials_regency_id_regencies_id_fk",
           "tableFrom": "regency_potentials",
           "tableTo": "regencies",
-          "columnsFrom": [
-            "regency_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["regency_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1339,12 +1259,8 @@
           "name": "regency_potentials_product_brand_id_product_brands_id_fk",
           "tableFrom": "regency_potentials",
           "tableTo": "product_brands",
-          "columnsFrom": [
-            "product_brand_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["product_brand_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1412,12 +1328,8 @@
           "name": "daily_sales_product_brand_id_product_brands_id_fk",
           "tableFrom": "daily_sales",
           "tableTo": "product_brands",
-          "columnsFrom": [
-            "product_brand_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["product_brand_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1527,12 +1439,8 @@
           "name": "sales_realizations_product_brand_id_product_brands_id_fk",
           "tableFrom": "sales_realizations",
           "tableTo": "product_brands",
-          "columnsFrom": [
-            "product_brand_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["product_brand_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1587,12 +1495,8 @@
           "name": "stall_product_brands_stall_id_stalls_id_fk",
           "tableFrom": "stall_product_brands",
           "tableTo": "stalls",
-          "columnsFrom": [
-            "stall_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["stall_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1600,12 +1504,8 @@
           "name": "stall_product_brands_product_brand_id_product_brands_id_fk",
           "tableFrom": "stall_product_brands",
           "tableTo": "product_brands",
-          "columnsFrom": [
-            "product_brand_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["product_brand_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1709,12 +1609,8 @@
           "name": "stalls_regency_id_regencies_id_fk",
           "tableFrom": "stalls",
           "tableTo": "regencies",
-          "columnsFrom": [
-            "regency_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["regency_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1722,12 +1618,8 @@
           "name": "stalls_province_id_provinces_id_fk",
           "tableFrom": "stalls",
           "tableTo": "provinces",
-          "columnsFrom": [
-            "province_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["province_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }

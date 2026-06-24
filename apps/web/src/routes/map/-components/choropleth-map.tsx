@@ -20,13 +20,18 @@ const ChoroplethMap: React.FC<ChoroplethMapProps> = ({
 }) => {
   const map = useMap();
   const [featureCollection, setFeatureCollection] = useState<any | null>(null);
-
+  console.log('Selected Brand:', productBrandId);
   const potentialsData = useQuery(
     orpc.admin.potential.province_potential.get.queryOptions({
       input: { productBrandId, year },
     })
   );
-  console.log('potentialsData', potentialsData);
+  console.log('Selected Brand:', productBrandId);
+
+  console.log('FULL DATA:', JSON.stringify(potentialsData.data, null, 2));
+  useEffect(() => {
+    console.log('FULL DATA', potentialsData.data);
+  }, [potentialsData.data]);
 
   // Fetch provinces list and build a map of provinceCode -> province metadata
   const provincesData = useQuery(

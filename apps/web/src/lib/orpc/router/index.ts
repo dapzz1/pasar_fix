@@ -16,32 +16,42 @@ import { createProvinceLand } from '@/routes/admin/land/province-land/-app/creat
 import { deleteProvinceLand } from '@/routes/admin/land/province-land/-app/delete-province-land';
 import { getProvinceLands } from '@/routes/admin/land/province-land/-app/get-province-lands';
 import { updateProvinceLand } from '@/routes/admin/land/province-land/-app/update-province-land';
+import { getRegencyLands } from '@/routes/admin/land/regency-land/-app/get-regency-lands';
 import { getProvincePotentials } from '@/routes/admin/potential/province_potential/-app/get-province-potentials';
 import { createProductType } from '@/routes/admin/product/-app/create-product-type';
 import { deleteProductType } from '@/routes/admin/product/-app/delete-product-type';
 import { getProductTypes } from '@/routes/admin/product/-app/get-product-types';
 import { updateProductType } from '@/routes/admin/product/-app/update-product-type';
-
 import { createProductBrand } from '@/routes/admin/product/product-brand/-app/create-product-brand';
 import { deleteProductBrand } from '@/routes/admin/product/product-brand/-app/delete-product-brand';
 import { getProductBrands } from '@/routes/admin/product/product-brand/-app/get-product-brands';
 import { updateProductBrand } from '@/routes/admin/product/product-brand/-app/update-product-brand';
-
 import { createProductDosage } from '@/routes/admin/product/product-dosage/-app/create-product-dosage';
 import { deleteProductDosage } from '@/routes/admin/product/product-dosage/-app/delete-product-dosage';
 import { getProductDosages } from '@/routes/admin/product/product-dosage/-app/get-product-dosages';
 import { updateProductDosage } from '@/routes/admin/product/product-dosage/-app/update-product-dosage';
-
 import { createProvince } from '@/routes/admin/region/province/-app/create-province';
 import { deleteProvince } from '@/routes/admin/region/province/-app/delete-province';
 import { getProvinces } from '@/routes/admin/region/province/-app/get-provinces';
 import { updateProvince } from '@/routes/admin/region/province/-app/update-province';
-
 import { createRegency } from '@/routes/admin/region/regency/-app/create-regency';
 import { deleteRegency } from '@/routes/admin/region/regency/-app/delete-regency';
 import { getRegencies } from '@/routes/admin/region/regency/-app/get-regencies';
 import { updateRegency } from '@/routes/admin/region/regency/-app/update-regency';
-
+import { createSalesRealization } from '@/routes/admin/sale/-app/create-sales-realization';
+import { deleteSalesRealization } from '@/routes/admin/sale/-app/delete-sales-realization';
+import { getSalesRealizations } from '@/routes/admin/sale/-app/get-sales-realizations';
+import { updateSalesRealization } from '@/routes/admin/sale/-app/update-sales-realization';
+import { createDailySales } from '@/routes/admin/sale/sale-daily/-app/create-daily-sales';
+import { deleteDailySales } from '@/routes/admin/sale/sale-daily/-app/delete-daily-sales';
+import { getDailySales } from '@/routes/admin/sale/sale-daily/-app/get-daily-sales';
+import { updateDailySales } from '@/routes/admin/sale/sale-daily/-app/update-daily-sales';
+import { assignProductBrand } from '@/routes/admin/stall/-app/assign-product-brand';
+import { createStall } from '@/routes/admin/stall/-app/create-stall';
+import { deleteStall } from '@/routes/admin/stall/-app/delete-stall';
+import { getStallProductBrands } from '@/routes/admin/stall/-app/get-stall-product-brand';
+import { getStalls } from '@/routes/admin/stall/-app/get-stalls';
+import { updateStall } from '@/routes/admin/stall/-app/update-stall';
 import { deleteUser } from '@/routes/admin/user/-app/delete-user';
 import { getUserById } from '@/routes/admin/user/-app/get-user-by-id';
 import { getUsers } from '@/routes/admin/user/-app/get-users';
@@ -51,25 +61,6 @@ import { createTodo } from '@/routes/todos/-app/create-todo';
 import { deleteTodo } from '@/routes/todos/-app/delete-todo';
 import { getTodos } from '@/routes/todos/-app/get-todos';
 import { toggleTodo } from '@/routes/todos/-app/toggle-todo';
-import { getRegencyLands } from '@/routes/admin/land/regency-land/-app/get-regency-lands';
-
-import { getSalesRealizations } from '@/routes/admin/sale/-app/get-sales-realizations';
-import { createSalesRealization } from '@/routes/admin/sale/-app/create-sales-realization';
-import { updateSalesRealization } from '@/routes/admin/sale/-app/update-sales-realization';
-import { deleteSalesRealization } from '@/routes/admin/sale/-app/delete-sales-realization';
-
-import { getDailySales } from '@/routes/admin/sale/sale-daily/-app/get-daily-sales';
-import { createDailySales } from '@/routes/admin/sale/sale-daily/-app/create-daily-sales';
-import { deleteDailySales } from '@/routes/admin/sale/sale-daily/-app/delete-daily-sales';
-import { updateDailySales } from '@/routes/admin/sale/sale-daily/-app/update-daily-sales';
-
-import { getStalls } from '@/routes/admin/stall/-app/get-stalls';
-import { createStall } from '@/routes/admin/stall/-app/create-stall';
-import { updateStall } from '@/routes/admin/stall/-app/update-stall';
-import { deleteStall } from '@/routes/admin/stall/-app/delete-stall';
-
-import { getStallProductBrands } from '@/routes/admin/stall/-app/get-stall-product-brand';
-import { assignProductBrand } from '@/routes/admin/stall/-app/assign-product-brand';
 /**
 
  * Main oRPC Router
@@ -233,8 +224,6 @@ export default {
         create: createDailySales,
         delete: deleteDailySales,
         update: updateDailySales,
-
-    
       },
     },
 
@@ -247,11 +236,9 @@ export default {
 
       stall_product_brand: {
         get: getStallProductBrands,
-          get_product_brands:
-            getProductBrands,
+        get_product_brands: getProductBrands,
 
-              assign:
-                assignProductBrand,
+        assign: assignProductBrand,
       },
     },
 

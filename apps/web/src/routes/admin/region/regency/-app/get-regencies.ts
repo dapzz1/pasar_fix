@@ -9,8 +9,7 @@ export const getRegencies = protectedProcedure
       page: z.number().optional(),
       limit: z.number().optional(),
       search: z.string().optional(),
-        provinceId:
-        z.string().uuid().optional(),
+      provinceId: z.string().uuid().optional(),
     })
   )
   .handler(async ({ input, context }) => {

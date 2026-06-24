@@ -1,10 +1,5 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
 
 import { toast } from 'sonner';
 
@@ -23,20 +18,17 @@ import {
 import { orpc } from '@/lib/orpc/client';
 
 export function CreateDailySalesForm({
-    onSuccess,
-  }: {
-    onSuccess?: () => void;
-  }) {
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+}) {
   const queryClient = useQueryClient();
 
-  const { data: productBrands } =
-    useQuery(
-      orpc.admin.product.product_brand.get.queryOptions(
-        {
-          input: {},
-        }
-      )
-    );
+  const { data: productBrands } = useQuery(
+    orpc.admin.product.product_brand.get.queryOptions({
+      input: {},
+    })
+  );
 
   const [form, setForm] = useState({
     date: '',
@@ -56,135 +48,123 @@ export function CreateDailySalesForm({
     notes: '',
   });
 
-  const createMutation =
-    useMutation(
-      orpc.admin.sale.daily_sales.create.mutationOptions(
-        {
-          onSuccess: async () => {
-            await queryClient.invalidateQueries();
+  const createMutation = useMutation(
+    orpc.admin.sale.daily_sales.create.mutationOptions({
+      onSuccess: async () => {
+        await queryClient.invalidateQueries();
 
-            toast.success(
-              'Daily sales created!'
-            );
-            onSuccess?.();
-          },
+        toast.success('Daily sales created!');
+        onSuccess?.();
+      },
 
-          onError: () => {
-            toast.error(
-              'Failed to create daily sales'
-            );
-          },
-        }
-      )
-    );
+      onError: () => {
+        toast.error('Failed to create daily sales');
+      },
+    })
+  );
 
   return (
     <div className="space-y-4">
       <Input
-        type="date"
-        value={form.date}
         onChange={(e) =>
           setForm({
             ...form,
             date: e.target.value,
           })
         }
+        type="date"
+        value={form.date}
       />
 
       <Select
-        value={form.productBrandId}
         onValueChange={(value) =>
           setForm({
             ...form,
             productBrandId: value,
           })
         }
+        value={form.productBrandId}
       >
         <SelectTrigger>
           <SelectValue placeholder="Select Product Brand" />
         </SelectTrigger>
 
         <SelectContent>
-          {productBrands?.data?.map(
-            (brand: any) => (
-              <SelectItem
-                key={brand.id}
-                value={brand.id}
-              >
-                {brand.name}
-              </SelectItem>
-            )
-          )}
+          {productBrands?.data?.map((brand: any) => (
+            <SelectItem key={brand.id} value={brand.id}>
+              {brand.name}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
 
       <Input
-        placeholder="Month"
-        value={form.month}
         onChange={(e) =>
           setForm({
             ...form,
             month: e.target.value,
           })
         }
+        placeholder="Month"
+        value={form.month}
       />
 
       <Input
-        placeholder="Year"
-        value={form.year}
         onChange={(e) =>
           setForm({
             ...form,
             year: e.target.value,
           })
         }
+        placeholder="Year"
+        value={form.year}
       />
 
       <Input
-        placeholder="Qty"
-        type="number"
-        value={form.qty}
         onChange={(e) =>
           setForm({
             ...form,
             qty: e.target.value,
           })
         }
+        placeholder="Qty"
+        type="number"
+        value={form.qty}
       />
 
       <Input
-        placeholder="Revenue"
-        type="number"
-        value={form.revenue}
         onChange={(e) =>
           setForm({
             ...form,
             revenue: e.target.value,
           })
         }
+        placeholder="Revenue"
+        type="number"
+        value={form.revenue}
       />
 
       <Input
-        placeholder="Target"
-        type="number"
-        value={form.target}
         onChange={(e) =>
           setForm({
             ...form,
             target: e.target.value,
           })
         }
+        placeholder="Target"
+        type="number"
+        value={form.target}
       />
 
       <Input
-        placeholder="Notes"
-        value={form.notes}
         onChange={(e) =>
           setForm({
             ...form,
             notes: e.target.value,
           })
         }
+        placeholder="Notes"
+        value={form.notes}
       />
 
       <Button
@@ -196,19 +176,13 @@ export function CreateDailySalesForm({
 
             qty: Number(form.qty || 0),
 
-            revenue: Number(
-              form.revenue || 0
-            ),
+            revenue: Number(form.revenue || 0),
 
-            target: Number(
-              form.target || 0
-            ),
+            target: Number(form.target || 0),
           })
         }
       >
-        {createMutation.isPending
-          ? 'Creating...'
-          : 'Create Daily Sales'}
+        {createMutation.isPending ? 'Creating...' : 'Create Daily Sales'}
       </Button>
     </div>
   );

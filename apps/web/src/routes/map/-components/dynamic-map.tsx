@@ -4,7 +4,6 @@ import { GeoJSON, MapContainer, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Trans, useLingui } from '@lingui/react/macro';
 import L from 'leaflet';
-import { Button } from '@/components/ui/button';
 import {
   loadProvinceGeoJSON,
   loadRegencyGeoJSON,
@@ -37,7 +36,6 @@ interface DynamicMapProps {
   onMapViewChange?: (viewState: MapViewState) => void;
 }
 
-// Component to handle map view changes
 const MapViewHandler: React.FC<{
   onMapViewChange?: (viewState: MapViewState) => void;
 }> = ({ onMapViewChange }) => {
@@ -48,12 +46,8 @@ const MapViewHandler: React.FC<{
       const handleMoveEnd = () => {
         const center = map.getCenter();
         const zoom = map.getZoom();
-        onMapViewChange({
-          center: [center.lat, center.lng],
-          zoom,
-        });
+        onMapViewChange({ center: [center.lat, center.lng], zoom });
       };
-
       map.on('moveend', handleMoveEnd);
       return () => {
         map.off('moveend', handleMoveEnd);
@@ -64,7 +58,6 @@ const MapViewHandler: React.FC<{
   return null;
 };
 
-// Component to handle the display of administrative boundaries
 const BoundaryDisplay: React.FC<{
   administrativeLevel: AdministrativeLevel;
   administrativeBoundaryCode?: string;
@@ -98,11 +91,10 @@ const BoundaryDisplay: React.FC<{
       } else if (administrativeLevel === 'national') {
         try {
           const response = await fetch('/data/indonesia-boundary.geojson');
-          if (!response.ok) {
+          if (!response.ok)
             throw new Error(
               `Failed to load national boundaries: ${response.statusText}`
             );
-          }
           const boundaries = await response.json();
           setBoundaryData(boundaries);
         } catch (error) {
@@ -110,7 +102,6 @@ const BoundaryDisplay: React.FC<{
         }
       }
     };
-
     loadBoundary();
   }, [administrativeLevel, administrativeBoundaryCode]);
 
@@ -119,7 +110,6 @@ const BoundaryDisplay: React.FC<{
       try {
         const geoJsonLayer = L.geoJSON(boundaryData);
         const bounds = geoJsonLayer.getBounds();
-
         if (bounds.isValid()) {
           map.fitBounds(bounds, { animate: true, maxZoom: 12 });
         } else {
@@ -131,17 +121,15 @@ const BoundaryDisplay: React.FC<{
     }
   }, [boundaryData, map]);
 
-  if (!boundaryData) {
-    return null;
-  }
+  if (!boundaryData) return null;
 
   const boundaryStyle: L.PathOptions = {
-    fillColor: '#3182ce',
+    fillColor: '#0d9488',
     weight: 2,
     opacity: 1,
-    color: '#2c5282',
+    color: '#065f46',
     dashArray: '3',
-    fillOpacity: 0.2,
+    fillOpacity: 0.15,
   };
 
   return <GeoJSON data={boundaryData} style={boundaryStyle} />;
@@ -160,6 +148,7 @@ export default function DynamicMap({
   const [showStallMarkers, setShowStallMarkers] = useState<boolean>(false);
   const [showChoropleth, setShowChoropleth] = useState<boolean>(false);
   const [choroplethLoading, setChoroplethLoading] = useState<boolean>(false);
+
   const center: [number, number] = [-0.7893, 113.9213];
   const zoom =
     administrativeLevel === 'national'
@@ -174,64 +163,114 @@ export default function DynamicMap({
   }
 
   return (
-    <MapContainer
-      center={center}
-      data-testid="dynamic-map"
-      style={{ height: '100%', width: '100%' }}
-      zoom={zoom}
-    >
+    <div style={{ position: 'relative', height: '100%', width: '100%' }}>
+      {/* Floating map title + controls */}
       <div
         style={{
           position: 'absolute',
-          top: 10,
-          right: 10,
+          top: 12,
+          left: 12,
+          right: 12,
           zIndex: 1000,
-          pointerEvents: 'auto',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          pointerEvents: 'none',
         }}
       >
+        {/* Title pill */}
         <div
           style={{
             display: 'flex',
-            gap: 8,
             alignItems: 'center',
-            flexWrap: 'wrap',
+            gap: 8,
+            background: 'rgba(2, 44, 34, 0.88)',
+            border: '0.5px solid rgba(94, 234, 212, 0.25)',
+            borderRadius: 8,
+            padding: '7px 14px',
+            backdropFilter: 'blur(8px)',
+            pointerEvents: 'auto',
           }}
         >
-          <Button
+          <svg
+            fill="none"
+            height="16"
+            stroke="#5eead4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            width="16"
+          >
+            <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" />
+            <line x1="9" x2="9" y1="3" y2="18" />
+            <line x1="15" x2="15" y1="6" y2="21" />
+          </svg>
+          <span style={{ fontSize: 13, fontWeight: 500, color: '#fff' }}>
+            Marketing Map
+          </span>
+        </div>
+
+        {/* Map control buttons (unchanged per request) */}
+        <div style={{ display: 'flex', gap: 6, pointerEvents: 'auto' }}>
+          <button
             aria-pressed={showStallMarkers}
             onClick={() => setShowStallMarkers((v) => !v)}
-            size="sm"
-            variant="outline"
+            style={{
+              background: showStallMarkers
+                ? '#022c22'
+                : 'rgba(255,255,255,0.93)',
+              border: showStallMarkers
+                ? '1px solid #0d9488'
+                : '0.5px solid rgba(0,0,0,0.15)',
+              borderRadius: 7,
+              padding: '6px 14px',
+              fontSize: 12,
+              fontWeight: 500,
+              color: showStallMarkers ? '#5eead4' : '#1e293b',
+              cursor: 'pointer',
+            }}
           >
             {showStallMarkers ? t`Hide Kios` : t`Show Kios`}
-          </Button>
-          <Button
-            aria-pressed={!showChoropleth}
+          </button>
+          <button
+            aria-pressed={showChoropleth}
             onClick={() => setShowChoropleth((v) => !v)}
-            size="sm"
-            variant="outline"
+            style={{
+              background: showChoropleth ? '#022c22' : 'rgba(255,255,255,0.93)',
+              border: showChoropleth
+                ? '1px solid #0d9488'
+                : '0.5px solid rgba(0,0,0,0.15)',
+              borderRadius: 7,
+              padding: '6px 14px',
+              fontSize: 12,
+              fontWeight: 500,
+              color: showChoropleth ? '#5eead4' : '#1e293b',
+              cursor: 'pointer',
+            }}
           >
             {showChoropleth ? t`Hide Potential` : t`Show Potential`}
-          </Button>
+          </button>
+
           {choroplethLoading && (
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: 8,
-                background: 'rgba(255,255,255,0.9)',
-                padding: '6px 8px',
-                borderRadius: 6,
-                boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+                background: 'rgba(255,255,255,0.93)',
+                padding: '6px 10px',
+                borderRadius: 7,
+                border: '0.5px solid rgba(0,0,0,0.1)',
               }}
             >
-              <svg aria-hidden height="18" viewBox="0 0 50 50" width="18">
+              <svg aria-hidden height="16" viewBox="0 0 50 50" width="16">
                 <circle
                   cx="25"
                   cy="25"
                   fill="none"
                   r="20"
-                  stroke="#0ea5a4"
+                  stroke="#0d9488"
                   strokeDasharray="31.4 31.4"
                   strokeLinecap="round"
                   strokeWidth="4"
@@ -246,34 +285,42 @@ export default function DynamicMap({
                   />
                 </circle>
               </svg>
-              <div style={{ fontSize: 12, color: '#333' }}>
+              <span style={{ fontSize: 12, color: '#475569' }}>
                 <Trans>Loading...</Trans>
-              </div>
+              </span>
             </div>
           )}
         </div>
       </div>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <BoundaryDisplay
-        administrativeBoundaryCode={administrativeCode}
-        administrativeLevel={administrativeLevel}
-      />
-      {showChoropleth && (
-        <ChoroplethMap
-          commodityTypeId={selectedCommodityType}
-          landTypeId={selectedLandType}
-          onLoadingChange={setChoroplethLoading}
-          productBrandId={selectedProductBrand}
-          year={year}
+
+      <MapContainer
+        center={center}
+        data-testid="dynamic-map"
+        style={{ height: '100%', width: '100%' }}
+        zoom={zoom}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-      )}
-      {showStallMarkers && (
-        <StallMarkers filters={filters} showStallMarkers={showStallMarkers} />
-      )}
-      <MapViewHandler onMapViewChange={onMapViewChange} />
-    </MapContainer>
+        <BoundaryDisplay
+          administrativeBoundaryCode={administrativeCode}
+          administrativeLevel={administrativeLevel}
+        />
+        {showChoropleth && (
+          <ChoroplethMap
+            commodityTypeId={selectedCommodityType}
+            landTypeId={selectedLandType}
+            onLoadingChange={setChoroplethLoading}
+            productBrandId={selectedProductBrand}
+            year={year}
+          />
+        )}
+        {showStallMarkers && (
+          <StallMarkers filters={filters} showStallMarkers={showStallMarkers} />
+        )}
+        <MapViewHandler onMapViewChange={onMapViewChange} />
+      </MapContainer>
+    </div>
   );
 }

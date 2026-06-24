@@ -45,18 +45,14 @@ export const createSalesRealization = protectedProcedure
 
       return createdSalesRealization;
     } catch (err) {
-      const msg =
-        err instanceof Error
-          ? err.message
-          : String(err);
+      const msg = err instanceof Error ? err.message : String(err);
 
       if (
         msg.toLowerCase().includes('unique') ||
         msg.toLowerCase().includes('duplicate')
       ) {
         throw new ORPCError('CONFLICT', {
-          message:
-            'Sales realization already exists',
+          message: 'Sales realization already exists',
         });
       }
 

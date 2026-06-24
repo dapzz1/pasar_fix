@@ -17,14 +17,12 @@ import { orpc } from '@/lib/orpc/client';
 export const Route = createFileRoute('/admin/land/regency-land/')({
   component: RouteComponent,
 
-  validateSearch: z
-    .object({
-      q: z.string().optional(),
-      create: z.string().optional(),
-      edit: z.string().optional(),
-      delete: z.string().optional(),
-    })
-    .parse,
+  validateSearch: z.object({
+    q: z.string().optional(),
+    create: z.string().optional(),
+    edit: z.string().optional(),
+    delete: z.string().optional(),
+  }).parse,
 });
 
 function RouteComponent() {
@@ -33,9 +31,7 @@ function RouteComponent() {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  const updateUrlParams = (
-    params: Record<string, string | undefined>
-  ) => {
+  const updateUrlParams = (params: Record<string, string | undefined>) => {
     navigate({
       to: '.',
       search: (prev) => ({
@@ -60,25 +56,17 @@ function RouteComponent() {
       const keyword = searchTerm.toLowerCase();
 
       return (
-        item.regencyName
-          .toLowerCase()
-          .includes(keyword) ||
-        item.landTypeName
-          .toLowerCase()
-          .includes(keyword)
+        item.regencyName.toLowerCase().includes(keyword) ||
+        item.landTypeName.toLowerCase().includes(keyword)
       );
     }) || [];
 
   return (
     <div className="container mx-auto space-y-8 px-4 py-8">
       <div className="text-left">
-        <h1 className="text-3xl font-bold">
-          Manage Regency Land
-        </h1>
+        <h1 className="font-bold text-3xl">Manage Regency Land</h1>
 
-        <p className="text-slate-600">
-          Create and manage regency land data
-        </p>
+        <p className="text-slate-600">Create and manage regency land data</p>
       </div>
 
       <Card>
@@ -86,18 +74,13 @@ function RouteComponent() {
           <div>
             <CardTitle>Regency Land List</CardTitle>
 
-            <CardDescription>
-              Manage regency land mapping data
-            </CardDescription>
+            <CardDescription>Manage regency land mapping data</CardDescription>
           </div>
 
           <div className="flex w-full flex-wrap gap-2 sm:w-auto">
             <div className="relative min-w-[150px] flex-1">
               <input
-                className="w-full rounded-lg border py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                type="text"
-                placeholder="Search regency land..."
-                value={searchTerm}
+                className="w-full rounded-lg border py-2 pr-4 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
 
@@ -105,6 +88,9 @@ function RouteComponent() {
                     q: e.target.value || undefined,
                   });
                 }}
+                placeholder="Search regency land..."
+                type="text"
+                value={searchTerm}
               />
 
               <Search className="absolute top-2.5 left-3 h-4 w-4" />
@@ -131,45 +117,26 @@ function RouteComponent() {
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="border-b bg-muted/50">
-                      <th className="p-3 text-left">
-                        Regency
-                      </th>
+                      <th className="p-3 text-left">Regency</th>
 
-                      <th className="p-3 text-left">
-                        Land Type
-                      </th>
+                      <th className="p-3 text-left">Land Type</th>
 
-                      <th className="p-3 text-left">
-                        Area
-                      </th>
+                      <th className="p-3 text-left">Area</th>
 
-                      <th className="p-3 text-left">
-                        Year
-                      </th>
+                      <th className="p-3 text-left">Year</th>
                     </tr>
                   </thead>
 
                   <tbody>
                     {regencyLandsList.map((item) => (
-                      <tr
-                        key={item.id}
-                        className="border-b hover:bg-muted/30"
-                      >
-                        <td className="p-3">
-                          {item.regencyName}
-                        </td>
+                      <tr className="border-b hover:bg-muted/30" key={item.id}>
+                        <td className="p-3">{item.regencyName}</td>
 
-                        <td className="p-3">
-                          {item.landTypeName}
-                        </td>
+                        <td className="p-3">{item.landTypeName}</td>
 
-                        <td className="p-3">
-                          {item.area}
-                        </td>
+                        <td className="p-3">{item.area}</td>
 
-                        <td className="p-3">
-                          {item.year}
-                        </td>
+                        <td className="p-3">{item.year}</td>
                       </tr>
                     ))}
                   </tbody>
