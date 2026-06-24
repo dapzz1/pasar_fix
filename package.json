@@ -15,6 +15,7 @@
     "db:watch": "turbo db:watch",
     "db:stop": "turbo db:stop",
     "db:down": "turbo db:down",
+    "screenshots": "playwright test scripts/capture-report-screenshots.ts",
     "clean": "turbo clean && rm -rf node_modules"
   },
   "workspaces": [
@@ -23,6 +24,8 @@
   ],
   "devDependencies": {
     "@biomejs/biome": "2.1.2",
+    "@mermaid-js/mermaid-cli": "^11.15.0",
+    "@playwright/test": "^1.61.1",
     "@types/file-saver": "^2.0.7",
     "lefthook": "^1.12.3",
     "turbo": "^2.5.4",
@@ -30,6 +33,7 @@
   },
   "packageManager": "bun@1.2.15",
   "dependencies": {
+    "drizzle-orm": "^0.44.4",
     "file-saver": "^2.0.5",
     "pg": "^8.20.0",
     "sonner": "^2.0.7",

@@ -15,6 +15,7 @@ export const getProvinceCommodities = protectedProcedure
       search: z.string().optional(),
       provinceId: z.string().optional(),
       commodityTypeId: z.string().optional(),
+      year: z.string().optional(),
     })
   )
   .handler(async ({ input, context }) => {
@@ -48,6 +49,9 @@ export const getProvinceCommodities = protectedProcedure
       conditions.push(
         eq(provinceCommodities.commodityTypeId, input.commodityTypeId)
       );
+    }
+    if (input.year) {
+      conditions.push(eq(provinceCommodities.year, input.year));
     }
     if (input.search) {
       conditions.push(

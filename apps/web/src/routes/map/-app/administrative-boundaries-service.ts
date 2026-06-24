@@ -30,30 +30,28 @@ export class AdministrativeBoundariesService {
     }
   }
 
-  private async getNationalBoundaries(): Promise<AdministrativeBoundary[]> {
+  private getNationalBoundaries(): Promise<AdministrativeBoundary[]> {
     // Return Indonesia as a single national boundary
-    return [
+    return Promise.resolve([
       {
         id: 'd56c1151-c54b-45c7-ab14-1162ca281d7a',
         name: 'Indonesia',
         level: 'national',
         code: 'ID',
       },
-    ];
+    ]);
   }
 
   private async getProvinceBoundaries(): Promise<AdministrativeBoundary[]> {
     try {
-      const res = await orpc.admin.region.province.get.call({});
-      const provinces = res?.data ?? res;
-      return (provinces || []).map((province: any) => ({
+      const provinces = await orpc.map.getProvinces.call();
+      return provinces.map((province) => ({
         id: province.id,
         name: province.name,
         level: 'province' as const,
         code: province.code || province.id,
       }));
-    } catch (err) {
-      console.error('Error fetching province boundaries from oRPC:', err);
+    } catch {
       return [];
     }
   }
@@ -62,14 +60,13 @@ export class AdministrativeBoundariesService {
     try {
       const res = await orpc.admin.region.regency.get.call({});
       const regencies = res?.data ?? res;
-      return (regencies || []).map((regency: any) => ({
+      return (regencies || []).map((regency) => ({
         id: regency.id,
         name: regency.name,
         level: 'regency' as const,
         code: regency.code || regency.id,
       }));
-    } catch (error) {
-      console.error('Error fetching regency boundaries from oRPC:', error);
+    } catch {
       // Return an empty array if oRPC call fails
       return [];
     }
@@ -84,17 +81,13 @@ export class AdministrativeBoundariesService {
     try {
       const res = await orpc.admin.region.regency.get.call({ provinceId });
       const regencies = res?.data ?? res;
-      return (regencies || []).map((regency: any) => ({
+      return (regencies || []).map((regency) => ({
         id: regency.id,
         name: regency.name,
         level: 'regency' as const,
         code: regency.code || regency.id,
       }));
-    } catch (error) {
-      console.error(
-        'Error fetching regency boundaries by province from oRPC:',
-        error
-      );
+    } catch {
       return [];
     }
   }

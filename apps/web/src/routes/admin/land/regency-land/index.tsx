@@ -1,9 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { Search } from 'lucide-react';
+import { Edit, Plus, Search, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import z from 'zod';
 
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -13,6 +15,10 @@ import {
 } from '@/components/ui/card';
 
 import { orpc } from '@/lib/orpc/client';
+import {
+  RegencyLandForm,
+  type RegencyLandItem,
+} from './-components/regency-land-form';
 
 export const Route = createFileRoute('/admin/land/regency-land/')({
   component: RouteComponent,
@@ -26,10 +32,24 @@ export const Route = createFileRoute('/admin/land/regency-land/')({
 });
 
 function RouteComponent() {
+  const queryClient = useQueryClient();
   const navigate = Route.useNavigate();
   const search = Route.useSearch();
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [formOpen, setFormOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<RegencyLandItem | null>(null);
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) =>
+      orpc.admin.land.regency_land.delete.call({ id }),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: orpc.admin.land.regency_land.get.queryKey({ input: {} }),
+      });
+      toast.success('Regency land deleted');
+    },
+    onError: (error) => toast.error(error.message),
+  });
 
   const updateUrlParams = (params: Record<string, string | undefined>) => {
     navigate({
@@ -78,6 +98,16 @@ function RouteComponent() {
           </div>
 
           <div className="flex w-full flex-wrap gap-2 sm:w-auto">
+            <Button
+              onClick={() => {
+                setEditingItem(null);
+                setFormOpen(true);
+              }}
+              type="button"
+            >
+              <Plus className="mr-2 size-4" />
+              Add
+            </Button>
             <div className="relative min-w-[150px] flex-1">
               <input
                 className="w-full rounded-lg border py-2 pr-4 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -124,6 +154,7 @@ function RouteComponent() {
                       <th className="p-3 text-left">Area</th>
 
                       <th className="p-3 text-left">Year</th>
+                      <th className="p-3 text-right">Actions</th>
                     </tr>
                   </thead>
 
@@ -137,6 +168,33 @@ function RouteComponent() {
                         <td className="p-3">{item.area}</td>
 
                         <td className="p-3">{item.year}</td>
+                        <td className="p-3">
+                          <div className="flex justify-end gap-2">
+                            <Button
+                              onClick={() => {
+                                setEditingItem(item);
+                                setFormOpen(true);
+                              }}
+                              size="icon"
+                              type="button"
+                              variant="outline"
+                            >
+                              <Edit className="size-4" />
+                            </Button>
+                            <Button
+                              onClick={() => {
+                                if (confirm('Delete this regency land?')) {
+                                  deleteMutation.mutate(item.id);
+                                }
+                              }}
+                              size="icon"
+                              type="button"
+                              variant="destructive"
+                            >
+                              <Trash2 className="size-4" />
+                            </Button>
+                          </div>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -146,6 +204,11 @@ function RouteComponent() {
           })()}
         </CardContent>
       </Card>
+      <RegencyLandForm
+        item={editingItem}
+        onOpenChange={setFormOpen}
+        open={formOpen}
+      />
     </div>
   );
 }

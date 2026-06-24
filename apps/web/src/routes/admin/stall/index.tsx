@@ -77,13 +77,6 @@ function RouteComponent() {
 
   const stallsList = stalls?.data || [];
 
-  const totalProvince = new Set(
-    stallsList.map((item: any) => item.provinceName)
-  ).size;
-
-  const totalRegency = new Set(stallsList.map((item: any) => item.regencyName))
-    .size;
-
   const exportToExcel = async () => {
     const XLSX = await import('xlsx');
 
@@ -140,7 +133,7 @@ function RouteComponent() {
           <CardContent className="p-6">
             <p className="text-muted-foreground text-sm">Total Stalls</p>
 
-            <h2 className="mt-2 font-bold text-3xl">{stallsList.length}</h2>
+            <h2 className="mt-2 font-bold text-3xl">{stalls?.total ?? 0}</h2>
           </CardContent>
         </Card>
 
@@ -148,7 +141,9 @@ function RouteComponent() {
           <CardContent className="p-6">
             <p className="text-muted-foreground text-sm">Total Provinces</p>
 
-            <h2 className="mt-2 font-bold text-3xl">{totalProvince}</h2>
+            <h2 className="mt-2 font-bold text-3xl">
+              {stalls?.totalProvinces ?? 0}
+            </h2>
           </CardContent>
         </Card>
 
@@ -156,7 +151,9 @@ function RouteComponent() {
           <CardContent className="p-6">
             <p className="text-muted-foreground text-sm">Total Regencies</p>
 
-            <h2 className="mt-2 font-bold text-3xl">{totalRegency}</h2>
+            <h2 className="mt-2 font-bold text-3xl">
+              {stalls?.totalRegencies ?? 0}
+            </h2>
           </CardContent>
         </Card>
       </div>
@@ -308,7 +305,7 @@ function RouteComponent() {
                 <p className="text-muted-foreground text-sm">Page {page}</p>
 
                 <Button
-                  disabled={stallsList.length < limit}
+                  disabled={page * limit >= (stalls?.total ?? 0)}
                   onClick={() => setPage((prev) => prev + 1)}
                   variant="outline"
                 >

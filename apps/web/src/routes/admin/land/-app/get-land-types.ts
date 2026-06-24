@@ -14,6 +14,7 @@ export const getLandTypes = protectedProcedure
       .select({
         id: landTypes.id,
         name: landTypes.name,
+        year: landTypes.year,
       })
       .from(landTypes);
 

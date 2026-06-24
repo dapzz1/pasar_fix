@@ -1,0 +1,110 @@
+﻿erDiagram
+    user ||--o{ session : "memiliki"
+    user ||--o{ account : "memiliki"
+    provinces ||--o{ regencies : "memiliki"
+    provinces ||--o{ province_lands : "memiliki"
+    provinces ||--o{ province_commodities : "memiliki"
+    provinces ||--o{ province_potentials : "memiliki"
+    provinces ||--o{ stalls : "memiliki"
+    regencies ||--o{ regency_lands : "memiliki"
+    regencies ||--o{ regency_commodities : "memiliki"
+    regencies ||--o{ regency_potentials : "memiliki"
+    regencies ||--o{ stalls : "memiliki"
+    land_types ||--o{ province_lands : "memiliki"
+    land_types ||--o{ regency_lands : "memiliki"
+    land_types ||--o{ commodity_types : "memiliki"
+    commodity_types ||--o{ province_commodities : "memiliki"
+    commodity_types ||--o{ regency_commodities : "memiliki"
+    commodity_types ||--o{ product_dosages : "memiliki"
+    product_types ||--o{ product_brands : "memiliki"
+    product_brands ||--o{ product_dosages : "memiliki"
+    product_brands ||--o{ province_potentials : "memiliki"
+    product_brands ||--o{ regency_potentials : "memiliki"
+    product_brands ||--o{ sales_realizations : "memiliki"
+    product_brands ||--o{ daily_sales : "memiliki"
+    product_brands ||--o{ stall_product_brands : "memiliki"
+    stalls ||--o{ stall_product_brands : "memiliki"
+
+    user {
+        string id PK
+        string name
+        string email
+        string role "admin|viewer|guest"
+    }
+    session {
+        string id PK
+        string user_id FK
+        string token
+        datetime expires
+    }
+    account {
+        string id PK
+        string user_id FK
+        string provider
+    }
+    provinces {
+        string id PK
+        string code
+        string name
+        float area
+        int year
+    }
+    regencies {
+        string id PK
+        string province_id FK
+        string code
+        string name
+        float area
+        int year
+    }
+    land_types {
+        string id PK
+        string name
+        int year
+    }
+    province_lands {
+        string id PK
+        string province_id FK
+        string land_type_id FK
+        float area
+        int year
+    }
+    commodity_types {
+        string id PK
+        string land_type_id FK
+        string name
+        int year
+    }
+    product_brands {
+        string id PK
+        string product_type_id FK
+        string name
+        string industry
+    }
+    stalls {
+        string id PK
+        string province_id FK
+        string regency_id FK
+        string name
+        float latitude
+        float longitude
+    }
+    daily_sales {
+        string id PK
+        string product_brand_id FK
+        string province_id "belum FK"
+        int quantity
+        float revenue
+    }
+    sales_realizations {
+        string id PK
+        string product_brand_id FK
+        date report_date
+        float realization_ytd "schema"
+        float realizaton_ytd "migration typo"
+    }
+    stall_product_brands {
+        string id PK
+        string stall_id FK
+        string product_brand_id FK
+    }

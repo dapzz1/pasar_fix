@@ -35,6 +35,7 @@ function AdminDashboard() {
   const summaryQuery = useQuery(
     orpc.admin.dashboard.getSummary.queryOptions({ input: undefined })
   );
+  const healthQuery = useQuery(orpc.healthCheck.queryOptions());
   const summary = summaryQuery.data;
   const provinceCoverage =
     summary && summary.provinces > 0
@@ -104,9 +105,14 @@ function AdminDashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-bold text-3xl tracking-tight">
-          <Trans>Dashboard</Trans>
-        </h1>
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="font-bold text-3xl tracking-tight">
+            <Trans>Dashboard</Trans>
+          </h1>
+          <span className="rounded-full bg-emerald-100 px-2 py-1 text-emerald-800 text-xs">
+            API {healthQuery.data === 'OK' ? 'online' : 'checking'}
+          </span>
+        </div>
         <p className="text-muted-foreground text-sm">
           {t`Welcome back, ${user?.name ?? 'Admin'}`}{' '}
           <Trans>Here's an overview of marketing map data.</Trans>

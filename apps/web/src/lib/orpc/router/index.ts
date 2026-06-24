@@ -4,7 +4,10 @@ import { createCommodityType } from '@/routes/admin/commodity/-app/create-commod
 import { deleteCommodityType } from '@/routes/admin/commodity/-app/delete-commodity-type';
 import { getCommodityTypes } from '@/routes/admin/commodity/-app/get-commodity-types';
 import { updateCommodityType } from '@/routes/admin/commodity/-app/update-commodity-type';
+import { createProvinceCommodity } from '@/routes/admin/commodity/province-commodity/-app/create-province-commodity';
+import { deleteProvinceCommodity } from '@/routes/admin/commodity/province-commodity/-app/delete-province-commodity';
 import { getProvinceCommodities } from '@/routes/admin/commodity/province-commodity/-app/get-province-commodities';
+import { updateProvinceCommodity } from '@/routes/admin/commodity/province-commodity/-app/update-province-commodity';
 import { createRegencyCommodity } from '@/routes/admin/commodity/regency-commodity/-app/create-regency-commodity';
 import { deleteRegencyCommodity } from '@/routes/admin/commodity/regency-commodity/-app/delete-regency-commodity';
 import { getRegencyCommodities } from '@/routes/admin/commodity/regency-commodity/-app/get-regency-commodities';
@@ -17,7 +20,10 @@ import { createProvinceLand } from '@/routes/admin/land/province-land/-app/creat
 import { deleteProvinceLand } from '@/routes/admin/land/province-land/-app/delete-province-land';
 import { getProvinceLands } from '@/routes/admin/land/province-land/-app/get-province-lands';
 import { updateProvinceLand } from '@/routes/admin/land/province-land/-app/update-province-land';
+import { createRegencyLand } from '@/routes/admin/land/regency-land/-app/create-regency-land';
+import { deleteRegencyLand } from '@/routes/admin/land/regency-land/-app/delete-regency-land';
 import { getRegencyLands } from '@/routes/admin/land/regency-land/-app/get-regency-lands';
+import { updateRegencyLand } from '@/routes/admin/land/regency-land/-app/update-regency-land';
 import { createProvincePotential } from '@/routes/admin/potential/province_potential/-app/create-province-potential';
 import { deleteProvincePotential } from '@/routes/admin/potential/province_potential/-app/delete-province-potential';
 import { getProvincePotentials } from '@/routes/admin/potential/province_potential/-app/get-province-potentials';
@@ -40,6 +46,7 @@ import { getProductDosages } from '@/routes/admin/product/product-dosage/-app/ge
 import { updateProductDosage } from '@/routes/admin/product/product-dosage/-app/update-product-dosage';
 import { createProvince } from '@/routes/admin/region/province/-app/create-province';
 import { deleteProvince } from '@/routes/admin/region/province/-app/delete-province';
+import { getAllProvinces } from '@/routes/admin/region/province/-app/get-all-provinces';
 import { getProvinces } from '@/routes/admin/region/province/-app/get-provinces';
 import { updateProvince } from '@/routes/admin/region/province/-app/update-province';
 import { createRegency } from '@/routes/admin/region/regency/-app/create-regency';
@@ -48,6 +55,7 @@ import { getRegencies } from '@/routes/admin/region/regency/-app/get-regencies';
 import { updateRegency } from '@/routes/admin/region/regency/-app/update-regency';
 import { createSalesRealization } from '@/routes/admin/sale/-app/create-sales-realization';
 import { deleteSalesRealization } from '@/routes/admin/sale/-app/delete-sales-realization';
+import { getSalesOverview } from '@/routes/admin/sale/-app/get-sales-overview';
 import { getSalesRealizations } from '@/routes/admin/sale/-app/get-sales-realizations';
 import { updateSalesRealization } from '@/routes/admin/sale/-app/update-sales-realization';
 import { createDailySales } from '@/routes/admin/sale/sale-daily/-app/create-daily-sales';
@@ -60,11 +68,13 @@ import { deleteStall } from '@/routes/admin/stall/-app/delete-stall';
 import { getStallProductBrands } from '@/routes/admin/stall/-app/get-stall-product-brand';
 import { getStalls } from '@/routes/admin/stall/-app/get-stalls';
 import { updateStall } from '@/routes/admin/stall/-app/update-stall';
+import { createUser } from '@/routes/admin/user/-app/create-user';
 import { deleteUser } from '@/routes/admin/user/-app/delete-user';
 import { getUserById } from '@/routes/admin/user/-app/get-user-by-id';
 import { getUsers } from '@/routes/admin/user/-app/get-users';
 import { updateUser } from '@/routes/admin/user/-app/update-user';
 import { getSession } from '@/routes/auth/-app/get-session';
+import { getMapStalls } from '@/routes/map/-app/get-map-stalls';
 import { createTodo } from '@/routes/todos/-app/create-todo';
 import { deleteTodo } from '@/routes/todos/-app/delete-todo';
 import { getTodos } from '@/routes/todos/-app/get-todos';
@@ -125,7 +135,10 @@ export default {
   /**
    * Map data feature endpoints
    */
-  map: {},
+  map: {
+    getProvinces: getAllProvinces,
+    getStalls: getMapStalls,
+  },
 
   admin: {
     dashboard: {
@@ -160,9 +173,9 @@ export default {
       },
       regency_land: {
         get: getRegencyLands,
-        // create: createRegencyLand,
-        // update: updateRegencyLand,
-        // delete: deleteRegencyLand,
+        create: createRegencyLand,
+        update: updateRegencyLand,
+        delete: deleteRegencyLand,
       },
     },
     commodity: {
@@ -174,9 +187,9 @@ export default {
       },
       province_commodity: {
         get: getProvinceCommodities,
-        // createProvinceCommodity,
-        // updateProvinceCommodity,
-        // deleteProvinceCommodity,
+        create: createProvinceCommodity,
+        update: updateProvinceCommodity,
+        delete: deleteProvinceCommodity,
       },
       regency_commodity: {
         get: getRegencyCommodities,
@@ -222,7 +235,9 @@ export default {
     },
 
     sale: {
-      sale_overview: {},
+      sale_overview: {
+        get: getSalesOverview,
+      },
       sales_realization: {
         get: getSalesRealizations,
         create: createSalesRealization,
@@ -256,6 +271,7 @@ export default {
     user: {
       get: getUsers,
       getById: getUserById,
+      create: createUser,
       update: updateUser,
       delete: deleteUser,
     },

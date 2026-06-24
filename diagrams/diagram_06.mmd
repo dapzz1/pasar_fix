@@ -1,0 +1,32 @@
+﻿sequenceDiagram
+    participant Comp as Komponen React
+    participant TQ as TanStack Query
+    participant ORPC as oRPC Client
+    participant Handler as Procedure Handler
+    participant DB as PostgreSQL
+
+    Note over Comp,DB: QUERY FLOW
+    Comp->>TQ: useQuery(opts)
+    TQ->>TQ: Cek cache
+    alt Cache hit
+        TQ-->>Comp: Data dari cache
+    else Cache miss
+        TQ->>ORPC: Request /api/rpc/$
+        ORPC->>Handler: Panggil handler
+        Handler->>DB: db.select()...
+        DB-->>Handler: Result
+        Handler-->>TQ: Response data
+        TQ->>TQ: Simpan cache
+        TQ-->>Comp: Render data
+    end
+
+    Note over Comp,DB: MUTATION FLOW
+    Comp->>TQ: useMutation(opts)
+    TQ->>ORPC: Request /api/rpc/$
+    ORPC->>ORPC: Validasi Zod
+    ORPC->>Handler: Panggil handler
+    Handler->>DB: db.insert() / update() / delete()
+    DB-->>Handler: Result
+    Handler-->>TQ: Response
+    TQ->>TQ: invalidateQueries()
+    TQ-->>Comp: Refetch + Toast

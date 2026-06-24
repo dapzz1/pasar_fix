@@ -1,0 +1,26 @@
+﻿flowchart TD
+    subgraph Master["Master Data"]
+        LT[("land_types")]
+        CT[("commodity_types\nCRUD penuh")]
+    end
+
+    subgraph Province["Tingkat Provinsi"]
+        PC[("province_commodities\nREAD ONLY")]
+        PC_View["Lihat + Filter\n(search, pagination)"]
+        PC_Disabled["Create/Edit/Delete\nTIDAK AKTIF"]
+    end
+
+    subgraph Regency["Tingkat Kabupaten"]
+        RC[("regency_commodities\nCRUD penuh")]
+        RC_CRUD["Create / Read / Update / Delete"]
+    end
+
+    LT --> CT
+    CT --> PC
+    CT --> RC
+    PC --> PC_View
+    PC --> PC_Disabled
+    RC --> RC_CRUD
+
+    style PC_Disabled fill:#ffccbc,stroke:#e53935
+    style PC_View fill:#fff9c4

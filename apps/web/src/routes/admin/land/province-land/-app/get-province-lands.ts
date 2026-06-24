@@ -1,4 +1,4 @@
-import { and, eq, or } from 'drizzle-orm';
+import { and, eq, ilike, or } from 'drizzle-orm';
 import z from 'zod';
 import {
   landTypes,
@@ -15,6 +15,7 @@ export const getProvinceLands = protectedProcedure
       search: z.string().optional(),
       provinceId: z.string().optional(),
       landTypeId: z.string().optional(),
+      year: z.string().optional(),
     })
   )
   .handler(async ({ input, context }) => {
@@ -31,6 +32,7 @@ export const getProvinceLands = protectedProcedure
         landTypeId: provinceLands.landTypeId,
         landTypeName: landTypes.name,
         area: provinceLands.area,
+        year: provinceLands.year,
       })
       .from(provinceLands)
       .innerJoin(landTypes, eq(provinceLands.landTypeId, landTypes.id))
@@ -43,11 +45,14 @@ export const getProvinceLands = protectedProcedure
     if (input.landTypeId) {
       conditions.push(eq(provinceLands.landTypeId, input.landTypeId));
     }
+    if (input.year) {
+      conditions.push(eq(provinceLands.year, input.year));
+    }
     if (input.search) {
       conditions.push(
         or(
-          eq(provinces.name, `%${input.search}%`),
-          eq(landTypes.name, `%${input.search}%`)
+          ilike(provinces.name, `%${input.search}%`),
+          ilike(landTypes.name, `%${input.search}%`)
         )
       );
     }

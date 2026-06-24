@@ -1,4 +1,4 @@
-import { and, eq, type ilike, or } from 'drizzle-orm';
+import { and, eq, ilike, or, type SQL } from 'drizzle-orm';
 import z from 'zod';
 import {
   productBrands,
@@ -43,7 +43,7 @@ export const getProvincePotentials = protectedProcedure
         eq(provincePotentials.productBrandId, productBrands.id)
       );
 
-    const conditions: ReturnType<typeof ilike | typeof or>[] = [];
+    const conditions: SQL[] = [];
     if (input.provinceId) {
       conditions.push(eq(provincePotentials.provinceId, input.provinceId));
     }
@@ -56,12 +56,13 @@ export const getProvincePotentials = protectedProcedure
       conditions.push(eq(provincePotentials.year, input.year));
     }
     if (input.search) {
-      conditions.push(
-        or(
-          eq(provinces.name, `%${input.search}%`),
-          eq(productBrands.name, `%${input.search}%`)
-        )
+      const searchCondition = or(
+        ilike(provinces.name, `%${input.search}%`),
+        ilike(productBrands.name, `%${input.search}%`)
       );
+      if (searchCondition) {
+        conditions.push(searchCondition);
+      }
     }
 
     const query = baseQuery.where(and(...conditions)).orderBy(provinces.name);

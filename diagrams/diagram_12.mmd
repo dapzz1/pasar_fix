@@ -1,0 +1,25 @@
+﻿flowchart TD
+    Start["Admin buka menu\nSales Realization"]
+    Filter["Filter:\n- Brand\n- Periode tanggal"]
+    Table["Tabel realisasi:\nbrand, tgl laporan, realisasi harian,\nrealisasi bulanan, YTD, RKAP"]
+    Pagination["Pagination\n(10/25/50/100)"]
+
+    subgraph CRUD["CRUD Operations"]
+        Create["Tambah\n(pilih brand, isi realisasi\n& RKAP)"]
+        Edit["Edit"]
+        Delete["Hapus"]
+    end
+
+    subgraph DB_Box["Database"]
+        TBL[("sales_realizations\nproduct_brand_id FK")]
+        Note["Catatan:\nSchema: realization_ytd\nMigration: realizaton_ytd\n[PERLU VERIFIKASI]"]
+    end
+
+    Start --> Filter --> Table
+    Table --> Pagination
+    Table --> Create --> TBL
+    Table --> Edit --> TBL
+    Table --> Delete --> TBL
+    TBL -.-> Note
+
+    style Note fill:#ffccbc,stroke:#e53935

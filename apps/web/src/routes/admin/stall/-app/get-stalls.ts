@@ -1,4 +1,12 @@
-import { and, asc, count, eq, ilike } from 'drizzle-orm';
+import {
+  and,
+  asc,
+  count,
+  countDistinct,
+  eq,
+  ilike,
+  type SQL,
+} from 'drizzle-orm';
 import z from 'zod';
 import { provinces, regencies } from '@/lib/db/schema/map-product';
 import { stalls } from '@/lib/db/schema/stall';
@@ -39,7 +47,7 @@ export const getStalls = protectedProcedure
       .innerJoin(provinces, eq(stalls.provinceId, provinces.id))
       .innerJoin(regencies, eq(stalls.regencyId, regencies.id));
 
-    const conditions: any[] = [];
+    const conditions: SQL[] = [];
     if (input.provinceId) {
       conditions.push(eq(stalls.provinceId, input.provinceId));
     }
@@ -53,17 +61,27 @@ export const getStalls = protectedProcedure
       conditions.push(ilike(stalls.name, `%${input.search}%`));
     }
 
-    return {
-      data: await baseQuery
-        .where(conditions.length > 0 ? and(...conditions) : undefined)
+    const where = conditions.length > 0 ? and(...conditions) : undefined;
+    const [data, [summary]] = await Promise.all([
+      baseQuery
+        .where(where)
         .orderBy(asc(stalls.name))
         .limit(limit)
         .offset(offset),
-
-      total: await context.db
-        .select({ count: count() })
+      context.db
+        .select({
+          total: count(),
+          totalProvinces: countDistinct(stalls.provinceId),
+          totalRegencies: countDistinct(stalls.regencyId),
+        })
         .from(stalls)
-        .where(conditions.length > 0 ? and(...conditions) : undefined)
-        .then(([{ count }]) => Number(count)),
+        .where(where),
+    ]);
+
+    return {
+      data,
+      total: Number(summary?.total ?? 0),
+      totalProvinces: Number(summary?.totalProvinces ?? 0),
+      totalRegencies: Number(summary?.totalRegencies ?? 0),
     };
   });

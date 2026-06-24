@@ -16,11 +16,11 @@ export const getCommodityTypes = protectedProcedure
         id: commodityTypes.id,
         name: commodityTypes.name,
         landTypeId: commodityTypes.landTypeId,
+        year: commodityTypes.year,
       })
       .from(commodityTypes);
 
     const conditions: ReturnType<typeof eq | typeof ilike>[] = [];
-    [];
     if (input.landTypeId) {
       conditions.push(eq(commodityTypes.landTypeId, input.landTypeId));
     }

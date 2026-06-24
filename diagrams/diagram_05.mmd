@@ -1,0 +1,15 @@
+﻿flowchart TD
+    Start["Request ke /admin"] --> CheckSession{Ada session?}
+    CheckSession -->|Tidak| RedirectLogin["Redirect ke /auth/login"]
+    CheckSession -->|Ya| CheckRole{Role = admin?}
+    CheckRole -->|Tidak| Denied["Tampilkan: Access Denied"]
+    CheckRole -->|Ya| Admin["Akses panel admin"]
+
+    Start2["Request ke API protected"] --> CheckSession2{Ada session?}
+    CheckSession2 -->|Tidak| Err401["Error 401 Unauthorized"]
+    CheckSession2 -->|Ya| Process["Proses request\n(tanpa cek role)"]
+    Process --> Gap["Gap: role tidak divalidasi\npada API layer"]
+
+    style Gap fill:#ffccbc,stroke:#e53935
+    style Denied fill:#ffccbc
+    style Err401 fill:#ffccbc

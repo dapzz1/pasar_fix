@@ -1,0 +1,29 @@
+﻿flowchart TD
+    subgraph Hierarchy["Hierarki Data"]
+        PT["Product Type"]
+        PB["Product Brand"]
+        CT["Commodity Type"]
+    end
+
+    subgraph CRUD["CRUD Product Dosage"]
+        List["Daftar Dosage\n(per brand)"]
+        Create["Tambah Dosage\n(pilih komoditas,\ninput dosis, unit, tahun)"]
+        Edit["Edit Dosage"]
+        Delete["Hapus Dosage"]
+    end
+
+    subgraph DB_Box["Database"]
+        TBL[("product_dosages\ncommodity_type_id FK\nproduct_brand_id FK\ndosage, unit, year")]
+    end
+
+    PT --> PB
+    PB --> List
+    CT --> List
+    List --> Create
+    List --> Edit
+    List --> Delete
+    Create --> TBL
+    Edit --> TBL
+    Delete --> TBL
+
+    style Hierarchy fill:#e1f5fe

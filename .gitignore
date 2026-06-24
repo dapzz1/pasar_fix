@@ -89,6 +89,16 @@ docs/INTERNSHIP_CONTRIBUTION_CONTEXT.md
 docs/MAGANG_REPORT_CONTEXT.md
 docs/REPORT_WRITING_GUIDE.md
 
+# Playwright and screenshot output
+screenshots/
+.playwright-auth.json
+playwright-report/
+test-results/
+
+# Generated report artifacts
+laporan_magang_final.docx
+~$*.docx
+
 # Operating-system files
 .DS_Store
 Thumbs.db

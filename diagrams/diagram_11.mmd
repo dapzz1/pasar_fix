@@ -1,0 +1,20 @@
+﻿flowchart TD
+    Start["Admin buka menu\nProvince Potential"]
+    Table["Tampilkan tabel:\nprovinsi, brand, nilai potensi,\ndeskripsi, tahun"]
+    Filter["Filter:\n- Provinsi\n- Product Brand\n- Tahun"]
+    View["Lihat detail"]
+    Disabled["CREATE / UPDATE / DELETE\nTIDAK TERSEDIA"]
+
+    Start --> Table
+    Table --> Filter
+    Filter --> View
+    Table --> Disabled
+
+    subgraph Note["Status Modul"]
+        N["READ-ONLY\nHanya penyajian data\nEndpoint mutation belum aktif"]
+    end
+
+    Disabled --> Note
+
+    style Disabled fill:#ffccbc,stroke:#e53935
+    style Note fill:#fff9c4

@@ -1,0 +1,20 @@
+﻿sequenceDiagram
+    actor User as Pengguna
+    participant Browser as Browser
+    participant BA as Better Auth Server
+    participant PG as PostgreSQL
+
+    User->>Browser: Input email + password
+    Browser->>BA: POST /api/auth/sign-in
+    BA->>PG: Query user + account
+    PG-->>BA: Data user + password hash
+    BA->>BA: Verifikasi password
+    alt Password valid
+        BA->>PG: Insert session
+        PG-->>BA: Session token
+        BA->>Browser: Set cookie + 302 redirect
+        Browser->>User: Tampilkan halaman tujuan
+    else Password tidak valid
+        BA->>Browser: Response error 401
+        Browser->>User: Tampilkan pesan error
+    end

@@ -12,6 +12,8 @@ export interface FilterCriteria {
   commodityTypes?: string[];
   timeRange?: { start: Date; end: Date };
   administrativeRegion?: string;
+  provinceId?: string;
+  regencyId?: string;
 }
 
 export interface MarketingMapProps {

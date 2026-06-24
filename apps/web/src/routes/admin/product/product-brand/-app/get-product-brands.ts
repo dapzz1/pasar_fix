@@ -18,6 +18,7 @@ export const getProductBrands = protectedProcedure
         name: productBrands.name,
         industry: productBrands.industry,
         description: productBrands.description,
+        year: productBrands.year,
       })
       .from(productBrands);
 

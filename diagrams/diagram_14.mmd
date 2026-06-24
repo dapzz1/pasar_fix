@@ -1,0 +1,40 @@
+﻿flowchart TD
+    Start["Admin buka menu Stall"]
+
+    subgraph CRUD["CRUD DATA KIOS"]
+        List["Daftar Stall\n(search, pagination)"]
+        Create["Tambah Stall\n(nama, alamat, provinsi,\nkabupaten, lat/lng,\npemilik, noTelp, kriteria)"]
+        Edit["Edit Stall"]
+        Delete["Hapus Stall\n(konfirmasi)"]
+    end
+
+    subgraph Assign["ASSIGNMENT PRODUCT BRAND"]
+        Open["Klik 'Products'\npada baris stall"]
+        Modal["Modal:\nDaftar semua brand\n+ checkbox"]
+        Sync["Simpan â†’ sync\nstall_product_brands"]
+        Toast["Toast sukses\n+ refetch"]
+    end
+
+    subgraph Import["IMPORT EXCEL"]
+        Excel[("File Excel\nSURVEY PASAR KIOS")]
+        Script["Script\nseed-stalls.ts"]
+        Process["Resolve region\nParse koordinat\nTransaksi insert"]
+    end
+
+    subgraph DB_Box["Database"]
+        TStalls[("stalls")]
+        TSPB[("stall_product_brands")]
+    end
+
+    Start --> CRUD
+    List --> Open
+    Open --> Modal --> Sync --> Toast
+    Sync --> TSPB
+    Create --> TStalls
+    Edit --> TStalls
+    Delete --> TStalls
+
+    Excel --> Script --> Process --> TStalls
+
+    style Assign fill:#e8eaf6
+    style Import fill:#e1f5fe

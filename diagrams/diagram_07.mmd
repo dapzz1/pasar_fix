@@ -1,0 +1,41 @@
+﻿flowchart TD
+    subgraph Admin["Admin Panel"]
+        Menu["Menu Wilayah"]
+    end
+
+    subgraph Province["Province CRUD"]
+        PList["Daftar Province\n(search, pagination)"]
+        PCreate["Create Province\n(kode, nama, luas, tahun)"]
+        PEdit["Edit Province"]
+        PDelete["Delete Province\n(konfirmasi)"]
+    end
+
+    subgraph Regency["Regency CRUD"]
+        RList["Daftar Regency\n(search, pagination)"]
+        RCreate["Create Regency\n(kode, nama, provinsi, luas, tahun)"]
+        REdit["Edit Regency"]
+        RDelete["Delete Regency"]
+    end
+
+    subgraph DB["Database"]
+        TProv[("provinces")]
+        TReg[("regencies")]
+    end
+
+    Menu --> PList
+    PList --> PCreate
+    PList --> PEdit
+    PList --> PDelete
+    PCreate --> TProv
+    PEdit --> TProv
+    PDelete --> TProv
+
+    Menu --> RList
+    RList --> RCreate
+    RList --> REdit
+    RList --> RDelete
+    RCreate --> TReg
+    REdit --> TReg
+    RDelete --> TReg
+
+    TProv -->|1:N| TReg

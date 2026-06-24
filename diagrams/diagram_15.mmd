@@ -1,0 +1,30 @@
+﻿flowchart TD
+    subgraph Lapangan["KEGIATAN LAPANGAN"]
+        Kunjungan["Kunjungan ke:\nBojonegoro, Banyuwangi,\nJember, Lumajang"]
+        Observasi["Observasi:\n- Kondisi kios\n- Komoditas unggulan\n- Kebutuhan pupuk"]
+        Catat["Pencatatan data\nke formulir / Excel"]
+    end
+
+    subgraph Teknis["ALUR DATA KE SISTEM"]
+        Excel[("File Excel\nSURVEY PASAR KIOS\n(Jawaban).xlsx")]
+        Script["Script\nseed-stalls.ts"]
+        Normalisasi["Normalisasi\nnama provinsi & kabupaten"]
+        Resolve["Resolve ke ID\ndari tabel provinces & regencies"]
+        Parse["Parse koordinat\n(latitude, longitude)"]
+        Insert["Transaksi insert\nke tabel stalls"]
+        Verifikasi["Verifikasi\njumlah row"]
+    end
+
+    subgraph Sistem["PENGGUNAAN DI SISTEM"]
+        Stall["Modul Stall\n(CRUD data kios)"]
+        Map["Visualisasi Peta\n(marker kios)"]
+    end
+
+    Kunjungan --> Observasi --> Catat --> Excel
+    Excel --> Script --> Normalisasi --> Resolve --> Parse --> Insert --> Verifikasi
+    Verifikasi --> Stall
+    Verifikasi --> Map
+
+    style Lapangan fill:#e8f5e9
+    style Teknis fill:#e1f5fe
+    style Sistem fill:#fff3e0

@@ -20,7 +20,12 @@ export const Route = createFileRoute('/stall/$id')({
 function RouteComponent() {
   const { id } = Route.useParams();
 
-  const stallQueryOptions = orpc.admin.stall.get.queryOptions({ input: {} });
+  const stallQueryOptions = orpc.admin.stall.get.queryOptions({
+    input: {
+      stallId: id,
+      limit: 1,
+    },
+  });
   const { data: stallsData, isLoading: isStallLoading } =
     useQuery(stallQueryOptions);
 
@@ -38,6 +43,42 @@ function RouteComponent() {
     ...stallProductQueryOptions,
     enabled: Boolean(id),
   });
+  let productContent: ReactNode;
+
+  if (isProductLoading) {
+    productContent = (
+      <p className="text-slate-600 text-sm">Loading product brands...</p>
+    );
+  } else if (stallProductData?.data?.length === 0) {
+    productContent = (
+      <p className="text-slate-600 text-sm">
+        No product brands linked to this stall.
+      </p>
+    );
+  } else {
+    productContent = (
+      <div className="space-y-2">
+        {stallProductData?.data?.map((brand) => (
+          <div
+            className="flex items-start justify-between rounded-lg border p-3"
+            key={brand.id}
+          >
+            <div>
+              <p className="font-medium">{brand.productBrandName}</p>
+              {brand.productBrandIndustry ? (
+                <p className="text-slate-600 text-xs">
+                  {brand.productBrandIndustry}
+                </p>
+              ) : null}
+            </div>
+            {brand.description ? (
+              <Badge variant="secondary">{brand.description}</Badge>
+            ) : null}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   if (isStallLoading) {
     return (
@@ -129,38 +170,7 @@ function RouteComponent() {
               Brands currently sold by this stall.
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            {isProductLoading ? (
-              <p className="text-slate-600 text-sm">
-                Loading product brands...
-              </p>
-            ) : stallProductData?.data?.length === 0 ? (
-              <p className="text-slate-600 text-sm">
-                No product brands linked to this stall.
-              </p>
-            ) : (
-              <div className="space-y-2">
-                {stallProductData?.data?.map((brand) => (
-                  <div
-                    className="flex items-start justify-between rounded-lg border p-3"
-                    key={brand.id}
-                  >
-                    <div>
-                      <p className="font-medium">{brand.productBrandName}</p>
-                      {brand.productBrandIndustry ? (
-                        <p className="text-slate-600 text-xs">
-                          {brand.productBrandIndustry}
-                        </p>
-                      ) : null}
-                    </div>
-                    {brand.description ? (
-                      <Badge variant="secondary">{brand.description}</Badge>
-                    ) : null}
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
+          <CardContent>{productContent}</CardContent>
         </Card>
       </div>
     </div>

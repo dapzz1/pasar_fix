@@ -1,0 +1,21 @@
+﻿flowchart TD
+    Start["Admin buka menu\nDaily Sales"]
+    Filter["Filter:\n- Brand\n- Periode tanggal"]
+    Table["Tabel penjualan harian:\ntanggal, brand, provinsi,\nqty, revenue, target, realisasi"]
+    Pagination["Pagination"]
+
+    subgraph CRUD["CRUD Operations"]
+        Create["Tambah\n(pilih brand, provinsi,\ninput qty, revenue, target)"]
+        Edit["Edit"]
+        Delete["Hapus"]
+    end
+
+    subgraph DB_Box["Database"]
+        TBL[("daily_sales\nproduct_brand_id FK\nprovince_id [belum FK]")]
+    end
+
+    Start --> Filter --> Table
+    Table --> Pagination
+    Table --> Create --> TBL
+    Table --> Edit --> TBL
+    Table --> Delete --> TBL

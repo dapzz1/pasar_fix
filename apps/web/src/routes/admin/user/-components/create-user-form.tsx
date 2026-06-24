@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { z } from 'zod';
 import {
   Dialog,
   DialogContent,
@@ -10,6 +11,7 @@ import { orpc } from '@/lib/orpc/client';
 import { useUserForm } from '../-hooks/form';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const USER_ROLE_SCHEMA = z.enum(['admin', 'viewer', 'guest']);
 
 export function CreateUserForm({
   open,
@@ -22,10 +24,17 @@ export function CreateUserForm({
   const toast = useToast();
 
   const createMutation = useMutation({
-    mutationFn: (userData: { name: string; email: string; role: string }) =>
-      orpc.admin.user.update.call({
+    mutationFn: (userData: {
+      name: string;
+      email: string;
+      password: string;
+      role: 'admin' | 'viewer' | 'guest';
+    }) =>
+      orpc.admin.user.create.call({
         name: userData.name,
         email: userData.email,
+        password: userData.password,
+        role: userData.role,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -38,11 +47,15 @@ export function CreateUserForm({
     defaultValues: {
       name: '',
       email: '',
+      password: '',
       role: 'guest',
     },
     onSubmit: async ({ value }) => {
       try {
-        await createMutation.mutateAsync(value);
+        await createMutation.mutateAsync({
+          ...value,
+          role: USER_ROLE_SCHEMA.parse(value.role),
+        });
         toast.success('User created successfully!');
         onOpenChange(false);
         form.reset();
@@ -84,6 +97,25 @@ export function CreateUserForm({
             </form.AppField>
 
             <form.AppField
+              name="password"
+              validators={{
+                onBlur: ({ value }) => {
+                  if (value.length < 8) {
+                    return 'Password must contain at least 8 characters';
+                  }
+                  return;
+                },
+              }}
+            >
+              {(field) => (
+                <field.textField
+                  label="Temporary Password"
+                  placeholder="At least 8 characters"
+                />
+              )}
+            </form.AppField>
+
+            <form.AppField
               name="email"
               validators={{
                 onBlur: ({ value }) => {
@@ -98,11 +130,7 @@ export function CreateUserForm({
               }}
             >
               {(field) => (
-                <field.textField
-                  label="Email"
-                  placeholder="user@example.com"
-                  type="email"
-                />
+                <field.textField label="Email" placeholder="user@example.com" />
               )}
             </form.AppField>
 

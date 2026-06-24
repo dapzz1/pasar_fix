@@ -3,7 +3,6 @@ import { createFileRoute } from '@tanstack/react-router';
 import { Edit, Plus, Search, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -12,7 +11,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { orpc } from '@/lib/orpc/client';
-// import { CreateUserForm } from './-components/create-user-form';
+import { CreateUserForm } from './-components/create-user-form';
 import { DeleteUserForm } from './-components/delete-user-form';
 import { EditUserForm } from './-components/edit-user-form';
 
@@ -210,10 +209,14 @@ function RouteComponent() {
               <CardTitle>User Management</CardTitle>
               <CardDescription>Manage users and their roles</CardDescription>
             </div>
-            {/* <Button onClick={handleCreate}>
+            <button
+              className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-primary-foreground"
+              onClick={handleCreate}
+              type="button"
+            >
               <Plus className="mr-2 size-4" />
               Add User
-            </Button> */}
+            </button>
           </div>
         </CardHeader>
         <CardContent>
@@ -243,7 +246,7 @@ function RouteComponent() {
         </CardContent>
       </Card>
 
-      {/* <CreateUserForm onOpenChange={closeModals} open={!!create} /> */}
+      <CreateUserForm onOpenChange={closeModals} open={!!create} />
       <EditUserForm
         onOpenChange={closeModals}
         open={!!edit}

@@ -1,0 +1,32 @@
+﻿flowchart TD
+    subgraph Master["Master Data"]
+        PT[("product_types")]
+        PB[("product_brands\nCRUD penuh")]
+    end
+
+    subgraph CRUD["Alur CRUD"]
+        List["Daftar Brand\n(search, filter by type)"]
+        Create["Tambah Brand\n(nama, industri, deskripsi,\npilih Product Type)"]
+        Edit["Edit Brand"]
+        Delete["Hapus Brand"]
+    end
+
+    subgraph Dependen["Modul Dependen"]
+        Dosage["product_dosages"]
+        Potential["province_potentials\nregency_potentials"]
+        Sales["sales_realizations\ndaily_sales"]
+        Stall["stall_product_brands"]
+    end
+
+    PT --> PB
+    PB --> List
+    List --> Create
+    List --> Edit
+    List --> Delete
+
+    PB -.-> Dosage
+    PB -.-> Potential
+    PB -.-> Sales
+    PB -.-> Stall
+
+    style Dependen fill:#e8eaf6

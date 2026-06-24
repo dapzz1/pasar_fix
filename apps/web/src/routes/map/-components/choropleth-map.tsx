@@ -10,6 +10,7 @@ interface ChoroplethMapProps {
   landTypeId?: string;
   commodityTypeId?: string;
   onLoadingChange?: (loading: boolean) => void;
+  provinceId?: string;
   year?: string;
 }
 
@@ -18,15 +19,17 @@ interface ProvinceProperties {
   code?: string | number;
   name?: string;
   potential?: number | null;
-  productBrandId?: string | null;
-  productBrandName?: string | null;
+  metricName?: string | null;
+  metricType?: string | null;
+  metricUnit?: string | null;
   provinceCode?: string;
 }
 
 interface PotentialMetadata {
   potential: number;
-  productBrandId: string;
-  productBrandName: string;
+  metricName: string;
+  metricType: string;
+  metricUnit: string;
 }
 
 type ProvinceFeature = Parameters<
@@ -37,6 +40,24 @@ interface ProvinceFeatureCollection {
   features: ProvinceFeature[];
   type: 'FeatureCollection';
 }
+
+type ProductPotentialRow = {
+  potential: number | null;
+  productBrandName: string;
+  provinceCode: string;
+};
+
+type ProvinceLandRow = {
+  area: number | null;
+  landTypeName: string;
+  provinceCode: string;
+};
+
+type ProvinceCommodityRow = {
+  area: number | null;
+  commodityTypeName: string;
+  provinceCode: string;
+};
 
 const COLOR_SCALE = [
   '#ffffb2',
@@ -49,6 +70,106 @@ const NO_DATA_COLOR = '#e5e7eb';
 
 const normalizeProvinceCode = (value: string | number | null | undefined) =>
   String(value ?? '').trim();
+
+const addMetadata = (
+  target: Map<string, PotentialMetadata>,
+  provinceCode: string,
+  metadata: PotentialMetadata
+) => {
+  const existing = target.get(provinceCode);
+  target.set(provinceCode, {
+    ...metadata,
+    potential: (existing?.potential ?? 0) + metadata.potential,
+  });
+};
+
+const addProductPotentials = (
+  target: Map<string, PotentialMetadata>,
+  rows: ProductPotentialRow[]
+) => {
+  for (const row of rows) {
+    const provinceCode = normalizeProvinceCode(row.provinceCode);
+    if (provinceCode) {
+      addMetadata(target, provinceCode, {
+        potential: Number(row.potential ?? 0),
+        metricName: row.productBrandName,
+        metricType: 'Product potential',
+        metricUnit: 'ton',
+      });
+    }
+  }
+};
+
+const addProvinceLands = (
+  target: Map<string, PotentialMetadata>,
+  rows: ProvinceLandRow[]
+) => {
+  for (const row of rows) {
+    const provinceCode = normalizeProvinceCode(row.provinceCode);
+    if (provinceCode) {
+      addMetadata(target, provinceCode, {
+        potential: Number(row.area ?? 0),
+        metricName: row.landTypeName,
+        metricType: 'Land area',
+        metricUnit: 'km²',
+      });
+    }
+  }
+};
+
+const addProvinceCommodities = (
+  target: Map<string, PotentialMetadata>,
+  rows: ProvinceCommodityRow[]
+) => {
+  for (const row of rows) {
+    const provinceCode = normalizeProvinceCode(row.provinceCode);
+    if (provinceCode) {
+      addMetadata(target, provinceCode, {
+        potential: Number(row.area ?? 0),
+        metricName: row.commodityTypeName,
+        metricType: 'Commodity area',
+        metricUnit: 'km²',
+      });
+    }
+  }
+};
+
+const enrichFeatures = (
+  source: ProvinceFeatureCollection,
+  metadataByCode: Map<string, PotentialMetadata>
+) => {
+  const features = source.features.map((feature) => {
+    const properties = feature.properties ?? {};
+    const provinceCode = normalizeProvinceCode(properties.code);
+    const metadata = metadataByCode.get(provinceCode);
+
+    return {
+      ...feature,
+      properties: {
+        ...properties,
+        potential: metadata?.potential ?? null,
+        metricName: metadata?.metricName ?? null,
+        metricType: metadata?.metricType ?? null,
+        metricUnit: metadata?.metricUnit ?? null,
+        provinceCode,
+      },
+    };
+  });
+  const values = features.flatMap((feature) =>
+    typeof feature.properties.potential === 'number'
+      ? [feature.properties.potential]
+      : []
+  );
+
+  return {
+    type: 'FeatureCollection' as const,
+    features,
+    stats: {
+      min: values.length > 0 ? Math.min(...values) : 0,
+      max: values.length > 0 ? Math.max(...values) : 0,
+    },
+  };
+};
 
 const isProvinceFeatureCollection = (
   value: unknown
@@ -99,16 +220,33 @@ const createLegendRow = (color: string, label: string) => {
 };
 
 const ChoroplethMap: React.FC<ChoroplethMapProps> = ({
+  commodityTypeId,
+  landTypeId,
   productBrandId,
+  provinceId,
   year,
   onLoadingChange,
 }) => {
   const map = useMap();
-  const potentialsData = useQuery(
-    orpc.admin.potential.province_potential.get.queryOptions({
-      input: { productBrandId, year },
-    })
-  );
+  const selectedYear = year === 'all' ? undefined : year;
+  const productPotentials = useQuery({
+    ...orpc.admin.potential.province_potential.get.queryOptions({
+      input: { productBrandId, provinceId, year: selectedYear },
+    }),
+    enabled: Boolean(productBrandId),
+  });
+  const provinceLands = useQuery({
+    ...orpc.admin.land.province_land.get.queryOptions({
+      input: { landTypeId, provinceId, year: selectedYear },
+    }),
+    enabled: Boolean(landTypeId),
+  });
+  const provinceCommodities = useQuery({
+    ...orpc.admin.commodity.province_commodity.get.queryOptions({
+      input: { commodityTypeId, provinceId, year: selectedYear },
+    }),
+    enabled: Boolean(commodityTypeId),
+  });
   const geoJsonData = useQuery({
     queryKey: ['indonesia-geojson'],
     queryFn: async () => {
@@ -133,50 +271,29 @@ const ChoroplethMap: React.FC<ChoroplethMapProps> = ({
     }
 
     const potentialsByCode = new Map<string, PotentialMetadata>();
-    for (const row of potentialsData.data?.data ?? []) {
-      const provinceCode = normalizeProvinceCode(row.provinceCode);
-      if (!provinceCode) {
-        continue;
-      }
-
-      potentialsByCode.set(provinceCode, {
-        potential: Number(row.potential ?? 0),
-        productBrandId: row.productBrandId,
-        productBrandName: row.productBrandName,
-      });
+    if (productBrandId) {
+      addProductPotentials(
+        potentialsByCode,
+        productPotentials.data?.data ?? []
+      );
+    } else if (landTypeId) {
+      addProvinceLands(potentialsByCode, provinceLands.data?.data ?? []);
+    } else if (commodityTypeId) {
+      addProvinceCommodities(
+        potentialsByCode,
+        provinceCommodities.data?.data ?? []
+      );
     }
-
-    const features = geoJsonData.data.features.map((feature) => {
-      const properties = feature.properties ?? {};
-      const provinceCode = normalizeProvinceCode(properties.code);
-      const metadata = potentialsByCode.get(provinceCode);
-
-      return {
-        ...feature,
-        properties: {
-          ...properties,
-          potential: metadata?.potential ?? null,
-          productBrandId: metadata?.productBrandId ?? null,
-          productBrandName: metadata?.productBrandName ?? null,
-          provinceCode,
-        },
-      };
-    });
-    const values = features.flatMap((feature) =>
-      typeof feature.properties.potential === 'number'
-        ? [feature.properties.potential]
-        : []
-    );
-
-    return {
-      type: 'FeatureCollection' as const,
-      features,
-      stats: {
-        min: values.length > 0 ? Math.min(...values) : 0,
-        max: values.length > 0 ? Math.max(...values) : 0,
-      },
-    };
-  }, [geoJsonData.data, potentialsData.data]);
+    return enrichFeatures(geoJsonData.data, potentialsByCode);
+  }, [
+    commodityTypeId,
+    geoJsonData.data,
+    landTypeId,
+    productBrandId,
+    productPotentials.data,
+    provinceCommodities.data,
+    provinceLands.data,
+  ]);
 
   const geoKey = useMemo(() => {
     if (!enriched) {
@@ -189,18 +306,24 @@ const ChoroplethMap: React.FC<ChoroplethMapProps> = ({
           `${feature.properties.provinceCode}:${String(feature.properties.potential ?? 'none')}`
       )
       .join('|');
-    return `${productBrandId ?? 'all'}:${year ?? 'all'}:${featureValues}`;
-  }, [enriched, productBrandId, year]);
+    return `${productBrandId ?? landTypeId ?? commodityTypeId ?? 'all'}:${provinceId ?? 'all'}:${year ?? 'all'}:${featureValues}`;
+  }, [commodityTypeId, enriched, landTypeId, productBrandId, provinceId, year]);
 
   useEffect(() => {
     onLoadingChange?.(
-      potentialsData.isLoading || geoJsonData.isLoading || !enriched
+      productPotentials.isLoading ||
+        provinceLands.isLoading ||
+        provinceCommodities.isLoading ||
+        geoJsonData.isLoading ||
+        !enriched
     );
   }, [
     enriched,
     geoJsonData.isLoading,
     onLoadingChange,
-    potentialsData.isLoading,
+    productPotentials.isLoading,
+    provinceCommodities.isLoading,
+    provinceLands.isLoading,
   ]);
 
   useEffect(() => {
@@ -266,20 +389,21 @@ const ChoroplethMap: React.FC<ChoroplethMapProps> = ({
       typeof feature.properties.name === 'string'
         ? feature.properties.name
         : 'Unknown';
-    const productBrandName =
-      feature.properties.productBrandName ?? 'No product data';
+    const metricName = feature.properties.metricName ?? 'No selected data';
+    const metricType = feature.properties.metricType ?? 'Value';
+    const metricUnit = feature.properties.metricUnit ?? '';
     const potential = feature.properties.potential;
     const potentialText =
       typeof potential === 'number'
-        ? `${potential.toLocaleString()} ton`
+        ? `${potential.toLocaleString()} ${metricUnit}`.trim()
         : 'No data';
     const popup = L.DomUtil.create('div');
     const title = L.DomUtil.create('strong', '', popup);
     title.textContent = name;
     popup.append(document.createElement('br'));
-    popup.append(`Product: ${productBrandName}`);
+    popup.append(`${metricType}: ${metricName}`);
     popup.append(document.createElement('br'));
-    popup.append(`Product Potential: ${potentialText}`);
+    popup.append(`Value: ${potentialText}`);
     layer.bindPopup(popup);
   };
 

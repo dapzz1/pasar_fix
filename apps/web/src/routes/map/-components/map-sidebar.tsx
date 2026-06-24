@@ -148,16 +148,6 @@ export function MapSidebar({
     String(new Date().getFullYear())
   );
 
-  useEffect(() => {
-    if (
-      currentFilter === 'product_brand' &&
-      !selectedBrand &&
-      productBrands?.data?.length
-    ) {
-      setSelectedBrand(productBrands.data[0]?.id);
-    }
-  }, [currentFilter, productBrands, selectedBrand]);
-
   const { data: landTypes } = useQuery(
     orpc.admin.land.land_type.get.queryOptions({ input: {} })
   );
@@ -166,10 +156,59 @@ export function MapSidebar({
     orpc.admin.commodity.commodity_type.get.queryOptions({ input: {} })
   );
 
+  useEffect(() => {
+    if (
+      currentFilter === 'land_type' &&
+      !selectedLandType &&
+      landTypes?.data.length
+    ) {
+      setSelectedLandType(landTypes.data.at(0)?.id);
+    }
+    if (
+      currentFilter === 'commodity_type' &&
+      !selectedCommodityType &&
+      commodityTypes?.data.length
+    ) {
+      setSelectedCommodityType(commodityTypes.data.at(0)?.id);
+    }
+  }, [
+    commodityTypes?.data,
+    currentFilter,
+    landTypes?.data,
+    selectedCommodityType,
+    selectedLandType,
+  ]);
+
   // Province potential data to determine last updated time
   const { data: provincePotential } = useQuery(
     orpc.admin.potential.province_potential.get.queryOptions({ input: {} })
   );
+  const { data: provinceLands } = useQuery(
+    orpc.admin.land.province_land.get.queryOptions({ input: {} })
+  );
+  const { data: provinceCommodities } = useQuery(
+    orpc.admin.commodity.province_commodity.get.queryOptions({ input: {} })
+  );
+  const mapProductBrands = useMemo(() => {
+    const availableBrandIds = new Set(
+      (provincePotential?.data ?? []).map((item) => item.productBrandId)
+    );
+    return (productBrands?.data ?? []).filter((brand) =>
+      availableBrandIds.has(brand.id)
+    );
+  }, [productBrands?.data, provincePotential?.data]);
+
+  useEffect(() => {
+    if (currentFilter !== 'product_brand' || mapProductBrands.length === 0) {
+      return;
+    }
+    const selectionExists = mapProductBrands.some(
+      (brand) => brand.id === selectedBrand
+    );
+    if (!selectionExists) {
+      setSelectedBrand(mapProductBrands.at(0)?.id);
+    }
+  }, [currentFilter, mapProductBrands, selectedBrand]);
 
   const latestUpdatedAtText = useMemo(() => {
     const items =
@@ -200,11 +239,56 @@ export function MapSidebar({
         (ct: { landTypeId?: string }) => ct.landTypeId === selectedLandType
       )
     : commodityTypes?.data;
+  const availableYears = useMemo(() => {
+    let years: (string | null)[] = [];
+    if (currentFilter === 'product_brand') {
+      years = (provincePotential?.data ?? [])
+        .filter(
+          (item) => !selectedBrand || item.productBrandId === selectedBrand
+        )
+        .map((item) => item.year);
+    } else if (currentFilter === 'land_type') {
+      years = (provinceLands?.data ?? [])
+        .filter(
+          (item) => !selectedLandType || item.landTypeId === selectedLandType
+        )
+        .map((item) => item.year);
+    } else {
+      years = (provinceCommodities?.data ?? [])
+        .filter(
+          (item) =>
+            !selectedCommodityType ||
+            item.commodityTypeId === selectedCommodityType
+        )
+        .map((item) => item.year);
+    }
+
+    const populatedYears = [
+      ...new Set(years.filter((year): year is string => Boolean(year))),
+    ]
+      .sort()
+      .reverse();
+    return populatedYears.length > 0 ? populatedYears : ['all'];
+  }, [
+    currentFilter,
+    provinceCommodities?.data,
+    provinceLands?.data,
+    provincePotential?.data,
+    selectedBrand,
+    selectedCommodityType,
+    selectedLandType,
+  ]);
+
+  useEffect(() => {
+    if (availableYears.length > 0 && !availableYears.includes(selectedYear)) {
+      setSelectedYear(availableYears.at(0) ?? selectedYear);
+    }
+  }, [availableYears, selectedYear]);
 
   const handleFilterChange = (filter: string) => {
     setCurrentFilter(filter);
     if (filter === 'product_brand') {
-      setSelectedBrand(productBrands?.data?.[0]?.id);
+      setSelectedBrand(mapProductBrands.at(0)?.id);
       setSelectedLandType(undefined);
       setSelectedCommodityType(undefined);
     }
@@ -238,8 +322,10 @@ export function MapSidebar({
     () => ({
       ...filters,
       administrativeRegion: getAdministrativeCode(),
+      provinceId: selectedProvince || undefined,
+      regencyId: selectedRegency || undefined,
     }),
-    [filters, getAdministrativeCode]
+    [filters, getAdministrativeCode, selectedProvince, selectedRegency]
   );
 
   // Push updated filters into MapContext so layout and children can consume them
@@ -303,14 +389,9 @@ export function MapSidebar({
                 <SelectValue placeholder="Select Year" />
               </SelectTrigger>
               <SelectContent>
-                {[
-                  String(new Date().getFullYear()),
-                  String(new Date().getFullYear() - 1),
-                  String(new Date().getFullYear() - 2),
-                  String(new Date().getFullYear() - 3),
-                ].map((y) => (
+                {availableYears.map((y) => (
                   <SelectItem key={y} value={y}>
-                    {y}
+                    {y === 'all' ? 'All Years' : y}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -428,8 +509,12 @@ export function MapSidebar({
                 <SelectItem value="product_brand">
                   <Trans>Product Brand</Trans>
                 </SelectItem>
-                {/* <SelectItem value="land_type">Land Type</SelectItem> */}
-                {/* <SelectItem value="commodity_type">Commodity Type</SelectItem> */}
+                <SelectItem value="land_type">
+                  <Trans>Land Type</Trans>
+                </SelectItem>
+                <SelectItem value="commodity_type">
+                  <Trans>Commodity Type</Trans>
+                </SelectItem>
               </SelectContent>
             </Select>
           </SidebarMenuItem>
@@ -447,7 +532,7 @@ export function MapSidebar({
                   <SelectValue placeholder="Select a Product Brand" />
                 </SelectTrigger>
                 <SelectContent>
-                  {productBrands?.data?.map((brand) => (
+                  {mapProductBrands.map((brand) => (
                     <SelectItem key={brand.id} value={brand.id}>
                       {brand.name}
                     </SelectItem>

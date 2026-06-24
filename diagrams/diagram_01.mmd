@@ -1,0 +1,44 @@
+﻿flowchart TB
+    subgraph Browser["Browser"]
+        React["React 19 + TanStack Router"]
+        Query["TanStack Query"]
+        Leaflet["Leaflet / React Leaflet"]
+    end
+
+    subgraph Server["TanStack Start Server (apps/web)"]
+        Routes["Server Routes (/api/rpc, /api, /api/auth)"]
+        subgraph ORPC["oRPC Layer"]
+            Pub["publicProcedure"]
+            Prot["protectedProcedure"]
+        end
+        Auth["Better Auth\n(session, cookie)"]
+        Zod["Validasi Zod"]
+    end
+
+    subgraph DB["Database Layer"]
+        Drizzle["Drizzle ORM"]
+        PG[("PostgreSQL")]
+    end
+
+    subgraph Static["Static Assets"]
+        GeoJSON[("GeoJSON\npublic/data/")]
+    end
+
+    React --> Query
+    Query --> Routes
+    Routes --> ORPC
+    Routes --> Auth
+    ORPC --> Zod
+    Zod --> Drizzle
+    Drizzle --> PG
+    Auth --> Drizzle
+    Leaflet --> GeoJSON
+
+    style React fill:#e1f5fe
+    style Leaflet fill:#e1f5fe
+    style Pub fill:#c8e6c9
+    style Prot fill:#ffccbc
+    style Auth fill:#fff9c4
+    style Drizzle fill:#d1c4e9
+    style PG fill:#b3e5fc
+    style GeoJSON fill:#f0f4c3

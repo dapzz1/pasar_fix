@@ -26,6 +26,8 @@ interface FilterCriteria {
   commodityTypes?: string[];
   timeRange?: { start: Date; end: Date };
   administrativeRegion?: string;
+  provinceId?: string;
+  regencyId?: string;
 }
 
 interface DynamicMapProps {
@@ -245,6 +247,7 @@ export default function DynamicMap({
             landTypeId={selectedLandType}
             onLoadingChange={setChoroplethLoading}
             productBrandId={selectedProductBrand}
+            provinceId={filters?.provinceId}
             year={year}
           />
         )}

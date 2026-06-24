@@ -16,6 +16,8 @@ interface StallMarkersProps {
     commodityTypes?: string[];
     timeRange?: { start: Date; end: Date };
     administrativeRegion?: string;
+    provinceId?: string;
+    regencyId?: string;
   };
 }
 
@@ -44,14 +46,18 @@ const stallMarkerIcon = L.divIcon({
   iconAnchor: [16, 32],
   popupAnchor: [0, -32],
 });
-const StallMarkers: React.FC<StallMarkersProps> = ({ showStallMarkers }) => {
+const StallMarkers: React.FC<StallMarkersProps> = ({
+  filters,
+  showStallMarkers,
+}) => {
   const [stallsData, setStallsData] = useState<Stall[]>([]);
 
   // Fetch stalls from oRPC
   const { data: stalls, isLoading } = useQuery(
-    orpc.admin.stall.get.queryOptions({
+    orpc.map.getStalls.queryOptions({
       input: {
-        // provinceId: filters?.administrativeRegion,
+        provinceId: filters?.provinceId,
+        regencyId: filters?.regencyId,
       },
     })
   );

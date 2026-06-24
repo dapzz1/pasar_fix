@@ -15,6 +15,7 @@ export const getProductTypes = protectedProcedure
         id: productTypes.id,
         name: productTypes.name,
         description: productTypes.description,
+        year: productTypes.year,
       })
       .from(productTypes);
 
