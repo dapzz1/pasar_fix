@@ -61,6 +61,34 @@ src/routes/**/-locales/*.mjs
 .claude/settings.local.json
 .serena/cache/
 
+# Local AI assistants, editor agents, and generated specifications
+.agents/
+.claude/
+.kiro/
+.qwen/
+.serena/
+.zed/
+.rules
+
+# Private working notes and generated analysis
+alldocmark/
+output-web/
+MAINTENANCE/
+
+# Personal handoff and AI-specific Markdown files
+CLAUDE.md
+CODEX.md
+GEMINI.md
+QWEN.md
+RULES-ATTENTIO.md
+PROJECT_DOCUMENTATION_FOR_INTERNSHIP.md
+
+# Internship/report-writing documents
+docs/BAB_MAPPING.md
+docs/INTERNSHIP_CONTRIBUTION_CONTEXT.md
+docs/MAGANG_REPORT_CONTEXT.md
+docs/REPORT_WRITING_GUIDE.md
+
 # Operating-system files
 .DS_Store
 Thumbs.db
