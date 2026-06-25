@@ -1,4 +1,3 @@
-import { Trans } from '@lingui/react/macro';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import {
@@ -166,7 +165,7 @@ function HomePage() {
             >
               <Link to="/map">
                 <MapIcon className="mr-2 size-4" />
-                <Trans>Buka Peta Potensi</Trans>
+                Lihat Peta Pemasaran
               </Link>
             </Button>
             <Button
