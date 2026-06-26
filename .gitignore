@@ -33,11 +33,29 @@ coverage/
 dev-dist/
 *.tsbuildinfo
 next-env.d.ts
+apps/*/.turbo/
+apps/*/.next/
+apps/*/.output/
+apps/*/.nitro/
+apps/*/.tanstack/
+apps/*/.vinxi/
+apps/*/.react-router/
+apps/*/.open-next/
+apps/*/dist/
+apps/*/build/
+apps/*/out/
+apps/*/coverage/
+apps/*/dev-dist/
+apps/*/*.tsbuildinfo
+apps/*/next-env.d.ts
 
 # Deployment tooling
 .netlify/
 .vercel/
 .wrangler/
+apps/*/.netlify/
+apps/*/.vercel/
+apps/*/.wrangler/
 
 # Logs and diagnostic output
 *.log
@@ -53,6 +71,10 @@ src/locales/**/*.js
 src/locales/**/*.mjs
 src/routes/**/-locales/*.js
 src/routes/**/-locales/*.mjs
+apps/*/src/locales/**/*.js
+apps/*/src/locales/**/*.mjs
+apps/*/src/routes/**/-locales/*.js
+apps/*/src/routes/**/-locales/*.mjs
 
 # IDE and local tool state
 .idea/
