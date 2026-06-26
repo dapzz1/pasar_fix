@@ -17,81 +17,228 @@ msgstr ""
 msgid "Admin Panel"
 msgstr "Admin Panel"
 
+#: src/routes/admin/index.tsx
+msgid "Administrative regions"
+msgstr "Wilayah administratif"
+
 #: src/routes/admin/-components/admin-sidebar.tsx
 msgid "Back to Home"
 msgstr "Kembali ke Beranda"
 
 #: src/routes/admin/index.tsx
+msgid "Cities and regencies"
+msgstr "Kota dan kabupaten"
+
+#: src/routes/admin/-components/nav-main.tsx
+#: src/routes/admin/index.tsx
+msgid "Commodities"
+msgstr "Komoditas"
+
+#: src/routes/admin/index.tsx
+msgid "Commodity master data"
+msgstr "Master data komoditas"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Commodity Type"
+msgstr "Jenis Komoditas"
+
+#: src/routes/admin/index.tsx
+msgid "Completeness of potential data used by the map"
+msgstr "Kelengkapan data potensi yang digunakan oleh peta"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Daily Sales"
+msgstr "Penjualan Harian"
+
+#: src/routes/admin/-components/nav-main.tsx
+#: src/routes/admin/index.tsx
 msgid "Dashboard"
 msgstr "Dashboard"
 
 #: src/routes/admin/index.tsx
-msgid "Foliar fertilizer with NPK 10-8-3 content enriched with complete micronutrients and ZPT!"
-msgstr ""
+msgid "Dashboard data could not be loaded. Please try again."
+msgstr "Data dashboard tidak dapat dimuat. Silakan coba lagi."
 
 #: src/routes/admin/index.tsx
-msgid "Here's an overview of marketing maps"
-msgstr "Tampilan Overview Peta Pemasaran"
+msgid "Here's an overview of marketing map data."
+msgstr "Berikut ringkasan data peta pemasaran."
+
+#: src/routes/admin/index.tsx
+msgid "Land classifications"
+msgstr "Klasifikasi lahan"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Land Type"
+msgstr "Jenis Lahan"
+
+#: src/routes/admin/index.tsx
+msgid "Land Types"
+msgstr "Jenis Lahan"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Lands"
+msgstr "Lahan"
 
 #: src/routes/admin/-components/nav-user.tsx
 msgid "Language"
 msgstr "Bahasa"
 
 #: src/routes/admin/index.tsx
-msgid "Liquid organic fertilizer containing organic carbon, macro and micro nutrients and functional microbes!"
-msgstr ""
+msgid "Last potential update:"
+msgstr "Pembaruan potensi terakhir:"
+
+#: src/routes/admin/index.tsx
+msgid "Latest Product Brands"
+msgstr "Brand Produk Terbaru"
 
 #: src/routes/admin/-components/admin-sidebar.tsx
+#: src/routes/admin/-components/nav-main.tsx
 msgid "Marketing Map"
 msgstr "Peta Pemasaran"
 
 #: src/routes/admin/-components/admin-layout.tsx
 msgid "Marketing Map Admin"
-msgstr ""
+msgstr "Admin Peta Pemasaran"
 
 #: src/routes/admin/index.tsx
-msgid "New and Development Product"
-msgstr ""
+msgid "Most recently registered products"
+msgstr "Produk yang paling baru didaftarkan"
 
 #: src/routes/admin/index.tsx
-msgid "New Probiotic Innovations Petrofish grows natural food and contains beneficial microbes!"
-msgstr ""
+msgid "No data"
+msgstr "Tidak ada data"
 
 #: src/routes/admin/index.tsx
-msgid "NPK Phonska Cair"
-msgstr ""
+msgid "No description available"
+msgstr "Tidak ada deskripsi"
 
 #: src/routes/admin/index.tsx
-msgid "Number of Commodities"
-msgstr "Jumlah Komoditas"
+msgid "No product brands have been registered."
+msgstr "Belum ada brand produk yang didaftarkan."
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Overview"
+msgstr "Ringkasan"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Potential"
+msgstr "Potensi"
 
 #: src/routes/admin/index.tsx
-msgid "Number of Land Type"
-msgstr "Jumlah Jenis Lahan"
+msgid "Potential entries"
+msgstr "Entri potensi"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Product Brand"
+msgstr "Brand Produk"
 
 #: src/routes/admin/index.tsx
-msgid "Number of Provinces"
-msgstr "Jumlah Provinsi"
+msgid "Product Brands"
+msgstr "Brand Produk"
 
 #: src/routes/admin/index.tsx
-msgid "Number of Regencies"
-msgstr "Jumlah Kabupaten"
+msgid "Product categories"
+msgstr "Kategori produk"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Product Dosage"
+msgstr "Dosis Produk"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Product Type"
+msgstr "Jenis Produk"
 
 #: src/routes/admin/index.tsx
-msgid "Petrofish"
-msgstr ""
+msgid "Product Types"
+msgstr "Jenis Produk"
 
-#: src/routes/admin/index.tsx
-msgid "Phonska OCA Plus"
-msgstr ""
-
-#: src/routes/admin/index.tsx
-msgid "Products of concern to the New Product Management Unit"
-msgstr ""
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Products"
+msgstr "Produk"
 
 #: src/routes/admin/-components/nav-user.tsx
 msgid "Profile"
 msgstr "Profil"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Province"
+msgstr "Provinsi"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Province Commodity"
+msgstr "Komoditas Provinsi"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Province Land"
+msgstr "Lahan Provinsi"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Province Potential"
+msgstr "Potensi Provinsi"
+
+#: src/routes/admin/index.tsx
+msgid "Province Potential Coverage"
+msgstr "Cakupan Potensi Provinsi"
+
+#: src/routes/admin/index.tsx
+msgid "Province potential coverage {provinceCoverage}%"
+msgstr "Cakupan potensi provinsi {provinceCoverage}%"
+
+#: src/routes/admin/index.tsx
+msgid "Provinces"
+msgstr "Provinsi"
+
+#: src/routes/admin/index.tsx
+msgid "provinces covered"
+msgstr "provinsi tercakup"
+
+#: src/routes/admin/index.tsx
+msgid "Regencies"
+msgstr "Kabupaten"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Regency"
+msgstr "Kabupaten"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Regency Commodity"
+msgstr "Komoditas Kabupaten"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Regency Land"
+msgstr "Lahan Kabupaten"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Regency Potential"
+msgstr "Potensi Kabupaten"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Regions"
+msgstr "Wilayah"
+
+#: src/routes/admin/index.tsx
+msgid "Registered product brands"
+msgstr "Brand produk terdaftar"
+
+#: src/routes/admin/index.tsx
+msgid "Registered sales outlets"
+msgstr "Outlet penjualan terdaftar"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Sale"
+msgstr "Penjualan"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Sales Overview"
+msgstr "Ringkasan Penjualan"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Sales Realization"
+msgstr "Realisasi Penjualan"
+
+#: src/routes/admin/index.tsx
+msgid "Sales Realizations"
+msgstr "Realisasi Penjualan"
 
 #: src/routes/admin/-components/nav-user.tsx
 msgid "Settings"
@@ -101,12 +248,36 @@ msgstr "Pengaturan"
 msgid "Sign out"
 msgstr "Keluar"
 
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Stall"
+msgstr "Kios"
+
+#: src/routes/admin/index.tsx
+msgid "Stalls"
+msgstr "Kios"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Stalls Overview"
+msgstr "Ringkasan Kios"
+
 #: src/routes/admin/-components/admin-layout.tsx
 #: src/routes/admin/-components/admin-layout.tsx
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Buka tutup sidebar"
 
-#. placeholder {0}: user?.name
+#: src/routes/admin/index.tsx
+msgid "Total potential"
+msgstr "Total potensi"
+
+#: src/routes/admin/index.tsx
+msgid "Uploaded sales reports"
+msgstr "Laporan penjualan yang diunggah"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "User Management"
+msgstr "Manajemen Pengguna"
+
+#. placeholder {0}: user?.name ?? 'Admin'
 #: src/routes/admin/index.tsx
 msgid "Welcome back, {0}"
 msgstr "Selamat Datang Kembali, {0}"

@@ -137,7 +137,7 @@ export function NavUser({ user }: { user: UserType }) {
                 <Languages className="mr-2 h-4 w-4" />
                 {label}
                 {locale === i18n.locale && (
-                  <span className="ml-auto text-primary">✓</span>
+                  <span className="ml-auto text-primary text-xs">Active</span>
                 )}
               </DropdownMenuItem>
             ))}

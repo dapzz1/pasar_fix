@@ -17,31 +17,82 @@ msgstr ""
 msgid "Admin Panel"
 msgstr "Admin Panel"
 
+#: src/routes/admin/index.tsx
+msgid "Administrative regions"
+msgstr "Administrative regions"
+
 #: src/routes/admin/-components/admin-sidebar.tsx
 msgid "Back to Home"
 msgstr "Back to Home"
 
 #: src/routes/admin/index.tsx
+msgid "Cities and regencies"
+msgstr "Cities and regencies"
+
+#: src/routes/admin/-components/nav-main.tsx
+#: src/routes/admin/index.tsx
+msgid "Commodities"
+msgstr "Commodities"
+
+#: src/routes/admin/index.tsx
+msgid "Commodity master data"
+msgstr "Commodity master data"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Commodity Type"
+msgstr "Commodity Type"
+
+#: src/routes/admin/index.tsx
+msgid "Completeness of potential data used by the map"
+msgstr "Completeness of potential data used by the map"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Daily Sales"
+msgstr "Daily Sales"
+
+#: src/routes/admin/-components/nav-main.tsx
+#: src/routes/admin/index.tsx
 msgid "Dashboard"
 msgstr "Dashboard"
 
 #: src/routes/admin/index.tsx
-msgid "Foliar fertilizer with NPK 10-8-3 content enriched with complete micronutrients and ZPT!"
-msgstr "Foliar fertilizer with NPK 10-8-3 content enriched with complete micronutrients and ZPT!"
+msgid "Dashboard data could not be loaded. Please try again."
+msgstr "Dashboard data could not be loaded. Please try again."
 
 #: src/routes/admin/index.tsx
-msgid "Here's an overview of marketing maps"
-msgstr "Here's an overview of marketing maps"
+msgid "Here's an overview of marketing map data."
+msgstr "Here's an overview of marketing map data."
+
+#: src/routes/admin/index.tsx
+msgid "Land classifications"
+msgstr "Land classifications"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Land Type"
+msgstr "Land Type"
+
+#: src/routes/admin/index.tsx
+msgid "Land Types"
+msgstr "Land Types"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Lands"
+msgstr "Lands"
 
 #: src/routes/admin/-components/nav-user.tsx
 msgid "Language"
 msgstr "Language"
 
 #: src/routes/admin/index.tsx
-msgid "Liquid organic fertilizer containing organic carbon, macro and micro nutrients and functional microbes!"
-msgstr "Liquid organic fertilizer containing organic carbon, macro and micro nutrients and functional microbes!"
+msgid "Last potential update:"
+msgstr "Last potential update:"
+
+#: src/routes/admin/index.tsx
+msgid "Latest Product Brands"
+msgstr "Latest Product Brands"
 
 #: src/routes/admin/-components/admin-sidebar.tsx
+#: src/routes/admin/-components/nav-main.tsx
 msgid "Marketing Map"
 msgstr "Marketing Map"
 
@@ -50,48 +101,144 @@ msgid "Marketing Map Admin"
 msgstr "Marketing Map Admin"
 
 #: src/routes/admin/index.tsx
-msgid "New and Development Product"
-msgstr "New and Development Product"
+msgid "Most recently registered products"
+msgstr "Most recently registered products"
 
 #: src/routes/admin/index.tsx
-msgid "New Probiotic Innovations Petrofish grows natural food and contains beneficial microbes!"
-msgstr "New Probiotic Innovations Petrofish grows natural food and contains beneficial microbes!"
+msgid "No data"
+msgstr "No data"
 
 #: src/routes/admin/index.tsx
-msgid "NPK Phonska Cair"
-msgstr "NPK Phonska Cair"
+msgid "No description available"
+msgstr "No description available"
 
 #: src/routes/admin/index.tsx
-msgid "Number of Commodities"
-msgstr "Number of Commodities"
+msgid "No product brands have been registered."
+msgstr "No product brands have been registered."
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Overview"
+msgstr "Overview"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Potential"
+msgstr "Potential"
 
 #: src/routes/admin/index.tsx
-msgid "Number of Land Type"
-msgstr "Number of Land Type"
+msgid "Potential entries"
+msgstr "Potential entries"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Product Brand"
+msgstr "Product Brand"
 
 #: src/routes/admin/index.tsx
-msgid "Number of Provinces"
-msgstr "Number of Provinces"
+msgid "Product Brands"
+msgstr "Product Brands"
 
 #: src/routes/admin/index.tsx
-msgid "Number of Regencies"
-msgstr "Number of Regencies"
+msgid "Product categories"
+msgstr "Product categories"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Product Dosage"
+msgstr "Product Dosage"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Product Type"
+msgstr "Product Type"
 
 #: src/routes/admin/index.tsx
-msgid "Petrofish"
-msgstr "Petrofish"
+msgid "Product Types"
+msgstr "Product Types"
 
-#: src/routes/admin/index.tsx
-msgid "Phonska OCA Plus"
-msgstr "Phonska OCA Plus"
-
-#: src/routes/admin/index.tsx
-msgid "Products of concern to the New Product Management Unit"
-msgstr "Products of concern to the New Product Management Unit"
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Products"
+msgstr "Products"
 
 #: src/routes/admin/-components/nav-user.tsx
 msgid "Profile"
 msgstr "Profile"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Province"
+msgstr "Province"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Province Commodity"
+msgstr "Province Commodity"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Province Land"
+msgstr "Province Land"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Province Potential"
+msgstr "Province Potential"
+
+#: src/routes/admin/index.tsx
+msgid "Province Potential Coverage"
+msgstr "Province Potential Coverage"
+
+#: src/routes/admin/index.tsx
+msgid "Province potential coverage {provinceCoverage}%"
+msgstr "Province potential coverage {provinceCoverage}%"
+
+#: src/routes/admin/index.tsx
+msgid "Provinces"
+msgstr "Provinces"
+
+#: src/routes/admin/index.tsx
+msgid "provinces covered"
+msgstr "provinces covered"
+
+#: src/routes/admin/index.tsx
+msgid "Regencies"
+msgstr "Regencies"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Regency"
+msgstr "Regency"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Regency Commodity"
+msgstr "Regency Commodity"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Regency Land"
+msgstr "Regency Land"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Regency Potential"
+msgstr "Regency Potential"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Regions"
+msgstr "Regions"
+
+#: src/routes/admin/index.tsx
+msgid "Registered product brands"
+msgstr "Registered product brands"
+
+#: src/routes/admin/index.tsx
+msgid "Registered sales outlets"
+msgstr "Registered sales outlets"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Sale"
+msgstr "Sale"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Sales Overview"
+msgstr "Sales Overview"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Sales Realization"
+msgstr "Sales Realization"
+
+#: src/routes/admin/index.tsx
+msgid "Sales Realizations"
+msgstr "Sales Realizations"
 
 #: src/routes/admin/-components/nav-user.tsx
 msgid "Settings"
@@ -101,12 +248,36 @@ msgstr "Settings"
 msgid "Sign out"
 msgstr "Sign out"
 
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Stall"
+msgstr "Stall"
+
+#: src/routes/admin/index.tsx
+msgid "Stalls"
+msgstr "Stalls"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "Stalls Overview"
+msgstr "Stalls Overview"
+
 #: src/routes/admin/-components/admin-layout.tsx
 #: src/routes/admin/-components/admin-layout.tsx
 msgid "Toggle sidebar"
 msgstr "Toggle sidebar"
 
-#. placeholder {0}: user?.name
+#: src/routes/admin/index.tsx
+msgid "Total potential"
+msgstr "Total potential"
+
+#: src/routes/admin/index.tsx
+msgid "Uploaded sales reports"
+msgstr "Uploaded sales reports"
+
+#: src/routes/admin/-components/nav-main.tsx
+msgid "User Management"
+msgstr "User Management"
+
+#. placeholder {0}: user?.name ?? 'Admin'
 #: src/routes/admin/index.tsx
 msgid "Welcome back, {0}"
 msgstr "Welcome back, {0}"

@@ -14,8 +14,8 @@ import {
 import { dynamicActivate } from '@/lib/lingui/i18n';
 
 const locales = {
-  en: 'English',
-  id: 'Indonesian',
+  en: 'EN (English)',
+  id: 'ID (Indonesia)',
 };
 
 export default function LanguageSwitcher() {
@@ -44,13 +44,20 @@ export default function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="gap-2" size="sm" variant="outline">
+        <Button
+          className="gap-2 border-white/15 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+          size="sm"
+          variant="outline"
+        >
           <Languages className="h-4 w-4" />
-          {i18n.locale}
+          <span className="font-semibold uppercase">{i18n.locale}</span>
           <ChevronDown className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent
+        align="end"
+        className="bg-popover text-popover-foreground"
+      >
         {Object.entries(locales).map(([locale, label]) => (
           <DropdownMenuItem
             className={locale === i18n.locale ? 'font-semibold' : ''}
@@ -59,7 +66,7 @@ export default function LanguageSwitcher() {
           >
             {label}
             {locale === i18n.locale && (
-              <span className="ml-auto text-primary">✓</span>
+              <span className="ml-auto text-primary text-xs">Active</span>
             )}
           </DropdownMenuItem>
         ))}

@@ -16,6 +16,19 @@ export default defineConfig({
         'src/routes/**/-locales/**', // Exclude feature locales - they have their own catalogs
       ],
     },
+    // Top-level pages and public feature pages
+    {
+      path: '<rootDir>/src/routes/-locales/pages-{locale}',
+      include: ['src/routes/**'],
+      exclude: [
+        '**/node_modules/**',
+        'src/routes/**/-locales/**',
+        'src/routes/auth/**',
+        'src/routes/todos/**',
+        'src/routes/admin/**',
+        'src/routes/map/**',
+      ],
+    },
     // Auth feature translations
     {
       path: '<rootDir>/src/routes/auth/-locales/auth-{locale}',

@@ -1,0 +1,97 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-06-26 17:48+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: src/routes/dashboard.tsx
+msgid "Account information and session details"
+msgstr "Account information and session details"
+
+#: src/routes/dashboard.tsx
+msgid "Back to Home"
+msgstr "Back to Home"
+
+#: src/routes/dashboard.tsx
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: src/routes/dashboard.tsx
+msgid "Email Verified:"
+msgstr "Email Verified:"
+
+#: src/routes/dashboard.tsx
+msgid "Email:"
+msgstr "Email:"
+
+#: src/routes/dashboard.tsx
+msgid "Explore the application features"
+msgstr "Explore the application features"
+
+#: src/routes/dashboard.tsx
+msgid "Loading..."
+msgstr "Loading..."
+
+#: src/routes/dashboard.tsx
+msgid "Name:"
+msgstr "Name:"
+
+#: src/routes/dashboard.tsx
+msgid "Not Verified"
+msgstr "Not Verified"
+
+#: src/routes/dashboard.tsx
+msgid "Protected Data"
+msgstr "Protected Data"
+
+#: src/routes/dashboard.tsx
+msgid "Protected Route"
+msgstr "Protected Route"
+
+#: src/routes/dashboard.tsx
+msgid "Quick Actions"
+msgstr "Quick Actions"
+
+#: src/routes/dashboard.tsx
+msgid "Server Message:"
+msgstr "Server Message:"
+
+#: src/routes/dashboard.tsx
+msgid "Sign Out"
+msgstr "Sign Out"
+
+#: src/routes/dashboard.tsx
+msgid "This data comes from a protected oRPC endpoint"
+msgstr "This data comes from a protected oRPC endpoint"
+
+#: src/routes/dashboard.tsx
+msgid "This data is only accessible to authenticated users via the"
+msgstr "This data is only accessible to authenticated users via the"
+
+#: src/routes/dashboard.tsx
+msgid "Try Forms"
+msgstr "Try Forms"
+
+#: src/routes/dashboard.tsx
+msgid "User ID:"
+msgstr "User ID:"
+
+#: src/routes/dashboard.tsx
+msgid "Verified"
+msgstr "Verified"
+
+#: src/routes/dashboard.tsx
+msgid "View Todos"
+msgstr "View Todos"
+
+#. placeholder {0}: user.name
+#: src/routes/dashboard.tsx
+msgid "Welcome back, {0}!"
+msgstr "Welcome back, {0}!"
+
+#: src/routes/dashboard.tsx
+msgid "Your Account"
+msgstr "Your Account"

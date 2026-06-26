@@ -13,11 +13,21 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#. placeholder {0}: COMMODITIES.length
+#: src/routes/map/-components/marketing-map-page.tsx
+msgid "{0} Commodities"
+msgstr "{0} Commodities"
+
 #: src/routes/map/-components/stall-markers.tsx
 msgid "Address"
 msgstr "Address"
 
+#: src/routes/map/-components/marketing-map-page.tsx
+msgid "Admin Panel"
+msgstr "Admin Panel"
+
 #: src/routes/map/-components/map-sidebar.tsx
+#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Administrative Level"
 msgstr "Administrative Level"
 
@@ -34,6 +44,7 @@ msgid "Chili"
 msgstr "Chili"
 
 #: src/routes/map/-components/map-sidebar.tsx
+#: src/routes/map/-components/map-sidebar.tsx
 msgid "Commodity Type"
 msgstr "Commodity Type"
 
@@ -46,17 +57,25 @@ msgid "Criteria"
 msgstr "Criteria"
 
 #: src/routes/map/-components/map-sidebar.tsx
+#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Filter by"
 msgstr "Filter by"
 
 #: src/routes/map/-components/dynamic-map.tsx
+#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Hide Kios"
 msgstr "Hide Kios"
 
 #: src/routes/map/-components/dynamic-map.tsx
+#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Hide Potential"
 msgstr "Hide Potential"
 
+#: src/routes/map/-components/marketing-map-page.tsx
+msgid "Home"
+msgstr "Home"
+
+#: src/routes/map/-components/map-sidebar.tsx
 #: src/routes/map/-components/map-sidebar.tsx
 msgid "Land Type"
 msgstr "Land Type"
@@ -65,9 +84,22 @@ msgstr "Land Type"
 msgid "Last updated on:"
 msgstr "Last updated on:"
 
+#: src/routes/map/-components/marketing-map-page.tsx
+msgid "Last updated: —"
+msgstr "Last updated: —"
+
+#: src/routes/map/-components/marketing-map-page.tsx
+msgid "Last updated: {lastUpdated}"
+msgstr "Last updated: {lastUpdated}"
+
 #: src/routes/map/-components/dynamic-map.tsx
+#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Loading..."
 msgstr "Loading..."
+
+#: src/routes/map/-components/marketing-map-page.tsx
+msgid "Map Controls"
+msgstr "Map Controls"
 
 #: src/routes/map/-components/map-sidebar.tsx
 msgid "Marketing Map Control"
@@ -82,6 +114,7 @@ msgid "Mustard greens"
 msgstr "Mustard greens"
 
 #: src/routes/map/-components/map-sidebar.tsx
+#: src/routes/map/-components/marketing-map-page.tsx
 msgid "National"
 msgstr "National"
 
@@ -101,19 +134,26 @@ msgstr "Phone"
 msgid "Potatoes"
 msgstr "Potatoes"
 
+#: src/routes/map/-components/marketing-map-page.tsx
+msgid "Potential Maps"
+msgstr "Potential Maps"
+
 #: src/routes/map/-components/map-sidebar.tsx
 #: src/routes/map/-components/map-sidebar.tsx
+#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Product Brand"
 msgstr "Product Brand"
 
 #: src/routes/map/-components/map-sidebar.tsx
 #: src/routes/map/-components/map-sidebar.tsx
 #: src/routes/map/-components/map-sidebar.tsx
+#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Province"
 msgstr "Province"
 
 #: src/routes/map/-components/map-sidebar.tsx
 #: src/routes/map/-components/map-sidebar.tsx
+#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Regency"
 msgstr "Regency"
 
@@ -126,12 +166,18 @@ msgid "Shallots"
 msgstr "Shallots"
 
 #: src/routes/map/-components/dynamic-map.tsx
+#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Show Kios"
 msgstr "Show Kios"
 
 #: src/routes/map/-components/dynamic-map.tsx
+#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Show Potential"
 msgstr "Show Potential"
+
+#: src/routes/map/-components/marketing-map-page.tsx
+msgid "Sign Out"
+msgstr "Sign Out"
 
 #: src/routes/map/-components/map-sidebar.tsx
 msgid "Soybeans"
@@ -158,196 +204,6 @@ msgid "Watermelon"
 msgstr "Watermelon"
 
 #: src/routes/map/-components/map-sidebar.tsx
+#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Year"
 msgstr "Year"
-#: src/routes/index.tsx
-msgid "Desember 2025 · Komp. Mitra Bisnis"
-msgstr "December 2025 · Business Partner Div."
-
-#: src/routes/index.tsx
-msgid "Manajemen"
-msgstr "Management"
-
-#: src/routes/index.tsx
-msgid "Produk Baru"
-msgstr "New Products"
-
-#: src/routes/index.tsx
-msgid "Pemasaran, market intelligence, dan brand awareness untuk produk baru Petrokimia Gresik."
-msgstr "Marketing, market intelligence, and brand awareness for Petrokimia Gresik's new products."
-
-#: src/routes/index.tsx
-msgid "Lihat Peta Pemasaran"
-msgstr "View Marketing Map"
-
-#: src/routes/index.tsx
-msgid "Program Kerja"
-msgstr "Work Programs"
-
-#: src/routes/index.tsx
-msgid "Provinsi"
-msgstr "Provinces"
-
-#: src/routes/index.tsx
-msgid "Wilayah terdaftar"
-msgstr "Registered regions"
-
-#: src/routes/index.tsx
-msgid "Komoditas"
-msgstr "Commodities"
-
-#: src/routes/index.tsx
-msgid "Aktif di pasar"
-msgstr "Active in market"
-
-#: src/routes/index.tsx
-msgid "Brand Produk"
-msgstr "Product Brands"
-
-#: src/routes/index.tsx
-msgid "Dalam portofolio"
-msgstr "In portfolio"
-
-#: src/routes/index.tsx
-msgid "Kios"
-msgstr "Stalls"
-
-#: src/routes/index.tsx
-msgid "Jaringan distribusi"
-msgstr "Distribution network"
-
-#: src/routes/index.tsx
-msgid "Program Kerja Utama"
-msgstr "Main Work Programs"
-
-#: src/routes/index.tsx
-msgid "Tiga Pilar Kegiatan Pemasaran"
-msgstr "Three Pillars of Marketing Activities"
-
-#: src/routes/index.tsx
-msgid "Peta Pasar & Strategi Penjualan"
-msgstr "Market Map & Sales Strategy"
-
-#: src/routes/index.tsx
-msgid "Identifikasi kebutuhan konsumen dan pemetaan sales channel untuk produk baru."
-msgstr "Identify consumer needs and map sales channels for new products."
-
-#: src/routes/index.tsx
-msgid "Roadshow Customer"
-msgstr "Customer Roadshow"
-
-#: src/routes/index.tsx
-msgid "Kunjungan end user, monitoring pasar, dan penguatan jaringan distribusi lapangan."
-msgstr "End user visits, market monitoring, and strengthening field distribution networks."
-
-#: src/routes/index.tsx
-msgid "Sosialisasi & Demplot"
-msgstr "Socialization & Demo Plots"
-
-#: src/routes/index.tsx
-msgid "Penguatan brand awareness dan edukasi produk melalui demonstrasi plot aktif."
-msgstr "Strengthening brand awareness and product education through active demonstration plots."
-
-#: src/routes/index.tsx
-msgid "Monitoring & Penetrasi 2026"
-msgstr "Monitoring & Penetration 2026"
-
-#: src/routes/index.tsx
-msgid "Program Lapangan Prioritas"
-msgstr "Priority Field Programs"
-
-#: src/routes/index.tsx
-msgid "Monitoring Pasar Produk Baru"
-msgstr "New Product Market Monitoring"
-
-#: src/routes/index.tsx
-msgid "Jawa & Bali"
-msgstr "Java & Bali"
-
-#: src/routes/index.tsx
-msgid "Juni – September 2026"
-msgstr "June – September 2026"
-
-#: src/routes/index.tsx
-msgid "Monitoring Kerjasama Demplot"
-msgstr "Demo Plot Cooperation Monitoring"
-
-#: src/routes/index.tsx
-msgid "Biofertil & Petro Gladiator"
-msgstr "Biofertil & Petro Gladiator"
-
-#: src/routes/index.tsx
-msgid "Februari 2026"
-msgstr "February 2026"
-
-#: src/routes/index.tsx
-msgid "Penetrasi Pasar Petro Fish"
-msgstr "Petro Fish Market Penetration"
-
-#: src/routes/index.tsx
-msgid "Usaha tambak skala menengah–besar"
-msgstr "Medium to large-scale fish pond businesses"
-
-#: src/routes/index.tsx
-msgid "April – Mei 2026"
-msgstr "April – May 2026"
-
-#: src/routes/index.tsx
-msgid "Struktur Organisasi"
-msgstr "Organizational Structure"
-
-#: src/routes/index.tsx
-msgid "Tim Manajemen Produk Baru 2025"
-msgstr "New Product Management Team 2025"
-
-#: src/routes/index.tsx
-msgid "PM — Pimpinan"
-msgstr "PM — Lead"
-
-#: src/routes/index.tsx
-msgid "PM Manajemen Produk Baru"
-msgstr "PM New Product Management"
-
-#: src/routes/index.tsx
-msgid "SMD I — Wakil"
-msgstr "SMD I — Deputy"
-
-#: src/routes/index.tsx
-msgid "SMD I Manajemen Produk Baru"
-msgstr "SMD I New Product Management"
-
-#: src/routes/index.tsx
-msgid "Tanggung Jawab Utama"
-msgstr "Main Responsibilities"
-
-#: src/routes/index.tsx
-msgid "Pemetaan pasar dan pengembangan produk baru"
-msgstr "Market mapping and new product development"
-
-#: src/routes/index.tsx
-msgid "Memastikan target penjualan & evaluasi pencapaian"
-msgstr "Ensuring sales targets & achievement evaluation"
-
-#: src/routes/index.tsx
-msgid "Mengembangkan strategi penjualan yang adaptif"
-msgstr "Developing adaptive sales strategies"
-
-#: src/routes/index.tsx
-msgid "Sosialisasi change management internal & eksternal"
-msgstr "Internal & external change management socialization"
-
-#: src/routes/index.tsx
-msgid "Memenuhi aspek legal & good corporate governance"
-msgstr "Fulfilling legal aspects & good corporate governance"
-
-#: src/routes/index.tsx
-msgid "Jelajahi Peta Pemasaran"
-msgstr "Explore the Marketing Map"
-
-#: src/routes/index.tsx
-msgid "Lihat persebaran pasar dan potensi produk baru Petrokimia Gresik secara visual dan interaktif."
-msgstr "View the market distribution and potential of Petrokimia Gresik's new products visually and interactively."
-
-#: src/routes/index.tsx
-msgid "Buka Peta →"
-msgstr "Open Map →"
