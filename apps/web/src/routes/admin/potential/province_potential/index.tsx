@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { Edit, Plus, Search, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,7 +11,15 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { orpc } from '@/lib/orpc/client';
+import { displayYear, getYearOptions } from '@/lib/utils/year-options';
 import { CreateProvincePotentialForm } from './-components/create-province-potential-form';
 import { DeleteProvincePotentialForm } from './-components/delete-province-potential-form';
 import { EditProvincePotentialForm } from './-components/edit-province-potential-form';
@@ -30,6 +38,7 @@ export const Route = createFileRoute('/admin/potential/province_potential/')({
   component: RouteComponent,
   validateSearch: z.object({
     q: z.string().optional(),
+    year: z.string().optional(),
     create: z.string().optional(),
     edit: z.string().optional(),
     delete: z.string().optional(),
@@ -44,6 +53,7 @@ function RouteComponent() {
   const [currentDeleteItem, setCurrentDeleteItem] =
     useState<ProvincePotentialListItem | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const selectedYear = search.year ?? 'all';
 
   useEffect(() => {
     setSearchTerm(search.q || '');
@@ -52,11 +62,18 @@ function RouteComponent() {
   const { data: provincePotentials, isLoading } = useQuery(
     orpc.admin.potential.province_potential.get.queryOptions({ input: {} })
   );
+  const yearOptions = useMemo(
+    () => getYearOptions(provincePotentials?.data ?? []),
+    [provincePotentials?.data]
+  );
   const list =
     provincePotentials?.data.filter(
       (item) =>
-        item.provinceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.productBrandName.toLowerCase().includes(searchTerm.toLowerCase())
+        (selectedYear === 'all' || item.year === selectedYear) &&
+        (item.provinceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.productBrandName
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()))
     ) || [];
 
   useEffect(() => {
@@ -154,7 +171,7 @@ function RouteComponent() {
                     ? Number(item.potential).toLocaleString()
                     : '-'}
                 </td>
-                <td className="px-4 py-3 text-sm">{item.year || '-'}</td>
+                <td className="px-4 py-3 text-sm">{displayYear(item.year)}</td>
                 <td className="px-4 py-3 text-right text-sm">
                   <div className="flex justify-end gap-2">
                     <button
@@ -199,7 +216,7 @@ function RouteComponent() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="mb-4">
+          <div className="mb-4 grid gap-3 md:grid-cols-[1fr_200px]">
             <div className="relative">
               <Search className="-translate-y-1/2 absolute top-1/2 left-3 size-4 text-gray-400" />
               <input
@@ -219,6 +236,30 @@ function RouteComponent() {
                 value={searchTerm}
               />
             </div>
+            <Select
+              onValueChange={(year) => {
+                navigate({
+                  to: '.',
+                  search: (prev) => ({
+                    ...prev,
+                    year: year === 'all' ? undefined : year,
+                  }),
+                });
+              }}
+              value={selectedYear}
+            >
+              <SelectTrigger aria-label="Filter province potential by year">
+                <SelectValue placeholder="All Years" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Years</SelectItem>
+                {yearOptions.map((year) => (
+                  <SelectItem key={year} value={year}>
+                    {year}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           {renderContent}

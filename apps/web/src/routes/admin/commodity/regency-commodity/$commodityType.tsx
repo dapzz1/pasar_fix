@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { Edit, Plus, Search, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import z from 'zod';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,7 +11,15 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { orpc } from '@/lib/orpc/client';
+import { displayYear, getYearOptions } from '@/lib/utils/year-options';
 import { CreateRegencyCommodityForm } from './-components/create-regency-commodity-form';
 import { DeleteRegencyCommodityForm } from './-components/delete-regency-commodity-form';
 import { EditRegencyCommodityForm } from './-components/edit-regency-commodity-form';
@@ -21,7 +29,7 @@ type RegencyCommodityListItem = {
   regencyId: string;
   commodityTypeId: string;
   area: number | null;
-  year: string;
+  year: string | null;
 };
 
 export const Route = createFileRoute(
@@ -30,6 +38,7 @@ export const Route = createFileRoute(
   component: RouteComponent,
   validateSearch: z.object({
     q: z.string().optional(),
+    year: z.string().optional(),
     create: z.string().optional(),
     edit: z.string().optional(),
     delete: z.string().optional(),
@@ -57,6 +66,7 @@ function RouteComponent() {
   const search = Route.useSearch();
 
   const { create, edit, delete: deleteParam } = search;
+  const selectedYear = search.year ?? 'all';
   const [currentDeleteRegencyCommodity, setCurrentDeleteRegencyCommodity] =
     useState<RegencyCommodityListItem | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -67,15 +77,30 @@ function RouteComponent() {
 
   useEffect(() => {
     if (deleteParam && regencyCommodities) {
-      const rc = regencyCommodities.data.find((rc) => rc.id === deleteParam);
-      if (rc) {
-        setCurrentDeleteRegencyCommodity(rc);
+      const matchedCommodity = regencyCommodities.data.find(
+        (item) => item.id === deleteParam
+      );
+      if (matchedCommodity) {
+        setCurrentDeleteRegencyCommodity(matchedCommodity);
       }
     }
   }, [deleteParam, regencyCommodities]);
 
-  const updateUrlParams = (params: Record<string, string | undefined>) => {
-    navigate({ to: '.', search: (prev) => ({ ...prev, ...params }) });
+  const yearOptions = useMemo(
+    () => getYearOptions(filteredRegencyCommodities ?? []),
+    [filteredRegencyCommodities]
+  );
+  const visibleRegencyCommodities = useMemo(() => {
+    const keyword = searchTerm.trim().toLowerCase();
+    return (filteredRegencyCommodities ?? []).filter(
+      (item) =>
+        (selectedYear === 'all' || item.year === selectedYear) &&
+        (!keyword || item.regencyName.toLowerCase().includes(keyword))
+    );
+  }, [filteredRegencyCommodities, searchTerm, selectedYear]);
+
+  const updateUrlParams = (updates: Record<string, string | undefined>) => {
+    navigate({ to: '.', search: (prev) => ({ ...prev, ...updates }) });
   };
 
   const handleCreate = () => {
@@ -133,7 +158,7 @@ function RouteComponent() {
               Regencies and {commodityTypeName} areas
             </CardDescription>
           </div>
-          <div className="flex w-full flex-wrap gap-2 sm:w-auto">
+          <div className="grid w-full gap-2 sm:grid-cols-[minmax(180px,1fr)_160px_auto]">
             <div className="relative min-w-[150px] flex-1">
               <input
                 className="w-full rounded-lg border py-2 pr-4 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -147,6 +172,26 @@ function RouteComponent() {
               />
               <Search className="absolute top-2.5 left-3 h-4 w-4" />
             </div>
+            <Select
+              onValueChange={(year) =>
+                updateUrlParams({
+                  year: year === 'all' ? undefined : year,
+                })
+              }
+              value={selectedYear}
+            >
+              <SelectTrigger aria-label="Filter regency commodity by year">
+                <SelectValue placeholder="All Years" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Years</SelectItem>
+                {yearOptions.map((year) => (
+                  <SelectItem key={year} value={year}>
+                    {year}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <Button className="min-w-[100px]" onClick={handleCreate}>
               <Plus className="mr-2 h-4 w-4" />
               Add
@@ -158,7 +203,7 @@ function RouteComponent() {
             if (isLoading) {
               return <p>Loading regency commodities...</p>;
             }
-            if (filteredRegencyCommodities?.length === 0) {
+            if (visibleRegencyCommodities.length === 0) {
               return (
                 <p className="text-center text-gray-500">
                   No regency commodities found.
@@ -167,7 +212,7 @@ function RouteComponent() {
             }
             return (
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {filteredRegencyCommodities?.map((regencyCommodity) => (
+                {visibleRegencyCommodities.map((regencyCommodity) => (
                   <Card
                     className="group relative flex flex-col overflow-hidden"
                     key={regencyCommodity.id}
@@ -184,7 +229,7 @@ function RouteComponent() {
                             hectares
                           </CardDescription>
                           <CardDescription className="text-xs">
-                            Year: {regencyCommodity.year}
+                            Year: {displayYear(regencyCommodity.year)}
                           </CardDescription>
                         </div>
                       </div>

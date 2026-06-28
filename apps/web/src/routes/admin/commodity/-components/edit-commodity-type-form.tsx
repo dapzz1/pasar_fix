@@ -86,7 +86,7 @@ export function EditCommodityTypeForm({
     form.setFieldValue('name', currentCommodityType?.name ?? '');
     form.setFieldValue('landTypeId', currentCommodityType?.landTypeId ?? '');
     form.setFieldValue('year', currentCommodityType?.year ?? '');
-  }, [open, currentCommodityType, form]);
+  }, [currentCommodityType, form]);
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>

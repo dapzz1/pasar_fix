@@ -63,15 +63,17 @@ function RouteComponent() {
 
   useEffect(() => {
     if (deleteParam && provinceLands) {
-      const pl = provinceLands.data.find((pl) => pl.id === deleteParam);
-      if (pl) {
-        setCurrentDeleteProvinceLand(pl);
+      const matchedLand = provinceLands.data.find(
+        (item) => item.id === deleteParam
+      );
+      if (matchedLand) {
+        setCurrentDeleteProvinceLand(matchedLand);
       }
     }
   }, [deleteParam, provinceLands]);
 
-  const updateUrlParams = (params: Record<string, string | undefined>) => {
-    navigate({ to: '.', search: (prev) => ({ ...prev, ...params }) });
+  const updateUrlParams = (updates: Record<string, string | undefined>) => {
+    navigate({ to: '.', search: (prev) => ({ ...prev, ...updates }) });
   };
 
   const handleCreate = () => {

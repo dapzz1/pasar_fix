@@ -119,7 +119,7 @@ export function EditProvincePotentialForm({
       currentProvincePotential?.description ?? ''
     );
     form.setFieldValue('year', currentProvincePotential?.year ?? '');
-  }, [open, currentProvincePotential, form]);
+  }, [currentProvincePotential, form]);
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>

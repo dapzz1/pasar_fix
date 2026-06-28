@@ -21,7 +21,7 @@ export const createProvince = protectedProcedure
         .returning();
       return createdProvince;
     } catch (err) {
-      const msg = (err as any)?.message ?? String(err);
+      const msg = err instanceof Error ? err.message : String(err);
       // Convert common unique constraint DB errors into a friendly ORPCError
       if (
         msg.toLowerCase().includes('unique') ||

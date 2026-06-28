@@ -72,7 +72,7 @@ export function EditLandTypeForm({
 
   useEffect(() => {
     form.setFieldValue('name', currentLandType?.name ?? '');
-  }, [open, currentLandType, form]);
+  }, [currentLandType, form]);
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>

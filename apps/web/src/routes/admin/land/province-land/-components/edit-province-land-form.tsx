@@ -87,7 +87,7 @@ export function EditProvinceLandForm({
     form.setFieldValue('provinceId', currentProvinceLand?.provinceId ?? '');
     form.setFieldValue('landTypeId', currentProvinceLand?.landTypeId ?? '');
     form.setFieldValue('area', currentProvinceLand?.area ?? 0);
-  }, [open, currentProvinceLand, form]);
+  }, [currentProvinceLand, form]);
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>

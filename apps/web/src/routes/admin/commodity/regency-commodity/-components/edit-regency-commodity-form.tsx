@@ -98,7 +98,7 @@ export function EditRegencyCommodityForm({
     );
     form.setFieldValue('area', currentRegencyCommodity?.area ?? 0);
     form.setFieldValue('year', currentRegencyCommodity?.year ?? '');
-  }, [open, currentRegencyCommodity, form]);
+  }, [currentRegencyCommodity, form]);
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>

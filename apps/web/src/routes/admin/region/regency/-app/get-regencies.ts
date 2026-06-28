@@ -1,4 +1,4 @@
-import { and, asc, eq, ilike } from 'drizzle-orm';
+import { and, asc, eq, ilike, type SQL } from 'drizzle-orm';
 import { z } from 'zod';
 import { provinces, regencies } from '@/lib/db/schema/map-product';
 import { protectedProcedure } from '@/lib/orpc';
@@ -13,10 +13,6 @@ export const getRegencies = protectedProcedure
     })
   )
   .handler(async ({ input, context }) => {
-    const page = input?.page ?? 1;
-    const limit = input?.limit ?? 10;
-    const _offset = (page - 1) * limit;
-
     const baseQuery = context.db
       .select({
         id: regencies.id,
@@ -28,7 +24,7 @@ export const getRegencies = protectedProcedure
       .from(regencies)
       .innerJoin(provinces, eq(regencies.provinceId, provinces.id));
 
-    const conditions: any[] = [];
+    const conditions: SQL[] = [];
     if (input.provinceId) {
       conditions.push(eq(regencies.provinceId, input.provinceId));
     }

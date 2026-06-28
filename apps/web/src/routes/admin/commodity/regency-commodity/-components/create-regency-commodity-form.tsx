@@ -42,9 +42,6 @@ export function CreateRegencyCommodityForm({
         }),
       });
     },
-    onError: (error) => {
-      console.error('Error creating regency commodity:', error);
-    },
   });
 
   const toast = useToast();

@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { orpc } from '@/lib/orpc/client';
+import { displayYear, getYearOptions } from '@/lib/utils/year-options';
 import { DeleteRegencyPotentialForm } from './-components/delete-regency-potential-form';
 import {
   RegencyPotentialForm,
@@ -32,6 +33,7 @@ export const Route = createFileRoute('/admin/potential/regency_potential/')({
 function RegencyPotentialPage() {
   const [search, setSearch] = useState('');
   const [provinceId, setProvinceId] = useState('all');
+  const [year, setYear] = useState('all');
   const [formOpen, setFormOpen] = useState(false);
   const [editingItem, setEditingItem] =
     useState<RegencyPotentialFormItem | null>(null);
@@ -46,19 +48,24 @@ function RegencyPotentialPage() {
   const provincesQuery = useQuery(
     orpc.admin.region.province.get.queryOptions({ input: {} })
   );
+  const yearOptions = useMemo(
+    () => getYearOptions(potentialsQuery.data?.data ?? []),
+    [potentialsQuery.data?.data]
+  );
   const filteredItems = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
     return (potentialsQuery.data?.data ?? []).filter((item) => {
       const matchesProvince =
         provinceId === 'all' || item.provinceId === provinceId;
+      const matchesYear = year === 'all' || item.year === year;
       const matchesSearch =
         !normalizedSearch ||
         item.provinceName.toLowerCase().includes(normalizedSearch) ||
         item.regencyName.toLowerCase().includes(normalizedSearch) ||
         item.productBrandName.toLowerCase().includes(normalizedSearch);
-      return matchesProvince && matchesSearch;
+      return matchesProvince && matchesYear && matchesSearch;
     });
-  }, [potentialsQuery.data, provinceId, search]);
+  }, [potentialsQuery.data, provinceId, search, year]);
 
   return (
     <div className="container mx-auto space-y-6 p-6">
@@ -84,7 +91,7 @@ function RegencyPotentialPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="mb-4 grid gap-3 md:grid-cols-[1fr_240px]">
+          <div className="mb-4 grid gap-3 md:grid-cols-[1fr_220px_180px]">
             <div className="relative">
               <Search className="-translate-y-1/2 absolute top-1/2 left-3 size-4 text-muted-foreground" />
               <Input
@@ -103,6 +110,19 @@ function RegencyPotentialPage() {
                 {provincesQuery.data?.data.map((province) => (
                   <SelectItem key={province.id} value={province.id}>
                     {province.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select onValueChange={setYear} value={year}>
+              <SelectTrigger aria-label="Filter regency potential by year">
+                <SelectValue placeholder="All Years" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Years</SelectItem>
+                {yearOptions.map((option) => (
+                  <SelectItem key={option} value={option}>
+                    {option}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -179,7 +199,9 @@ function RegencyPotentialPage() {
                       <td className="px-4 py-3 text-sm">
                         {item.potential?.toLocaleString() ?? '-'}
                       </td>
-                      <td className="px-4 py-3 text-sm">{item.year ?? '-'}</td>
+                      <td className="px-4 py-3 text-sm">
+                        {displayYear(item.year)}
+                      </td>
                       <td className="px-4 py-3 text-right">
                         <div className="flex justify-end gap-2">
                           <Button
