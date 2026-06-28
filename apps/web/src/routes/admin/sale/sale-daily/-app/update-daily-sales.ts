@@ -5,7 +5,7 @@ import { protectedProcedure } from '@/lib/orpc';
 import { DailySalesSchema } from '../-domain/schema';
 
 export const updateDailySales = protectedProcedure
-  .input(DailySalesSchema)
+  .input(DailySalesSchema.extend({ id: DailySalesSchema.shape.id.unwrap() }))
   .handler(async ({ input, context }) => {
     const [data] = await context.db
       .update(dailySales)
@@ -28,7 +28,7 @@ export const updateDailySales = protectedProcedure
 
         notes: input.notes,
       })
-      .where(eq(dailySales.id, input.id!))
+      .where(eq(dailySales.id, input.id))
       .returning();
 
     return data;

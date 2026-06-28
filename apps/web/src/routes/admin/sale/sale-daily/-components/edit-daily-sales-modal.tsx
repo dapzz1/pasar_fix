@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { Dispatch, SetStateAction } from 'react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -20,11 +21,11 @@ import {
 } from '@/components/ui/select';
 
 import { orpc } from '@/lib/orpc/client';
+import type { DailySalesItem } from '../../-domain/types';
 
 type Props = {
-  editingItem: any;
-
-  setEditingItem: any;
+  editingItem: DailySalesItem | null;
+  setEditingItem: Dispatch<SetStateAction<DailySalesItem | null>>;
 };
 
 export function EditDailySalesModal({
@@ -133,7 +134,7 @@ export function EditDailySalesModal({
             </SelectTrigger>
 
             <SelectContent>
-              {productBrands?.data?.map((brand: any) => (
+              {productBrands?.data?.map((brand) => (
                 <SelectItem key={brand.id} value={brand.id}>
                   {brand.name}
                 </SelectItem>

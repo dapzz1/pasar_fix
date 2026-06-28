@@ -77,6 +77,6 @@ export const getSalesRealizations = protectedProcedure
       total: await context.db
         .select({ count: count() })
         .from(salesRealizations)
-        .then(([{ count }]) => Number(count)),
+        .then(([result]) => Number(result.count)),
     };
   });

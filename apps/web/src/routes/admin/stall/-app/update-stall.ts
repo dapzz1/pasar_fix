@@ -7,7 +7,7 @@ import { protectedProcedure } from '@/lib/orpc';
 import { StallSchema } from '../-domain/schema';
 
 export const updateStall = protectedProcedure
-  .input(StallSchema)
+  .input(StallSchema.extend({ id: StallSchema.shape.id.unwrap() }))
   .handler(async ({ input, context }) => {
     const [data] = await context.db
       .update(stalls)
@@ -30,7 +30,7 @@ export const updateStall = protectedProcedure
 
         criteria: input.criteria,
       })
-      .where(eq(stalls.id, input.id!))
+      .where(eq(stalls.id, input.id))
       .returning();
 
     return data;

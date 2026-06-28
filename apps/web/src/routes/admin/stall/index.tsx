@@ -29,6 +29,7 @@ import { orpc } from '@/lib/orpc/client';
 import { CreateStallModal } from './-components/create-stall-modal';
 import { EditStallForm } from './-components/edit-stall-form';
 import { ManageStallProducts } from './-components/manage-stall-products';
+import type { StallItem } from './-domain/types';
 
 export const Route = createFileRoute('/admin/stall/')({
   component: RouteComponent,
@@ -43,9 +44,9 @@ function RouteComponent() {
 
   const [limit, setLimit] = useState(10);
 
-  const [editingItem, setEditingItem] = useState<any>(null);
+  const [editingItem, setEditingItem] = useState<StallItem | null>(null);
 
-  const [productItem, setProductItem] = useState<any>(null);
+  const [productItem, setProductItem] = useState<StallItem | null>(null);
 
   const deleteMutation = useMutation(
     orpc.admin.stall.delete.mutationOptions({
@@ -83,7 +84,7 @@ function RouteComponent() {
     const { saveAs } = await import('file-saver');
 
     const worksheet = XLSX.utils.json_to_sheet(
-      stallsList.map((item: any) => ({
+      stallsList.map((item) => ({
         Name: item.name,
 
         Province: item.provinceName,
@@ -206,11 +207,11 @@ function RouteComponent() {
         </CardHeader>
 
         <CardContent>
-          {isLoading ? (
-            <p>Loading stalls...</p>
-          ) : stallsList.length === 0 ? (
+          {isLoading && <p>Loading stalls...</p>}
+          {!isLoading && stallsList.length === 0 && (
             <p className="text-center text-gray-500">No stalls found.</p>
-          ) : (
+          )}
+          {!isLoading && stallsList.length > 0 && (
             <div className="overflow-x-auto">
               <table className="min-w-[1400px] text-sm">
                 <thead>
@@ -236,7 +237,7 @@ function RouteComponent() {
                 </thead>
 
                 <tbody>
-                  {stallsList.map((item: any) => (
+                  {stallsList.map((item) => (
                     <tr className="border-b hover:bg-muted/30" key={item.id}>
                       <td className="p-3">{item.name}</td>
 
@@ -329,10 +330,12 @@ function RouteComponent() {
             <DialogTitle>Edit Stall</DialogTitle>
           </DialogHeader>
 
-          <EditStallForm
-            editingItem={editingItem}
-            onSuccess={() => setEditingItem(null)}
-          />
+          {editingItem && (
+            <EditStallForm
+              editingItem={editingItem}
+              onSuccess={() => setEditingItem(null)}
+            />
+          )}
         </DialogContent>
       </Dialog>
 
@@ -349,7 +352,7 @@ function RouteComponent() {
             <DialogTitle>Manage Products</DialogTitle>
           </DialogHeader>
 
-          <ManageStallProducts stall={productItem} />
+          {productItem && <ManageStallProducts stall={productItem} />}
         </DialogContent>
       </Dialog>
     </div>

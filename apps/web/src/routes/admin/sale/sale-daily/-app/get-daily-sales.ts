@@ -1,4 +1,4 @@
-import { and, asc, count, eq, ilike } from 'drizzle-orm';
+import { and, asc, count, eq, ilike, type SQL } from 'drizzle-orm';
 
 import { z } from 'zod';
 
@@ -25,7 +25,7 @@ export const getDailySales = protectedProcedure
 
     const offset = (page - 1) * limit;
 
-    const conditions: any[] = [];
+    const conditions: SQL[] = [];
 
     if (input.search) {
       conditions.push(ilike(productBrands.name, `%${input.search}%`));
@@ -65,7 +65,7 @@ export const getDailySales = protectedProcedure
         count: count(),
       })
       .from(dailySales)
-      .then(([{ count }]) => Number(count));
+      .then(([result]) => Number(result.count));
 
     return {
       data,

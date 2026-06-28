@@ -1,15 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { Dispatch, SetStateAction } from 'react';
 
 import { Button } from '@/components/ui/button';
 
 import { Input } from '@/components/ui/input';
 
 import { orpc } from '@/lib/orpc/client';
+import type { SalesRealizationItem } from '../-domain/types';
 
 type Props = {
-  editingItem: any;
-
-  setEditingItem: any;
+  editingItem: SalesRealizationItem | null;
+  setEditingItem: Dispatch<SetStateAction<SalesRealizationItem | null>>;
 };
 
 export function EditSalesRealizationModal({
@@ -41,7 +42,9 @@ export function EditSalesRealizationModal({
         <div className="mb-4 flex items-center justify-between">
           <h2 className="font-semibold text-xl">Edit Sales Realization</h2>
 
-          <button onClick={() => setEditingItem(null)}>✕</button>
+          <button onClick={() => setEditingItem(null)} type="button">
+            ×
+          </button>
         </div>
 
         <div className="space-y-4">
@@ -53,7 +56,7 @@ export function EditSalesRealizationModal({
               })
             }
             placeholder="Month"
-            value={editingItem.month}
+            value={editingItem.month ?? ''}
           />
 
           <Input
@@ -64,7 +67,7 @@ export function EditSalesRealizationModal({
               })
             }
             placeholder="Year"
-            value={editingItem.year}
+            value={editingItem.year ?? ''}
           />
 
           <Input
@@ -76,7 +79,7 @@ export function EditSalesRealizationModal({
             }
             placeholder="Realization Daily"
             type="number"
-            value={editingItem.realizationDaily}
+            value={editingItem.realizationDaily ?? ''}
           />
 
           <Input
@@ -88,7 +91,7 @@ export function EditSalesRealizationModal({
             }
             placeholder="Realization Monthly"
             type="number"
-            value={editingItem.realizationMonthly}
+            value={editingItem.realizationMonthly ?? ''}
           />
 
           <Input
@@ -100,7 +103,7 @@ export function EditSalesRealizationModal({
             }
             placeholder="RKAP Monthly"
             type="number"
-            value={editingItem.rkapMonthly}
+            value={editingItem.rkapMonthly ?? ''}
           />
 
           <Input
@@ -112,7 +115,7 @@ export function EditSalesRealizationModal({
             }
             placeholder="Realization YTD"
             type="number"
-            value={editingItem.realizationYtd}
+            value={editingItem.realizationYtd ?? ''}
           />
 
           <Input
@@ -124,7 +127,7 @@ export function EditSalesRealizationModal({
             }
             placeholder="RKAP YTD"
             type="number"
-            value={editingItem.rkapYtd}
+            value={editingItem.rkapYtd ?? ''}
           />
 
           <Input
@@ -136,7 +139,7 @@ export function EditSalesRealizationModal({
             }
             placeholder="RKAP Yearly"
             type="number"
-            value={editingItem.rkapYearly}
+            value={editingItem.rkapYearly ?? ''}
           />
 
           <Input
@@ -148,7 +151,7 @@ export function EditSalesRealizationModal({
             }
             placeholder="Realization Last Year"
             type="number"
-            value={editingItem.realizationLastYear}
+            value={editingItem.realizationLastYear ?? ''}
           />
 
           <Button

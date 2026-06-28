@@ -8,8 +8,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 
 import { orpc } from '@/lib/orpc/client';
+import type { StallItem } from '../-domain/types';
 
-export function ManageStallProducts({ stall }: { stall: any }) {
+export function ManageStallProducts({ stall }: { stall: StallItem }) {
   const { data: productBrands, isLoading: isLoadingBrands } = useQuery(
     orpc.admin.stall.stall_product_brand.get_product_brands.queryOptions({
       input: {},
@@ -30,9 +31,7 @@ export function ManageStallProducts({ stall }: { stall: any }) {
 
   useEffect(() => {
     if (assignedProducts?.data) {
-      setSelectedIds(
-        assignedProducts.data.map((item: any) => item.productBrandId)
-      );
+      setSelectedIds(assignedProducts.data.map((item) => item.productBrandId));
     }
   }, [assignedProducts]);
 
@@ -63,7 +62,7 @@ export function ManageStallProducts({ stall }: { stall: any }) {
       ) : (
         <div className="h-[400px] overflow-y-auto pr-4">
           <div className="space-y-3">
-            {productBrands?.data?.map((item: any) => {
+            {productBrands?.data?.map((item) => {
               return (
                 <Card key={item.id}>
                   <CardContent className="flex items-start gap-3 p-4">

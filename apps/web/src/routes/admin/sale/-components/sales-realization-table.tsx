@@ -1,11 +1,17 @@
+import type { Dispatch, SetStateAction } from 'react';
 import { Button } from '@/components/ui/button';
+import type { orpc } from '@/lib/orpc/client';
+import type { SalesRealizationItem } from '../-domain/types';
 
 type Props = {
-  salesRealizationsList: any[];
-
-  deleteMutation: any;
-
-  setEditingItem: any;
+  salesRealizationsList: SalesRealizationItem[];
+  deleteMutation: {
+    isPending: boolean;
+    mutate: (
+      input: Parameters<typeof orpc.admin.sale.sales_realization.delete.call>[0]
+    ) => void;
+  };
+  setEditingItem: Dispatch<SetStateAction<SalesRealizationItem | null>>;
 };
 
 export function SalesRealizationTable({
@@ -49,7 +55,7 @@ export function SalesRealizationTable({
         </thead>
 
         <tbody>
-          {salesRealizationsList.map((item: any) => (
+          {salesRealizationsList.map((item) => (
             <tr className="border-b hover:bg-muted/30" key={item.id}>
               <td className="p-3">{item.productBrandName}</td>
 
@@ -74,9 +80,10 @@ export function SalesRealizationTable({
               <td className="p-3">{item.realizationLastYear}</td>
 
               <td className="p-3 font-semibold">
-                {item.rkapMonthly > 0
+                {(item.rkapMonthly ?? 0) > 0
                   ? (
-                      (item.realizationMonthly / item.rkapMonthly) *
+                      ((item.realizationMonthly ?? 0) /
+                        (item.rkapMonthly ?? 1)) *
                       100
                     ).toFixed(1)
                   : 0}

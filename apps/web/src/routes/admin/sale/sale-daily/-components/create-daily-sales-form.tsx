@@ -90,7 +90,7 @@ export function CreateDailySalesForm({
         </SelectTrigger>
 
         <SelectContent>
-          {productBrands?.data?.map((brand: any) => (
+          {productBrands?.data?.map((brand) => (
             <SelectItem key={brand.id} value={brand.id}>
               {brand.name}
             </SelectItem>

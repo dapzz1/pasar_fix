@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/select';
 import { orpc } from '@/lib/orpc/client';
 import { StallSchema } from '../-domain/schema';
+import type { StallItem } from '../-domain/types';
 
 const formSchema = StallSchema;
 
@@ -32,7 +33,7 @@ export function EditStallForm({
   editingItem,
   onSuccess,
 }: {
-  editingItem: any;
+  editingItem: StallItem;
   onSuccess?: () => void;
 }) {
   const queryClient = useQueryClient();
@@ -69,7 +70,7 @@ export function EditStallForm({
         criteria: editingItem.criteria ?? '',
       });
     }
-  }, [editingItem]);
+  }, [editingItem, form.reset]);
 
   const provinceId = form.watch('provinceId');
 
@@ -107,7 +108,11 @@ export function EditStallForm({
     })
   );
   const onSubmit = (values: FormValues) => {
-    updateMutation.mutate(values);
+    if (!values.id) {
+      toast.error('Stall could not be identified');
+      return;
+    }
+    updateMutation.mutate({ ...values, id: values.id });
   };
 
   return (
@@ -149,7 +154,7 @@ export function EditStallForm({
                   position="popper"
                   sideOffset={4}
                 >
-                  {provinces?.data?.map((item: any) => (
+                  {provinces?.data?.map((item) => (
                     <SelectItem key={item.id} value={item.id}>
                       {item.name}
                     </SelectItem>
@@ -190,7 +195,7 @@ export function EditStallForm({
                   position="popper"
                   sideOffset={4}
                 >
-                  {regencies?.data?.map((item: any) => (
+                  {regencies?.data?.map((item) => (
                     <SelectItem key={item.id} value={item.id}>
                       {item.name}
                     </SelectItem>

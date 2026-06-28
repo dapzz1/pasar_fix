@@ -8,7 +8,11 @@ import { protectedProcedure } from '@/lib/orpc';
 import { SalesRealizationSchema } from '../-domain/schema';
 
 export const updateSalesRealization = protectedProcedure
-  .input(SalesRealizationSchema)
+  .input(
+    SalesRealizationSchema.extend({
+      id: SalesRealizationSchema.shape.id.unwrap(),
+    })
+  )
   .handler(async ({ input, context }) => {
     try {
       const [updatedSalesRealization] = await context.db
@@ -36,7 +40,7 @@ export const updateSalesRealization = protectedProcedure
 
           realizationLastYear: input.realizationLastYear,
         })
-        .where(eq(salesRealizations.id, input.id!))
+        .where(eq(salesRealizations.id, input.id))
         .returning();
 
       return updatedSalesRealization;

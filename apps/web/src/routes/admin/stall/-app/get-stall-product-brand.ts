@@ -1,4 +1,4 @@
-import { and, asc, eq } from 'drizzle-orm';
+import { and, asc, eq, type SQL } from 'drizzle-orm';
 import z from 'zod';
 import { productBrands, productTypes } from '@/lib/db/schema/map-product';
 import { stallProductBrands, stalls } from '@/lib/db/schema/stall';
@@ -34,7 +34,7 @@ export const getStallProductBrands = protectedProcedure
         eq(productBrands.productTypeId, productTypes.id)
       );
 
-    const conditions: any[] = [];
+    const conditions: SQL[] = [];
 
     if (input.stallId) {
       conditions.push(eq(stallProductBrands.stallId, input.stallId));

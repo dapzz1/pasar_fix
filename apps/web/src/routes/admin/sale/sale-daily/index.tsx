@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { orpc } from '@/lib/orpc/client';
+import type { DailySalesItem } from '../-domain/types';
 import { CreateDailySalesModal } from './-components/create-daily-sales-modal';
 import { EditDailySalesModal } from './-components/edit-daily-sales-modal';
 
@@ -36,7 +37,7 @@ function RouteComponent() {
 
   const [limit, setLimit] = useState(10);
 
-  const [editingItem, setEditingItem] = useState<any>(null);
+  const [editingItem, setEditingItem] = useState<DailySalesItem | null>(null);
 
   const { data: dailySales, isLoading } = useQuery(
     orpc.admin.sale.daily_sales.get.queryOptions({
@@ -65,12 +66,12 @@ function RouteComponent() {
   const dailySalesList = dailySales?.data || [];
 
   const totalRevenue = dailySalesList.reduce(
-    (acc: number, item: any) => acc + (item.revenue || 0),
+    (acc, item) => acc + (item.revenue || 0),
     0
   );
 
   const totalQty = dailySalesList.reduce(
-    (acc: number, item: any) => acc + (item.qty || 0),
+    (acc, item) => acc + (item.qty || 0),
     0
   );
 
@@ -80,7 +81,7 @@ function RouteComponent() {
     const { saveAs } = await import('file-saver');
 
     const worksheet = XLSX.utils.json_to_sheet(
-      dailySalesList.map((item: any) => ({
+      dailySalesList.map((item) => ({
         Date: item.date,
 
         ProductBrand: item.productBrandName,
@@ -98,8 +99,8 @@ function RouteComponent() {
         Notes: item.notes,
 
         Achievement:
-          item.target > 0
-            ? ((item.qty / item.target) * 100).toFixed(1) + '%'
+          (item.target ?? 0) > 0
+            ? `${(((item.qty ?? 0) / (item.target ?? 1)) * 100).toFixed(1)}%`
             : '0%',
       }))
     );
@@ -206,11 +207,11 @@ function RouteComponent() {
         </CardHeader>
 
         <CardContent>
-          {isLoading ? (
-            <p>Loading daily sales...</p>
-          ) : dailySalesList.length === 0 ? (
+          {isLoading && <p>Loading daily sales...</p>}
+          {!isLoading && dailySalesList.length === 0 && (
             <p className="text-center text-gray-500">No daily sales found.</p>
-          ) : (
+          )}
+          {!isLoading && dailySalesList.length > 0 && (
             <div className="overflow-x-auto">
               <table className="min-w-[1400px] text-sm">
                 <thead>
@@ -236,7 +237,7 @@ function RouteComponent() {
                 </thead>
 
                 <tbody>
-                  {dailySalesList.map((item: any) => (
+                  {dailySalesList.map((item) => (
                     <tr className="border-b hover:bg-muted/30" key={item.id}>
                       <td className="p-3">{item.date}</td>
 
@@ -257,14 +258,18 @@ function RouteComponent() {
                       <td className="p-3 text-right font-semibold">
                         <span
                           className={
-                            item.target > 0 &&
-                            (item.revenue / item.target) * 100 >= 100
+                            (item.target ?? 0) > 0 &&
+                            ((item.revenue ?? 0) / (item.target ?? 1)) * 100 >=
+                              100
                               ? 'text-emerald-600'
                               : 'text-red-500'
                           }
                         >
-                          {item.target > 0
-                            ? ((item.revenue / item.target) * 100).toFixed(1)
+                          {(item.target ?? 0) > 0
+                            ? (
+                                ((item.revenue ?? 0) / (item.target ?? 1)) *
+                                100
+                              ).toFixed(1)
                             : 0}
                           %
                         </span>

@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { saveAs } from 'file-saver';
 import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import * as XLSX from 'xlsx';
+import { write as writeXlsx, utils as xlsxUtils } from 'xlsx';
 import z from 'zod';
 import { Button } from '@/components/ui/button';
 import {
@@ -25,6 +25,7 @@ import { orpc } from '@/lib/orpc/client';
 import { CreateSalesRealizationModal } from './-components/create-sales-realization-modal';
 import { EditSalesRealizationModal } from './-components/edit-sales-realization-modal';
 import { SalesRealizationTable } from './-components/sales-realization-table';
+import type { SalesRealizationItem } from './-domain/types';
 
 export const Route = createFileRoute('/admin/sale/')({
   component: RouteComponent,
@@ -47,7 +48,9 @@ function RouteComponent() {
 
   const [limit, setLimit] = useState(10);
 
-  const [editingItem, setEditingItem] = useState<any>(null);
+  const [editingItem, setEditingItem] = useState<SalesRealizationItem | null>(
+    null
+  );
 
   const updateUrlParams = (params: Record<string, string | undefined>) => {
     navigate({
@@ -89,7 +92,7 @@ function RouteComponent() {
   );
 
   const salesRealizationsList =
-    salesRealizations?.data?.filter((item: any) => {
+    salesRealizations?.data?.filter((item) => {
       const keyword = searchTerm.toLowerCase();
 
       return (
@@ -99,17 +102,17 @@ function RouteComponent() {
       );
     }) || [];
   const totalRealization = salesRealizationsList.reduce(
-    (acc: number, item: any) => acc + (item.realizationMonthly || 0),
+    (acc, item) => acc + (item.realizationMonthly || 0),
     0
   );
 
   const totalRkap = salesRealizationsList.reduce(
-    (acc: number, item: any) => acc + (item.rkapMonthly || 0),
+    (acc, item) => acc + (item.rkapMonthly || 0),
     0
   );
 
   const exportToExcel = () => {
-    const formattedData = salesRealizationsList.map((item: any) => ({
+    const formattedData = salesRealizationsList.map((item) => ({
       ProductBrand: item.productBrandName,
 
       Month: item.month,
@@ -121,13 +124,13 @@ function RouteComponent() {
       RKAPMonthly: item.rkapMonthly,
     }));
 
-    const worksheet = XLSX.utils.json_to_sheet(formattedData);
+    const worksheet = xlsxUtils.json_to_sheet(formattedData);
 
-    const workbook = XLSX.utils.book_new();
+    const workbook = xlsxUtils.book_new();
 
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sales Realizations');
+    xlsxUtils.book_append_sheet(workbook, worksheet, 'Sales Realizations');
 
-    const excelBuffer = XLSX.write(workbook, {
+    const excelBuffer = writeXlsx(workbook, {
       bookType: 'xlsx',
       type: 'array',
     });
@@ -138,6 +141,21 @@ function RouteComponent() {
 
     saveAs(fileData, 'sales-realizations.xlsx');
   };
+
+  let salesContent = (
+    <SalesRealizationTable
+      deleteMutation={deleteMutation}
+      salesRealizationsList={salesRealizationsList}
+      setEditingItem={setEditingItem}
+    />
+  );
+  if (isLoading) {
+    salesContent = <p>Loading sales realizations...</p>;
+  } else if (salesRealizationsList.length === 0) {
+    salesContent = (
+      <p className="text-center text-gray-500">No sales realizations found.</p>
+    );
+  }
 
   return (
     <div className="container mx-auto space-y-8 px-4 py-8">
@@ -238,19 +256,7 @@ function RouteComponent() {
         </CardHeader>
 
         <CardContent>
-          {isLoading ? (
-            <p>Loading sales realizations...</p>
-          ) : salesRealizationsList.length === 0 ? (
-            <p className="text-center text-gray-500">
-              No sales realizations found.
-            </p>
-          ) : (
-            <SalesRealizationTable
-              deleteMutation={deleteMutation}
-              salesRealizationsList={salesRealizationsList}
-              setEditingItem={setEditingItem}
-            />
-          )}
+          {salesContent}
           <div className="mt-4 flex items-center justify-between">
             <Button
               disabled={page === 1}

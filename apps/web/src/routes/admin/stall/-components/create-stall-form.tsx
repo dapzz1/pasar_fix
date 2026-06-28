@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { toast } from 'sonner';
@@ -149,7 +148,7 @@ export function CreateStallForm({ onSuccess }: { onSuccess?: () => void }) {
                     position="popper"
                     sideOffset={4}
                   >
-                    {provinces?.data?.map((item: any) => (
+                    {provinces?.data?.map((item) => (
                       <SelectItem key={item.id} value={item.id}>
                         {item.name}
                       </SelectItem>
@@ -192,7 +191,7 @@ export function CreateStallForm({ onSuccess }: { onSuccess?: () => void }) {
                     position="popper"
                     sideOffset={4}
                   >
-                    {regencies?.data?.map((item: any) => (
+                    {regencies?.data?.map((item) => (
                       <SelectItem key={item.id} value={item.id}>
                         {item.name}
                       </SelectItem>
