@@ -14,10 +14,20 @@ export const updateProductBrand = protectedProcedure
   )
   .handler(async ({ input, context }) => {
     const { id, name, industry, description } = input;
-    const updateData: Record<string, any> = {};
-    if (name !== undefined) updateData.name = name;
-    if (industry !== undefined) updateData.industry = industry;
-    if (description !== undefined) updateData.description = description;
+    const updateData: {
+      description?: string;
+      industry?: string;
+      name?: string;
+    } = {};
+    if (name !== undefined) {
+      updateData.name = name;
+    }
+    if (industry !== undefined) {
+      updateData.industry = industry;
+    }
+    if (description !== undefined) {
+      updateData.description = description;
+    }
 
     if (Object.keys(updateData).length === 0) {
       return { data: null };
@@ -31,8 +41,9 @@ export const updateProductBrand = protectedProcedure
         .returning();
 
       return { data: updated };
-    } catch (error: any) {
-      console.error('updateProductBrand error:', error);
-      throw new ORPCError('INTERNAL', 'Failed to update product brand');
+    } catch {
+      throw new ORPCError('INTERNAL', {
+        message: 'Failed to update product brand',
+      });
     }
   });

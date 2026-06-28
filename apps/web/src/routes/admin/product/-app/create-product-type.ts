@@ -17,11 +17,19 @@ export const createProductType = protectedProcedure
         .returning();
 
       return { data: created };
-    } catch (error: any) {
-      console.error('createProductType error:', error);
-      if (error?.code === '23505') {
-        throw new ORPCError('CONFLICT', 'Product type already exists');
+    } catch (error) {
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'code' in error &&
+        error.code === '23505'
+      ) {
+        throw new ORPCError('CONFLICT', {
+          message: 'Product type already exists',
+        });
       }
-      throw new ORPCError('INTERNAL', 'Failed to create product type');
+      throw new ORPCError('INTERNAL', {
+        message: 'Failed to create product type',
+      });
     }
   });

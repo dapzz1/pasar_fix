@@ -46,9 +46,8 @@ export function CreateProductDosageForm({
       productBrandId: '',
       dosage: 0,
       unit: '',
-      year: new Date().getFullYear(),
+      year: String(new Date().getFullYear()),
     },
-    validators: { onBlur: () => ({ fields: {} }) as any },
     onSubmit: async ({ value }) => {
       try {
         await createMutation.mutateAsync({
@@ -56,11 +55,11 @@ export function CreateProductDosageForm({
           productBrandId: value.productBrandId,
           dosage: Number(value.dosage),
           unit: value.unit,
-          year: String(new Date().getFullYear()),
+          year: value.year,
         });
         toast.success('Product dosage created successfully!');
         onOpenChange(false);
-      } catch (e) {
+      } catch {
         toast.error('Failed to create product dosage. Please try again.');
       }
     },

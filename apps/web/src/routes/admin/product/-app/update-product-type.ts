@@ -13,9 +13,13 @@ export const updateProductType = protectedProcedure
   )
   .handler(async ({ input, context }) => {
     const { id, name, description } = input;
-    const updateData: Record<string, any> = {};
-    if (name !== undefined) updateData.name = name;
-    if (description !== undefined) updateData.description = description;
+    const updateData: { description?: string; name?: string } = {};
+    if (name !== undefined) {
+      updateData.name = name;
+    }
+    if (description !== undefined) {
+      updateData.description = description;
+    }
 
     if (Object.keys(updateData).length === 0) {
       return { data: null };
@@ -29,8 +33,9 @@ export const updateProductType = protectedProcedure
         .returning();
 
       return { data: updated };
-    } catch (error: any) {
-      console.error('updateProductType error:', error);
-      throw new ORPCError('INTERNAL', 'Failed to update product type');
+    } catch {
+      throw new ORPCError('INTERNAL', {
+        message: 'Failed to update product type',
+      });
     }
   });

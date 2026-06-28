@@ -44,7 +44,6 @@ export function CreateProductBrandForm({
       industry: '',
       description: '',
     },
-    validators: { onBlur: () => ({ fields: {} }) as any },
     onSubmit: async ({ value }) => {
       try {
         await createMutation.mutateAsync({
@@ -80,7 +79,9 @@ export function CreateProductBrandForm({
               name="productTypeId"
               validators={{
                 onBlur: ({ value }) => {
-                  if (!value) return 'Product type is required';
+                  if (!value) {
+                    return 'Product type is required';
+                  }
                 },
               }}
             >
@@ -102,8 +103,9 @@ export function CreateProductBrandForm({
               name="name"
               validators={{
                 onBlur: ({ value }) => {
-                  if (!value || value.trim().length === 0)
+                  if (!value || value.trim().length === 0) {
                     return 'Name is required';
+                  }
                 },
               }}
             >

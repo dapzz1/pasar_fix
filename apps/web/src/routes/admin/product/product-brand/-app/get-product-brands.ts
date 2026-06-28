@@ -1,6 +1,6 @@
 import { and, eq, ilike } from 'drizzle-orm';
 import z from 'zod';
-import { productBrands } from '@/lib/db/schema/map-product';
+import { productBrands, productTypes } from '@/lib/db/schema/map-product';
 import { protectedProcedure } from '@/lib/orpc';
 
 export const getProductBrands = protectedProcedure
@@ -15,12 +15,17 @@ export const getProductBrands = protectedProcedure
       .select({
         id: productBrands.id,
         productTypeId: productBrands.productTypeId,
+        productTypeName: productTypes.name,
         name: productBrands.name,
         industry: productBrands.industry,
         description: productBrands.description,
         year: productBrands.year,
       })
-      .from(productBrands);
+      .from(productBrands)
+      .innerJoin(
+        productTypes,
+        eq(productBrands.productTypeId, productTypes.id)
+      );
 
     const conditions: ReturnType<typeof ilike>[] = [];
     if (input.productTypeId) {

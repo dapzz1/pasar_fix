@@ -56,7 +56,9 @@ function RouteComponent() {
   useEffect(() => {
     if (deleteParam && productBrands) {
       const pb = productBrands?.data?.find((p) => p.id === deleteParam);
-      if (pb) setCurrentDeleteProductBrand(pb);
+      if (pb) {
+        setCurrentDeleteProductBrand(pb);
+      }
     }
   }, [deleteParam, productBrands]);
 
@@ -139,13 +141,16 @@ function RouteComponent() {
 
         <CardContent>
           {(() => {
-            if (isLoading) return <p>Loading product brands...</p>;
-            if (productBrandsList.length === 0)
+            if (isLoading) {
+              return <p>Loading product brands...</p>;
+            }
+            if (productBrandsList.length === 0) {
               return (
                 <p className="text-center text-gray-500">
                   No product brands found.
                 </p>
               );
+            }
 
             return (
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -213,22 +218,24 @@ function RouteComponent() {
 
       <CreateProductBrandForm
         onOpenChange={(open) => {
-          if (!open)
+          if (!open) {
             navigate({
               to: '.',
               search: (prev) => ({ ...prev, create: undefined }),
             });
+          }
         }}
         open={Boolean(create)}
       />
 
       <EditProductBrandForm
         onOpenChange={(open) => {
-          if (!open)
+          if (!open) {
             navigate({
               to: '.',
               search: (prev) => ({ ...prev, edit: undefined }),
             });
+          }
         }}
         open={Boolean(edit)}
         productBrandId={edit ?? null}
@@ -243,11 +250,12 @@ function RouteComponent() {
           setCurrentDeleteProductBrand(null);
         }}
         onOpenChange={(open) => {
-          if (!open)
+          if (!open) {
             navigate({
               to: '.',
               search: (prev) => ({ ...prev, delete: undefined }),
             });
+          }
         }}
         open={Boolean(deleteParam)}
         productBrand={currentDeleteProductBrand}

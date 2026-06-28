@@ -52,7 +52,6 @@ export function EditProductBrandForm({
       industry: current?.industry ?? '',
       description: current?.description ?? '',
     },
-    validators: { onBlur: () => ({ fields: {} }) as any },
     onSubmit: async ({ value }) => {
       try {
         await updateMutation.mutateAsync({
@@ -74,7 +73,7 @@ export function EditProductBrandForm({
     form.setFieldValue('name', current?.name ?? '');
     form.setFieldValue('industry', current?.industry ?? '');
     form.setFieldValue('description', current?.description ?? '');
-  }, [open, current, form]);
+  }, [current, form]);
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>
@@ -95,7 +94,9 @@ export function EditProductBrandForm({
               name="productTypeId"
               validators={{
                 onBlur: ({ value }) => {
-                  if (!value) return 'Product type is required';
+                  if (!value) {
+                    return 'Product type is required';
+                  }
                 },
               }}
             >
@@ -117,8 +118,9 @@ export function EditProductBrandForm({
               name="name"
               validators={{
                 onBlur: ({ value }) => {
-                  if (!value || value.trim().length === 0)
+                  if (!value || value.trim().length === 0) {
                     return 'Name is required';
+                  }
                 },
               }}
             >

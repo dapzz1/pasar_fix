@@ -79,8 +79,8 @@ function RouteComponent() {
     }
   }, [deleteParam, productDosages]);
 
-  const updateUrlParams = (params: Record<string, string | undefined>) => {
-    navigate({ to: '.', search: (prev) => ({ ...prev, ...params }) });
+  const updateUrlParams = (updates: Record<string, string | undefined>) => {
+    navigate({ to: '.', search: (prev) => ({ ...prev, ...updates }) });
   };
 
   const handleCreate = () => {
@@ -148,12 +148,17 @@ function RouteComponent() {
               />
               <Search className="absolute top-2.5 left-3 h-4 w-4" />
             </div>
-            <Button disabled>Manage Dosages</Button>
+            <Button onClick={handleCreate} type="button">
+              <Plus className="mr-2 size-4" />
+              Add Dosage
+            </Button>
           </div>
         </CardHeader>
         <CardContent>
           {(() => {
-            if (isLoading) return <p>Loading product dosages...</p>;
+            if (isLoading) {
+              return <p>Loading product dosages...</p>;
+            }
             if (filtered?.length === 0) {
               return (
                 <p className="text-center text-gray-500">

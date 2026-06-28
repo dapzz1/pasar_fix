@@ -50,11 +50,14 @@ export function EditProductDosageForm({
       unit: current?.unit ?? '',
       year: current?.year ?? '',
     },
-    validators: { onBlur: () => ({ fields: {} }) as any },
     onSubmit: async ({ value }) => {
+      if (!productDosageId) {
+        toast.error('Product dosage could not be identified.');
+        return;
+      }
       try {
         await updateMutation.mutateAsync({
-          id: current?.id as string,
+          id: productDosageId,
           dosage: Number(value.dosage),
           unit: value.unit,
           year: value.year,
@@ -74,7 +77,7 @@ export function EditProductDosageForm({
     form.setFieldValue('dosage', current?.dosage ?? 0);
     form.setFieldValue('unit', current?.unit ?? '');
     form.setFieldValue('year', current?.year ?? '');
-  }, [open, current, form]);
+  }, [current, form]);
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>

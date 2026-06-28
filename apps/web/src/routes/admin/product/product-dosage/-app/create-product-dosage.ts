@@ -26,9 +26,13 @@ export const createProductDosage = protectedProcedure
         .returning();
 
       return { data: created };
-    } catch (error: any) {
-      console.error('createProductDosage error:', error);
-      if (error?.code === '23505') {
+    } catch (error) {
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'code' in error &&
+        error.code === '23505'
+      ) {
         throw new ORPCError('CONFLICT', {
           message: 'Product dosage already exists',
         });

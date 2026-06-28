@@ -11,8 +11,9 @@ export const deleteProductDosage = protectedProcedure
         .delete(productDosages)
         .where(eq(productDosages.id, input.id));
       return { data: true };
-    } catch (error: any) {
-      console.error('deleteProductDosage error:', error);
-      throw new ORPCError('INTERNAL', 'Failed to delete product dosage');
+    } catch {
+      throw new ORPCError('INTERNAL', {
+        message: 'Failed to delete product dosage',
+      });
     }
   });

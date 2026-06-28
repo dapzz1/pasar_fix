@@ -11,8 +11,9 @@ export const deleteProductBrand = protectedProcedure
         .delete(productBrands)
         .where(eq(productBrands.id, input.id));
       return { data: true };
-    } catch (error: any) {
-      console.error('deleteProductBrand error:', error);
-      throw new ORPCError('INTERNAL', 'Failed to delete product brand');
+    } catch {
+      throw new ORPCError('INTERNAL', {
+        message: 'Failed to delete product brand',
+      });
     }
   });

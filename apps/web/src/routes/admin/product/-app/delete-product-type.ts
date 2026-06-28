@@ -11,8 +11,9 @@ export const deleteProductType = protectedProcedure
         .delete(productTypes)
         .where(eq(productTypes.id, input.id));
       return { data: true };
-    } catch (error: any) {
-      console.error('deleteProductType error:', error);
-      throw new ORPCError('INTERNAL', 'Failed to delete product type');
+    } catch {
+      throw new ORPCError('INTERNAL', {
+        message: 'Failed to delete product type',
+      });
     }
   });

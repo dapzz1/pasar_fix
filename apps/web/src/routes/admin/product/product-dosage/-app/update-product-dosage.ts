@@ -14,10 +14,16 @@ export const updateProductDosage = protectedProcedure
   )
   .handler(async ({ input, context }) => {
     const { id, ...rest } = input;
-    const updateData: Record<string, any> = {};
-    if (rest.dosage !== undefined) updateData.dosage = rest.dosage;
-    if (rest.unit !== undefined) updateData.unit = rest.unit;
-    if (rest.year !== undefined) updateData.year = rest.year;
+    const updateData: { dosage?: number; unit?: string; year?: string } = {};
+    if (rest.dosage !== undefined) {
+      updateData.dosage = rest.dosage;
+    }
+    if (rest.unit !== undefined) {
+      updateData.unit = rest.unit;
+    }
+    if (rest.year !== undefined) {
+      updateData.year = rest.year;
+    }
     if (Object.keys(updateData).length === 0) {
       return { data: null };
     }
@@ -30,8 +36,7 @@ export const updateProductDosage = protectedProcedure
         .returning();
 
       return { data: updated };
-    } catch (error: any) {
-      console.error('updateProductDosage error:', error);
+    } catch {
       throw new ORPCError('INTERNAL', {
         message: 'Failed to update product dosage',
       });

@@ -70,7 +70,7 @@ export function EditProductTypeForm({
   useEffect(() => {
     form.setFieldValue('name', current?.name ?? '');
     form.setFieldValue('description', current?.description ?? '');
-  }, [open, current, form]);
+  }, [current, form]);
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>
