@@ -1,5 +1,7 @@
+import { Trans } from '@lingui/react/macro';
+import { useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
-import { Home, Map as MapIcon, Menu } from 'lucide-react';
+import { Home, Map as MapIcon, Menu, Shield } from 'lucide-react';
 import type { ReactNode } from 'react';
 import {
   SidebarInset,
@@ -7,6 +9,8 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { orpc } from '@/lib/orpc/client';
+import { Route as RootRoute } from '@/routes/__root';
 import { MapProvider } from './map-context';
 import { MapSidebar } from './map-sidebar';
 
@@ -16,6 +20,16 @@ type MapLayoutProps = {
 
 export function MapLayout({ children }: MapLayoutProps) {
   const isMobile = useIsMobile();
+  const { user } = RootRoute.useRouteContext();
+  const accessQuery = useQuery({
+    ...orpc.admin.user.getById.queryOptions({
+      input: { userId: user?.id ?? '' },
+    }),
+    enabled: Boolean(user),
+  });
+  const hasAdminAccess = accessQuery.data?.data.some(
+    (record) => record.role === 'admin'
+  );
 
   return (
     <MapProvider>
@@ -47,8 +61,17 @@ export function MapLayout({ children }: MapLayoutProps) {
                   to="/"
                 >
                   <Home className="size-3.5" />
-                  Home
+                  <Trans>Home</Trans>
                 </Link>
+                {hasAdminAccess && (
+                  <Link
+                    className="inline-flex h-8 items-center gap-2 rounded-md border border-amber-300/20 bg-amber-300/5 px-3 text-amber-300 text-xs transition hover:bg-amber-300/10 hover:text-amber-200"
+                    to="/admin"
+                  >
+                    <Shield className="size-3.5" />
+                    <Trans>Admin Panel</Trans>
+                  </Link>
+                )}
               </div>
             </header>
             <main className="min-h-0 flex-1 overflow-hidden">{children}</main>

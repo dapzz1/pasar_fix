@@ -13,21 +13,15 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#. placeholder {0}: COMMODITIES.length
-#: src/routes/map/-components/marketing-map-page.tsx
-msgid "{0} Commodities"
-msgstr "{0} Commodities"
-
 #: src/routes/map/-components/stall-markers.tsx
 msgid "Address"
 msgstr "Address"
 
-#: src/routes/map/-components/marketing-map-page.tsx
+#: src/routes/map/-components/map-layout.tsx
 msgid "Admin Panel"
 msgstr "Admin Panel"
 
 #: src/routes/map/-components/map-sidebar.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Administrative Level"
 msgstr "Administrative Level"
 
@@ -57,21 +51,18 @@ msgid "Criteria"
 msgstr "Criteria"
 
 #: src/routes/map/-components/map-sidebar.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Filter by"
 msgstr "Filter by"
 
 #: src/routes/map/-components/dynamic-map.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Hide Kios"
 msgstr "Hide Kios"
 
 #: src/routes/map/-components/dynamic-map.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Hide Potential"
 msgstr "Hide Potential"
 
-#: src/routes/map/-components/marketing-map-page.tsx
+#: src/routes/map/-components/map-layout.tsx
 msgid "Home"
 msgstr "Home"
 
@@ -84,22 +75,9 @@ msgstr "Land Type"
 msgid "Last updated on:"
 msgstr "Last updated on:"
 
-#: src/routes/map/-components/marketing-map-page.tsx
-msgid "Last updated: —"
-msgstr "Last updated: —"
-
-#: src/routes/map/-components/marketing-map-page.tsx
-msgid "Last updated: {lastUpdated}"
-msgstr "Last updated: {lastUpdated}"
-
 #: src/routes/map/-components/dynamic-map.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Loading..."
 msgstr "Loading..."
-
-#: src/routes/map/-components/marketing-map-page.tsx
-msgid "Map Controls"
-msgstr "Map Controls"
 
 #: src/routes/map/-components/map-sidebar.tsx
 msgid "Marketing Map Control"
@@ -114,7 +92,6 @@ msgid "Mustard greens"
 msgstr "Mustard greens"
 
 #: src/routes/map/-components/map-sidebar.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "National"
 msgstr "National"
 
@@ -134,26 +111,19 @@ msgstr "Phone"
 msgid "Potatoes"
 msgstr "Potatoes"
 
-#: src/routes/map/-components/marketing-map-page.tsx
-msgid "Potential Maps"
-msgstr "Potential Maps"
-
 #: src/routes/map/-components/map-sidebar.tsx
 #: src/routes/map/-components/map-sidebar.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Product Brand"
 msgstr "Product Brand"
 
 #: src/routes/map/-components/map-sidebar.tsx
 #: src/routes/map/-components/map-sidebar.tsx
 #: src/routes/map/-components/map-sidebar.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Province"
 msgstr "Province"
 
 #: src/routes/map/-components/map-sidebar.tsx
 #: src/routes/map/-components/map-sidebar.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Regency"
 msgstr "Regency"
 
@@ -166,18 +136,12 @@ msgid "Shallots"
 msgstr "Shallots"
 
 #: src/routes/map/-components/dynamic-map.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Show Kios"
 msgstr "Show Kios"
 
 #: src/routes/map/-components/dynamic-map.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Show Potential"
 msgstr "Show Potential"
-
-#: src/routes/map/-components/marketing-map-page.tsx
-msgid "Sign Out"
-msgstr "Sign Out"
 
 #: src/routes/map/-components/map-sidebar.tsx
 msgid "Soybeans"
@@ -204,6 +168,5 @@ msgid "Watermelon"
 msgstr "Watermelon"
 
 #: src/routes/map/-components/map-sidebar.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Year"
 msgstr "Year"

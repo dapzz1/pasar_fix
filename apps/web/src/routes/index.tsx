@@ -1,3 +1,4 @@
+import { Trans, useLingui } from '@lingui/react/macro';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import {
@@ -25,74 +26,68 @@ export const Route = createFileRoute('/')({
   component: HomePage,
 });
 
-const programs = [
-  {
-    description:
-      'Identifikasi kebutuhan konsumen dan pemetaan sales channel untuk produk baru.',
-    icon: MapPinned,
-    number: '01',
-    title: 'Peta Pasar & Strategi Penjualan',
-  },
-  {
-    description:
-      'Kunjungan end user, monitoring pasar, dan penguatan jaringan distribusi lapangan.',
-    icon: RouteIcon,
-    number: '02',
-    title: 'Roadshow Customer',
-  },
-  {
-    description:
-      'Penguatan brand awareness dan edukasi produk melalui demonstrasi plot aktif.',
-    icon: Sprout,
-    number: '03',
-    title: 'Sosialisasi & Demplot',
-  },
-] as const;
-
-const monitoringPrograms = [
-  {
-    icon: Wheat,
-    period: 'Juni – September 2026',
-    scope: 'Jawa & Bali',
-    title: 'Monitoring Pasar Produk Baru',
-  },
-  {
-    icon: Handshake,
-    period: 'Februari 2026',
-    scope: 'Biofertil & Petro Gladiator',
-    title: 'Monitoring Kerjasama Demplot',
-  },
-  {
-    icon: Fish,
-    period: 'April – Mei 2026',
-    scope: 'Usaha tambak skala menengah–besar',
-    title: 'Penetrasi Pasar Petro Fish',
-  },
-] as const;
-
-const responsibilities = [
-  'Pemetaan pasar dan pengembangan produk baru',
-  'Memastikan target penjualan dan evaluasi pencapaian',
-  'Mengembangkan strategi penjualan yang adaptif',
-  'Sosialisasi change management internal dan eksternal',
-  'Memenuhi aspek legal dan good corporate governance',
-] as const;
-
-const orgStructure = {
-  leader: {
-    name: 'Achmad Zaid',
-    title: 'PM Manajemen Produk Baru',
-    role: 'PM',
-  },
-  deputy: {
-    name: 'Erwin Indra P',
-    title: 'SMD I Manajemen Produk Baru',
-    role: 'SMD I',
-  },
-} as const;
-
 function HomePage() {
+  const { t } = useLingui();
   const { user } = Route.useRouteContext();
+  const programs = [
+    {
+      description: t`Identify customer needs and map sales channels for new products.`,
+      icon: MapPinned,
+      number: '01',
+      title: t`Market Mapping & Sales Strategy`,
+    },
+    {
+      description: t`Visit end users, monitor the market, and strengthen field distribution networks.`,
+      icon: RouteIcon,
+      number: '02',
+      title: t`Customer Roadshow`,
+    },
+    {
+      description: t`Strengthen brand awareness and product education through active demonstration plots.`,
+      icon: Sprout,
+      number: '03',
+      title: t`Outreach & Demonstration Plots`,
+    },
+  ];
+  const monitoringPrograms = [
+    {
+      icon: Wheat,
+      period: t`June – September 2026`,
+      scope: t`Java & Bali`,
+      title: t`New Product Market Monitoring`,
+    },
+    {
+      icon: Handshake,
+      period: t`February 2026`,
+      scope: 'Biofertil & Petro Gladiator',
+      title: t`Demonstration Plot Partnership Monitoring`,
+    },
+    {
+      icon: Fish,
+      period: t`April – May 2026`,
+      scope: t`Medium to large-scale aquaculture businesses`,
+      title: t`Petro Fish Market Penetration`,
+    },
+  ];
+  const responsibilities = [
+    t`Market mapping and new product development`,
+    t`Ensure sales targets and evaluate achievements`,
+    t`Develop adaptive sales strategies`,
+    t`Communicate change management internally and externally`,
+    t`Fulfill legal and good corporate governance requirements`,
+  ];
+  const orgStructure = {
+    leader: {
+      name: 'Achmad Zaid',
+      title: t`PM New Product Management`,
+      role: 'PM',
+    },
+    deputy: {
+      name: 'Erwin Indra P',
+      title: t`SMD I New Product Management`,
+      role: 'SMD I',
+    },
+  };
   const canLoadStats = Boolean(user);
   const provincesQuery = useQuery({
     ...orpc.admin.region.province.get.queryOptions({ input: {} }),
@@ -113,26 +108,26 @@ function HomePage() {
   const stats = [
     {
       icon: MapPinned,
-      label: 'Provinsi',
-      note: 'Wilayah terdaftar',
+      label: t`Provinces`,
+      note: t`Registered regions`,
       value: provincesQuery.data?.data.length,
     },
     {
       icon: Wheat,
-      label: 'Komoditas',
-      note: 'Data pasar aktif',
+      label: t`Commodities`,
+      note: t`Active market data`,
       value: commoditiesQuery.data?.data.length,
     },
     {
       icon: PackageOpen,
-      label: 'Brand Produk',
-      note: 'Dalam portofolio',
+      label: t`Product Brands`,
+      note: t`In the portfolio`,
       value: productBrandsQuery.data?.data.length,
     },
     {
       icon: Store,
-      label: 'Kios',
-      note: 'Jaringan distribusi',
+      label: t`Stalls`,
+      note: t`Distribution network`,
       value: stallsQuery.data?.total,
     },
   ];
@@ -147,16 +142,20 @@ function HomePage() {
         <div className="mx-auto max-w-5xl text-center">
           <Badge className="mb-8 border border-emerald-300/25 bg-emerald-300/10 px-4 py-2 text-emerald-100 hover:bg-emerald-300/10">
             <span className="mr-2 size-2 animate-pulse rounded-full bg-emerald-400" />
-            Manajemen Produk Baru · Marketing Intelligence
+            <Trans>New Product Management · Marketing Intelligence</Trans>
           </Badge>
           <h1 className="mx-auto max-w-4xl font-semibold font-serif text-4xl leading-tight tracking-tight sm:text-6xl lg:text-7xl">
-            Data pasar untuk keputusan yang{' '}
-            <span className="text-[#58c47d]">lebih terarah</span>
+            <Trans>
+              Market data for{' '}
+              <span className="text-[#58c47d]">better decisions</span>
+            </Trans>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-base text-emerald-50/65 leading-7 md:text-lg">
-            Pusat informasi potensi wilayah, komoditas, produk, dan jaringan
-            distribusi untuk mendukung pengembangan produk baru Petrokimia
-            Gresik.
+            <Trans>
+              A central source of regional potential, commodity, product, and
+              distribution network information supporting new product
+              development at Petrokimia Gresik.
+            </Trans>
           </p>
           <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
             <Button
@@ -165,7 +164,7 @@ function HomePage() {
             >
               <Link to="/map">
                 <MapIcon className="mr-2 size-4" />
-                Lihat Peta Pemasaran
+                <Trans>View Marketing Map</Trans>
               </Link>
             </Button>
             <Button
@@ -174,7 +173,7 @@ function HomePage() {
               variant="outline"
             >
               <a href="#program">
-                Lihat Program Kerja
+                <Trans>View Work Programs</Trans>
                 <ArrowRight className="ml-2 size-4" />
               </a>
             </Button>
@@ -211,15 +210,17 @@ function HomePage() {
         <div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
             <p className="mb-3 font-semibold text-emerald-700 text-xs uppercase tracking-[0.24em]">
-              Program kerja utama
+              <Trans>Main work programs</Trans>
             </p>
             <h2 className="max-w-2xl font-semibold font-serif text-3xl tracking-tight md:text-5xl">
-              Menghubungkan data, pasar, dan aktivitas lapangan
+              <Trans>Connecting data, markets, and field activities</Trans>
             </h2>
           </div>
           <p className="max-w-md text-[#66776d] text-sm leading-6">
-            Tiga fokus utama untuk meningkatkan awareness, penetrasi, dan adopsi
-            produk baru secara berkelanjutan.
+            <Trans>
+              Three key priorities for sustainably increasing awareness,
+              penetration, and adoption of new products.
+            </Trans>
           </p>
         </div>
 
@@ -253,10 +254,10 @@ function HomePage() {
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 text-center">
             <p className="mb-3 font-semibold text-emerald-700 text-xs uppercase tracking-[0.24em]">
-              Agenda monitoring
+              <Trans>Monitoring agenda</Trans>
             </p>
             <h2 className="font-semibold font-serif text-3xl md:text-4xl">
-              Aktivitas lapangan 2026
+              <Trans>2026 field activities</Trans>
             </h2>
           </div>
           <div className="grid gap-4 lg:grid-cols-3">
@@ -288,15 +289,17 @@ function HomePage() {
       <section className="mx-auto grid max-w-6xl gap-10 px-4 py-24 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div>
           <p className="mb-3 font-semibold text-emerald-700 text-xs uppercase tracking-[0.24em]">
-            Mandat organisasi
+            <Trans>Organizational mandate</Trans>
           </p>
           <h2 className="font-semibold font-serif text-3xl md:text-5xl">
-            Manajemen produk baru yang terukur
+            <Trans>Measurable new product management</Trans>
           </h2>
           <p className="mt-5 max-w-xl text-[#66776d] text-sm leading-7">
-            Tim menggabungkan market intelligence, evaluasi penjualan, dan
-            pengembangan jaringan untuk memastikan strategi selalu berbasis
-            kondisi pasar.
+            <Trans>
+              The team combines market intelligence, sales evaluation, and
+              network development to ensure strategies remain grounded in market
+              conditions.
+            </Trans>
           </p>
           <div className="mt-8 grid gap-3 sm:grid-cols-2">
             <article className="rounded-2xl border border-[#d8d1c4] bg-white p-5 shadow-emerald-950/5 shadow-sm">
@@ -327,9 +330,11 @@ function HomePage() {
               <Users className="size-5" />
             </div>
             <div>
-              <p className="font-semibold">Kolaborasi lintas fungsi</p>
+              <p className="font-semibold">
+                <Trans>Cross-functional collaboration</Trans>
+              </p>
               <p className="text-[#66776d] text-sm">
-                Marketing, sales, produk, dan jaringan distribusi
+                <Trans>Marketing, sales, products, and distribution</Trans>
               </p>
             </div>
           </div>
@@ -339,10 +344,10 @@ function HomePage() {
           <div className="mb-7 flex items-center justify-between">
             <div>
               <p className="text-emerald-300 text-xs uppercase tracking-[0.2em]">
-                Tanggung jawab utama
+                <Trans>Core responsibilities</Trans>
               </p>
               <h3 className="mt-2 font-semibold font-serif text-2xl">
-                Fokus eksekusi
+                <Trans>Execution focus</Trans>
               </h3>
             </div>
             <Target className="size-8 text-emerald-300" />
@@ -361,16 +366,20 @@ function HomePage() {
           <div className="mt-8 grid grid-cols-2 gap-3 border-white/10 border-t pt-7">
             <div className="rounded-xl bg-white/5 p-4">
               <BarChart3 className="mb-3 size-5 text-emerald-300" />
-              <p className="font-semibold text-sm">Evaluasi data</p>
+              <p className="font-semibold text-sm">
+                <Trans>Data evaluation</Trans>
+              </p>
               <p className="mt-1 text-emerald-50/50 text-xs">
-                Target dan realisasi
+                <Trans>Targets and realization</Trans>
               </p>
             </div>
             <div className="rounded-xl bg-white/5 p-4">
               <Store className="mb-3 size-5 text-emerald-300" />
-              <p className="font-semibold text-sm">Jaringan pasar</p>
+              <p className="font-semibold text-sm">
+                <Trans>Market network</Trans>
+              </p>
               <p className="mt-1 text-emerald-50/50 text-xs">
-                Kios dan end user
+                <Trans>Stalls and end users</Trans>
               </p>
             </div>
           </div>

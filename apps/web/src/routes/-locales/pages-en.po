@@ -6,18 +6,80 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/routes/index.tsx
+msgid "2026 field activities"
+msgstr "2026 field activities"
+
+#: src/routes/index.tsx
+msgid "A central source of regional potential, commodity, product, and distribution network information supporting new product development at Petrokimia Gresik."
+msgstr "A central source of regional potential, commodity, product, and distribution network information supporting new product development at Petrokimia Gresik."
 
 #: src/routes/dashboard.tsx
 msgid "Account information and session details"
 msgstr "Account information and session details"
 
+#: src/routes/index.tsx
+msgid "Active market data"
+msgstr "Active market data"
+
+#: src/routes/index.tsx
+msgid "April – May 2026"
+msgstr "April – May 2026"
+
 #: src/routes/dashboard.tsx
 msgid "Back to Home"
 msgstr "Back to Home"
 
+#: src/routes/index.tsx
+msgid "Commodities"
+msgstr "Commodities"
+
+#: src/routes/index.tsx
+msgid "Communicate change management internally and externally"
+msgstr "Communicate change management internally and externally"
+
+#: src/routes/index.tsx
+msgid "Connecting data, markets, and field activities"
+msgstr "Connecting data, markets, and field activities"
+
+#: src/routes/index.tsx
+msgid "Core responsibilities"
+msgstr "Core responsibilities"
+
+#: src/routes/index.tsx
+msgid "Cross-functional collaboration"
+msgstr "Cross-functional collaboration"
+
+#: src/routes/index.tsx
+msgid "Customer Roadshow"
+msgstr "Customer Roadshow"
+
 #: src/routes/dashboard.tsx
 msgid "Dashboard"
 msgstr "Dashboard"
+
+#: src/routes/index.tsx
+msgid "Data evaluation"
+msgstr "Data evaluation"
+
+#: src/routes/index.tsx
+msgid "Demonstration Plot Partnership Monitoring"
+msgstr "Demonstration Plot Partnership Monitoring"
+
+#: src/routes/index.tsx
+msgid "Develop adaptive sales strategies"
+msgstr "Develop adaptive sales strategies"
+
+#: src/routes/index.tsx
+msgid "Distribution network"
+msgstr "Distribution network"
 
 #: src/routes/dashboard.tsx
 msgid "Email Verified:"
@@ -27,21 +89,117 @@ msgstr "Email Verified:"
 msgid "Email:"
 msgstr "Email:"
 
+#: src/routes/index.tsx
+msgid "Ensure sales targets and evaluate achievements"
+msgstr "Ensure sales targets and evaluate achievements"
+
+#: src/routes/index.tsx
+msgid "Execution focus"
+msgstr "Execution focus"
+
 #: src/routes/dashboard.tsx
 msgid "Explore the application features"
 msgstr "Explore the application features"
+
+#: src/routes/index.tsx
+msgid "February 2026"
+msgstr "February 2026"
+
+#: src/routes/index.tsx
+msgid "Fulfill legal and good corporate governance requirements"
+msgstr "Fulfill legal and good corporate governance requirements"
+
+#: src/routes/index.tsx
+msgid "Identify customer needs and map sales channels for new products."
+msgstr "Identify customer needs and map sales channels for new products."
+
+#: src/routes/index.tsx
+msgid "In the portfolio"
+msgstr "In the portfolio"
+
+#: src/routes/index.tsx
+msgid "Java & Bali"
+msgstr "Java & Bali"
+
+#: src/routes/index.tsx
+msgid "June – September 2026"
+msgstr "June – September 2026"
 
 #: src/routes/dashboard.tsx
 msgid "Loading..."
 msgstr "Loading..."
 
+#: src/routes/index.tsx
+msgid "Main work programs"
+msgstr "Main work programs"
+
+#: src/routes/index.tsx
+msgid "Market data for <0>better decisions</0>"
+msgstr "Market data for <0>better decisions</0>"
+
+#: src/routes/index.tsx
+msgid "Market Mapping & Sales Strategy"
+msgstr "Market Mapping & Sales Strategy"
+
+#: src/routes/index.tsx
+msgid "Market mapping and new product development"
+msgstr "Market mapping and new product development"
+
+#: src/routes/index.tsx
+msgid "Market network"
+msgstr "Market network"
+
+#: src/routes/index.tsx
+msgid "Marketing, sales, products, and distribution"
+msgstr "Marketing, sales, products, and distribution"
+
+#: src/routes/index.tsx
+msgid "Measurable new product management"
+msgstr "Measurable new product management"
+
+#: src/routes/index.tsx
+msgid "Medium to large-scale aquaculture businesses"
+msgstr "Medium to large-scale aquaculture businesses"
+
+#: src/routes/index.tsx
+msgid "Monitoring agenda"
+msgstr "Monitoring agenda"
+
 #: src/routes/dashboard.tsx
 msgid "Name:"
 msgstr "Name:"
 
+#: src/routes/index.tsx
+msgid "New Product Management · Marketing Intelligence"
+msgstr "New Product Management · Marketing Intelligence"
+
+#: src/routes/index.tsx
+msgid "New Product Market Monitoring"
+msgstr "New Product Market Monitoring"
+
 #: src/routes/dashboard.tsx
 msgid "Not Verified"
 msgstr "Not Verified"
+
+#: src/routes/index.tsx
+msgid "Organizational mandate"
+msgstr "Organizational mandate"
+
+#: src/routes/index.tsx
+msgid "Outreach & Demonstration Plots"
+msgstr "Outreach & Demonstration Plots"
+
+#: src/routes/index.tsx
+msgid "Petro Fish Market Penetration"
+msgstr "Petro Fish Market Penetration"
+
+#: src/routes/index.tsx
+msgid "PM New Product Management"
+msgstr "PM New Product Management"
+
+#: src/routes/index.tsx
+msgid "Product Brands"
+msgstr "Product Brands"
 
 #: src/routes/dashboard.tsx
 msgid "Protected Data"
@@ -51,9 +209,17 @@ msgstr "Protected Data"
 msgid "Protected Route"
 msgstr "Protected Route"
 
+#: src/routes/index.tsx
+msgid "Provinces"
+msgstr "Provinces"
+
 #: src/routes/dashboard.tsx
 msgid "Quick Actions"
 msgstr "Quick Actions"
+
+#: src/routes/index.tsx
+msgid "Registered regions"
+msgstr "Registered regions"
 
 #: src/routes/dashboard.tsx
 msgid "Server Message:"
@@ -63,6 +229,30 @@ msgstr "Server Message:"
 msgid "Sign Out"
 msgstr "Sign Out"
 
+#: src/routes/index.tsx
+msgid "SMD I New Product Management"
+msgstr "SMD I New Product Management"
+
+#: src/routes/index.tsx
+msgid "Stalls"
+msgstr "Stalls"
+
+#: src/routes/index.tsx
+msgid "Stalls and end users"
+msgstr "Stalls and end users"
+
+#: src/routes/index.tsx
+msgid "Strengthen brand awareness and product education through active demonstration plots."
+msgstr "Strengthen brand awareness and product education through active demonstration plots."
+
+#: src/routes/index.tsx
+msgid "Targets and realization"
+msgstr "Targets and realization"
+
+#: src/routes/index.tsx
+msgid "The team combines market intelligence, sales evaluation, and network development to ensure strategies remain grounded in market conditions."
+msgstr "The team combines market intelligence, sales evaluation, and network development to ensure strategies remain grounded in market conditions."
+
 #: src/routes/dashboard.tsx
 msgid "This data comes from a protected oRPC endpoint"
 msgstr "This data comes from a protected oRPC endpoint"
@@ -70,6 +260,10 @@ msgstr "This data comes from a protected oRPC endpoint"
 #: src/routes/dashboard.tsx
 msgid "This data is only accessible to authenticated users via the"
 msgstr "This data is only accessible to authenticated users via the"
+
+#: src/routes/index.tsx
+msgid "Three key priorities for sustainably increasing awareness, penetration, and adoption of new products."
+msgstr "Three key priorities for sustainably increasing awareness, penetration, and adoption of new products."
 
 #: src/routes/dashboard.tsx
 msgid "Try Forms"
@@ -83,9 +277,21 @@ msgstr "User ID:"
 msgid "Verified"
 msgstr "Verified"
 
+#: src/routes/index.tsx
+msgid "View Marketing Map"
+msgstr "View Marketing Map"
+
 #: src/routes/dashboard.tsx
 msgid "View Todos"
 msgstr "View Todos"
+
+#: src/routes/index.tsx
+msgid "View Work Programs"
+msgstr "View Work Programs"
+
+#: src/routes/index.tsx
+msgid "Visit end users, monitor the market, and strengthen field distribution networks."
+msgstr "Visit end users, monitor the market, and strengthen field distribution networks."
 
 #. placeholder {0}: user.name
 #: src/routes/dashboard.tsx

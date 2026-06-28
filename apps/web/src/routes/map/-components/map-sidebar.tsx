@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/sidebar';
 import { useToast } from '@/hooks/use-toast';
 import { orpc } from '@/lib/orpc/client';
+import { getYearOptions } from '@/lib/utils/year-options';
 import {
   AdministrativeBoundariesService,
   type AdministrativeLevel,
@@ -240,43 +241,22 @@ export function MapSidebar({
       )
     : commodityTypes?.data;
   const availableYears = useMemo(() => {
-    let years: (string | null)[] = [];
+    let items: Array<{ year?: string | null }> = [];
     if (currentFilter === 'product_brand') {
-      years = (provincePotential?.data ?? [])
-        .filter(
-          (item) => !selectedBrand || item.productBrandId === selectedBrand
-        )
-        .map((item) => item.year);
+      items = provincePotential?.data ?? [];
     } else if (currentFilter === 'land_type') {
-      years = (provinceLands?.data ?? [])
-        .filter(
-          (item) => !selectedLandType || item.landTypeId === selectedLandType
-        )
-        .map((item) => item.year);
+      items = provinceLands?.data ?? [];
     } else {
-      years = (provinceCommodities?.data ?? [])
-        .filter(
-          (item) =>
-            !selectedCommodityType ||
-            item.commodityTypeId === selectedCommodityType
-        )
-        .map((item) => item.year);
+      items = provinceCommodities?.data ?? [];
     }
 
-    const populatedYears = [
-      ...new Set(years.filter((year): year is string => Boolean(year))),
-    ]
-      .sort()
-      .reverse();
-    return populatedYears.length > 0 ? populatedYears : ['all'];
+    const populatedYears = getYearOptions(items);
+    return populatedYears.length > 0 ? [...populatedYears, 'all'] : ['all'];
   }, [
     currentFilter,
     provinceCommodities?.data,
     provinceLands?.data,
     provincePotential?.data,
-    selectedBrand,
-    selectedCommodityType,
-    selectedLandType,
   ]);
 
   useEffect(() => {

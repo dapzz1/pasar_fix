@@ -13,21 +13,15 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#. placeholder {0}: COMMODITIES.length
-#: src/routes/map/-components/marketing-map-page.tsx
-msgid "{0} Commodities"
-msgstr "{0} Komoditas"
-
 #: src/routes/map/-components/stall-markers.tsx
 msgid "Address"
 msgstr "Alamat"
 
-#: src/routes/map/-components/marketing-map-page.tsx
+#: src/routes/map/-components/map-layout.tsx
 msgid "Admin Panel"
 msgstr "Admin Panel"
 
 #: src/routes/map/-components/map-sidebar.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Administrative Level"
 msgstr "Level Wilayah"
 
@@ -57,21 +51,18 @@ msgid "Criteria"
 msgstr "Kriteria"
 
 #: src/routes/map/-components/map-sidebar.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Filter by"
 msgstr "Filter berdasarkan"
 
 #: src/routes/map/-components/dynamic-map.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Hide Kios"
 msgstr "Sembunyikan Kios"
 
 #: src/routes/map/-components/dynamic-map.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Hide Potential"
 msgstr "Sembunyikan Potensial"
 
-#: src/routes/map/-components/marketing-map-page.tsx
+#: src/routes/map/-components/map-layout.tsx
 msgid "Home"
 msgstr "Beranda"
 
@@ -84,22 +75,9 @@ msgstr "Jenis Lahan"
 msgid "Last updated on:"
 msgstr "Terakhir diperbarui pada:"
 
-#: src/routes/map/-components/marketing-map-page.tsx
-msgid "Last updated: —"
-msgstr "Terakhir diperbarui: -"
-
-#: src/routes/map/-components/marketing-map-page.tsx
-msgid "Last updated: {lastUpdated}"
-msgstr "Terakhir diperbarui: {lastUpdated}"
-
 #: src/routes/map/-components/dynamic-map.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Loading..."
 msgstr "Memuat..."
-
-#: src/routes/map/-components/marketing-map-page.tsx
-msgid "Map Controls"
-msgstr "Kontrol Peta"
 
 #: src/routes/map/-components/map-sidebar.tsx
 msgid "Marketing Map Control"
@@ -114,7 +92,6 @@ msgid "Mustard greens"
 msgstr "Sawi"
 
 #: src/routes/map/-components/map-sidebar.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "National"
 msgstr "Nasional"
 
@@ -134,26 +111,19 @@ msgstr "Telepon"
 msgid "Potatoes"
 msgstr "Kentang"
 
-#: src/routes/map/-components/marketing-map-page.tsx
-msgid "Potential Maps"
-msgstr "Peta Potensi"
-
 #: src/routes/map/-components/map-sidebar.tsx
 #: src/routes/map/-components/map-sidebar.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Product Brand"
 msgstr "Merk Produk"
 
 #: src/routes/map/-components/map-sidebar.tsx
 #: src/routes/map/-components/map-sidebar.tsx
 #: src/routes/map/-components/map-sidebar.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Province"
 msgstr "Provinsi"
 
 #: src/routes/map/-components/map-sidebar.tsx
 #: src/routes/map/-components/map-sidebar.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Regency"
 msgstr "Kabupaten"
 
@@ -166,18 +136,12 @@ msgid "Shallots"
 msgstr "Bawang Merah"
 
 #: src/routes/map/-components/dynamic-map.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Show Kios"
 msgstr "Tampilkan Kios"
 
 #: src/routes/map/-components/dynamic-map.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Show Potential"
 msgstr "Tampilkan Potensial"
-
-#: src/routes/map/-components/marketing-map-page.tsx
-msgid "Sign Out"
-msgstr "Keluar"
 
 #: src/routes/map/-components/map-sidebar.tsx
 msgid "Soybeans"
@@ -204,6 +168,5 @@ msgid "Watermelon"
 msgstr "Semangka"
 
 #: src/routes/map/-components/map-sidebar.tsx
-#: src/routes/map/-components/marketing-map-page.tsx
 msgid "Year"
 msgstr "Tahun"

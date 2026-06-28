@@ -27,14 +27,11 @@ export function MapProvider({
 
   const setParams = useCallback(
     (p: MapParams | ((prev: MapParams) => MapParams)) => {
-      setParamsState((prev) => {
-        const next =
-          typeof p === 'function'
-            ? (p as (prev: MapParams) => MapParams)(prev)
-            : p;
+      setParamsState((previousParams) => {
+        const next = typeof p === 'function' ? p(previousParams) : p;
 
-        if (JSON.stringify(prev) === JSON.stringify(next)) {
-          return prev;
+        if (JSON.stringify(previousParams) === JSON.stringify(next)) {
+          return previousParams;
         }
         return next;
       });
@@ -44,7 +41,7 @@ export function MapProvider({
 
   const updateParam = useCallback((key: string, value: unknown) => {
     setParamsState((prev) => {
-      const prevValue = (prev as any)?.[key];
+      const prevValue = prev[key];
 
       if (typeof prevValue === 'object' && typeof value === 'object') {
         if (JSON.stringify(prevValue) === JSON.stringify(value)) {

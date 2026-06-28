@@ -6,18 +6,80 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: id\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/routes/index.tsx
+msgid "2026 field activities"
+msgstr "Aktivitas lapangan 2026"
+
+#: src/routes/index.tsx
+msgid "A central source of regional potential, commodity, product, and distribution network information supporting new product development at Petrokimia Gresik."
+msgstr "Pusat informasi potensi wilayah, komoditas, produk, dan jaringan distribusi untuk mendukung pengembangan produk baru Petrokimia Gresik."
 
 #: src/routes/dashboard.tsx
 msgid "Account information and session details"
 msgstr "Informasi akun dan detail sesi"
 
+#: src/routes/index.tsx
+msgid "Active market data"
+msgstr "Data pasar aktif"
+
+#: src/routes/index.tsx
+msgid "April – May 2026"
+msgstr "April – Mei 2026"
+
 #: src/routes/dashboard.tsx
 msgid "Back to Home"
 msgstr "Kembali ke Beranda"
 
+#: src/routes/index.tsx
+msgid "Commodities"
+msgstr "Komoditas"
+
+#: src/routes/index.tsx
+msgid "Communicate change management internally and externally"
+msgstr "Sosialisasi change management internal dan eksternal"
+
+#: src/routes/index.tsx
+msgid "Connecting data, markets, and field activities"
+msgstr "Menghubungkan data, pasar, dan aktivitas lapangan"
+
+#: src/routes/index.tsx
+msgid "Core responsibilities"
+msgstr "Tanggung jawab utama"
+
+#: src/routes/index.tsx
+msgid "Cross-functional collaboration"
+msgstr "Kolaborasi lintas fungsi"
+
+#: src/routes/index.tsx
+msgid "Customer Roadshow"
+msgstr "Roadshow Customer"
+
 #: src/routes/dashboard.tsx
 msgid "Dashboard"
 msgstr "Dashboard"
+
+#: src/routes/index.tsx
+msgid "Data evaluation"
+msgstr "Evaluasi data"
+
+#: src/routes/index.tsx
+msgid "Demonstration Plot Partnership Monitoring"
+msgstr "Monitoring Kerja Sama Demplot"
+
+#: src/routes/index.tsx
+msgid "Develop adaptive sales strategies"
+msgstr "Mengembangkan strategi penjualan yang adaptif"
+
+#: src/routes/index.tsx
+msgid "Distribution network"
+msgstr "Jaringan distribusi"
 
 #: src/routes/dashboard.tsx
 msgid "Email Verified:"
@@ -27,21 +89,117 @@ msgstr "Email Terverifikasi:"
 msgid "Email:"
 msgstr "Email:"
 
+#: src/routes/index.tsx
+msgid "Ensure sales targets and evaluate achievements"
+msgstr "Memastikan target penjualan dan evaluasi pencapaian"
+
+#: src/routes/index.tsx
+msgid "Execution focus"
+msgstr "Fokus eksekusi"
+
 #: src/routes/dashboard.tsx
 msgid "Explore the application features"
 msgstr "Jelajahi fitur aplikasi"
+
+#: src/routes/index.tsx
+msgid "February 2026"
+msgstr "Februari 2026"
+
+#: src/routes/index.tsx
+msgid "Fulfill legal and good corporate governance requirements"
+msgstr "Memenuhi aspek legal dan good corporate governance"
+
+#: src/routes/index.tsx
+msgid "Identify customer needs and map sales channels for new products."
+msgstr "Identifikasi kebutuhan konsumen dan pemetaan saluran penjualan untuk produk baru."
+
+#: src/routes/index.tsx
+msgid "In the portfolio"
+msgstr "Dalam portofolio"
+
+#: src/routes/index.tsx
+msgid "Java & Bali"
+msgstr "Jawa & Bali"
+
+#: src/routes/index.tsx
+msgid "June – September 2026"
+msgstr "Juni – September 2026"
 
 #: src/routes/dashboard.tsx
 msgid "Loading..."
 msgstr "Memuat..."
 
+#: src/routes/index.tsx
+msgid "Main work programs"
+msgstr "Program kerja utama"
+
+#: src/routes/index.tsx
+msgid "Market data for <0>better decisions</0>"
+msgstr "Data pasar untuk keputusan yang <0>lebih terarah</0>"
+
+#: src/routes/index.tsx
+msgid "Market Mapping & Sales Strategy"
+msgstr "Peta Pasar & Strategi Penjualan"
+
+#: src/routes/index.tsx
+msgid "Market mapping and new product development"
+msgstr "Pemetaan pasar dan pengembangan produk baru"
+
+#: src/routes/index.tsx
+msgid "Market network"
+msgstr "Jaringan pasar"
+
+#: src/routes/index.tsx
+msgid "Marketing, sales, products, and distribution"
+msgstr "Marketing, sales, produk, dan jaringan distribusi"
+
+#: src/routes/index.tsx
+msgid "Measurable new product management"
+msgstr "Manajemen produk baru yang terukur"
+
+#: src/routes/index.tsx
+msgid "Medium to large-scale aquaculture businesses"
+msgstr "Usaha tambak skala menengah–besar"
+
+#: src/routes/index.tsx
+msgid "Monitoring agenda"
+msgstr "Agenda monitoring"
+
 #: src/routes/dashboard.tsx
 msgid "Name:"
 msgstr "Nama:"
 
+#: src/routes/index.tsx
+msgid "New Product Management · Marketing Intelligence"
+msgstr "Manajemen Produk Baru · Marketing Intelligence"
+
+#: src/routes/index.tsx
+msgid "New Product Market Monitoring"
+msgstr "Monitoring Pasar Produk Baru"
+
 #: src/routes/dashboard.tsx
 msgid "Not Verified"
 msgstr "Belum Terverifikasi"
+
+#: src/routes/index.tsx
+msgid "Organizational mandate"
+msgstr "Mandat organisasi"
+
+#: src/routes/index.tsx
+msgid "Outreach & Demonstration Plots"
+msgstr "Sosialisasi & Demplot"
+
+#: src/routes/index.tsx
+msgid "Petro Fish Market Penetration"
+msgstr "Penetrasi Pasar Petro Fish"
+
+#: src/routes/index.tsx
+msgid "PM New Product Management"
+msgstr "PM Manajemen Produk Baru"
+
+#: src/routes/index.tsx
+msgid "Product Brands"
+msgstr "Brand Produk"
 
 #: src/routes/dashboard.tsx
 msgid "Protected Data"
@@ -51,9 +209,17 @@ msgstr "Data Terproteksi"
 msgid "Protected Route"
 msgstr "Route Terproteksi"
 
+#: src/routes/index.tsx
+msgid "Provinces"
+msgstr "Provinsi"
+
 #: src/routes/dashboard.tsx
 msgid "Quick Actions"
 msgstr "Aksi Cepat"
+
+#: src/routes/index.tsx
+msgid "Registered regions"
+msgstr "Wilayah terdaftar"
 
 #: src/routes/dashboard.tsx
 msgid "Server Message:"
@@ -63,6 +229,30 @@ msgstr "Pesan Server:"
 msgid "Sign Out"
 msgstr "Keluar"
 
+#: src/routes/index.tsx
+msgid "SMD I New Product Management"
+msgstr "SMD I Manajemen Produk Baru"
+
+#: src/routes/index.tsx
+msgid "Stalls"
+msgstr "Kios"
+
+#: src/routes/index.tsx
+msgid "Stalls and end users"
+msgstr "Kios dan end user"
+
+#: src/routes/index.tsx
+msgid "Strengthen brand awareness and product education through active demonstration plots."
+msgstr "Penguatan brand awareness dan edukasi produk melalui demonstrasi plot aktif."
+
+#: src/routes/index.tsx
+msgid "Targets and realization"
+msgstr "Target dan realisasi"
+
+#: src/routes/index.tsx
+msgid "The team combines market intelligence, sales evaluation, and network development to ensure strategies remain grounded in market conditions."
+msgstr "Tim menggabungkan market intelligence, evaluasi penjualan, dan pengembangan jaringan untuk memastikan strategi selalu berbasis kondisi pasar."
+
 #: src/routes/dashboard.tsx
 msgid "This data comes from a protected oRPC endpoint"
 msgstr "Data ini berasal dari endpoint oRPC terproteksi"
@@ -70,6 +260,10 @@ msgstr "Data ini berasal dari endpoint oRPC terproteksi"
 #: src/routes/dashboard.tsx
 msgid "This data is only accessible to authenticated users via the"
 msgstr "Data ini hanya bisa diakses oleh pengguna yang sudah masuk melalui"
+
+#: src/routes/index.tsx
+msgid "Three key priorities for sustainably increasing awareness, penetration, and adoption of new products."
+msgstr "Tiga fokus utama untuk meningkatkan awareness, penetrasi, dan adopsi produk baru secara berkelanjutan."
 
 #: src/routes/dashboard.tsx
 msgid "Try Forms"
@@ -83,9 +277,21 @@ msgstr "ID Pengguna:"
 msgid "Verified"
 msgstr "Terverifikasi"
 
+#: src/routes/index.tsx
+msgid "View Marketing Map"
+msgstr "Lihat Peta Pemasaran"
+
 #: src/routes/dashboard.tsx
 msgid "View Todos"
 msgstr "Lihat Todos"
+
+#: src/routes/index.tsx
+msgid "View Work Programs"
+msgstr "Lihat Program Kerja"
+
+#: src/routes/index.tsx
+msgid "Visit end users, monitor the market, and strengthen field distribution networks."
+msgstr "Kunjungan end user, monitoring pasar, dan penguatan jaringan distribusi lapangan."
 
 #. placeholder {0}: user.name
 #: src/routes/dashboard.tsx
