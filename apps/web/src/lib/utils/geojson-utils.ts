@@ -12,9 +12,12 @@ export async function loadProvinceGeoJSON(
 ): Promise<GeoJSON.GeoJSON> {
   const response = await fetch('/data/indonesia-boundary.geojson');
   // get specific coordinates for the province code
-  const data = await response.json();
+  const data = (await response.json()) as GeoJSON.FeatureCollection<
+    GeoJSON.Geometry,
+    { code?: number | string }
+  >;
   const feature = data.features.find(
-    (f: any) => f.properties.code === Number(code)
+    (item) => Number(item.properties?.code) === Number(code)
   );
   if (!feature) {
     throw new Error(`Province with code ${code} not found in GeoJSON data`);

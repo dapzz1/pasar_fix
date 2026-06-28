@@ -294,7 +294,7 @@ function TargetAreaCard() {
               >
                 <LabelList
                   dataKey="tanpang"
-                  formatter={(v: number) => `${v}%`}
+                  formatter={(value) => `${Number(value)}%`}
                   position="inside"
                   style={{ fill: '#0B0B0B', fontWeight: 700 }}
                 />
@@ -302,7 +302,7 @@ function TargetAreaCard() {
               <Bar dataKey="horti" fill={COLORS.horti} stackId="1">
                 <LabelList
                   dataKey="horti"
-                  formatter={(v: number) => `${v}%`}
+                  formatter={(value) => `${Number(value)}%`}
                   position="inside"
                   style={{ fill: '#0B0B0B', fontWeight: 700 }}
                 />
@@ -315,7 +315,7 @@ function TargetAreaCard() {
               >
                 <LabelList
                   dataKey="kebun"
-                  formatter={(v: number) => `${v}%`}
+                  formatter={(value) => `${Number(value)}%`}
                   position="inside"
                   style={{ fill: '#0B0B0B', fontWeight: 700 }}
                 />

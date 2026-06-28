@@ -76,9 +76,11 @@ export function TextField({
 
 export function TextArea({
   label,
+  placeholder,
   rows = 3,
 }: {
   label: string;
+  placeholder?: string;
   rows?: number;
 }) {
   const field = useFieldContext<string>();
@@ -93,6 +95,7 @@ export function TextArea({
         id={label}
         onBlur={field.handleBlur}
         onChange={(e) => field.handleChange(e.target.value)}
+        placeholder={placeholder}
         rows={rows}
         value={field.state.value}
       />
