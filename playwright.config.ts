@@ -9,10 +9,7 @@ export default defineConfig({
   forbidOnly: true,
   retries: 0,
   workers: 1,
-  reporter: [
-    ['list'],
-    ['html', { outputFolder: 'screenshots/report' }],
-  ],
+  reporter: [['list'], ['html', { outputFolder: 'screenshots/report' }]],
   use: {
     baseURL: 'http://localhost:3000',
     trace: 'off',
