@@ -1,0 +1,268 @@
+// Supabase public schema exported from PostgreSQL catalogs.
+// Tables: 22; foreign keys: 20
+// Import this file at https://dbdiagram.io/d
+
+Table "account" {
+  "id" uuid [pk, not null]
+  "account_id" text [not null]
+  "provider_id" text [not null]
+  "user_id" uuid [not null]
+  "access_token" text
+  "refresh_token" text
+  "id_token" text
+  "access_token_expires_at" timestamp
+  "refresh_token_expires_at" timestamp
+  "scope" text
+  "password" text
+  "created_at" timestamp [not null]
+  "updated_at" timestamp [not null]
+}
+
+Table "commodity_types" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "land_type_id" uuid [not null]
+  "name" varchar [not null]
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+}
+
+Table "daily_sales" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "date" date [not null]
+  "product_brand_id" uuid [not null]
+  "realization" real
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+  "month" varchar
+  "qty" real
+  "revenue" real
+  "target" real
+  "notes" varchar
+  "province_id" uuid
+}
+
+Table "land_types" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "name" varchar [not null]
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+}
+
+Table "product_brands" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "product_type_id" uuid [not null]
+  "name" varchar [not null]
+  "industry" varchar
+  "description" varchar
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+}
+
+Table "product_dosages" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "commodity_type_id" uuid [not null]
+  "product_brand_id" uuid [not null]
+  "dosage" real
+  "unit" varchar
+  "created_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+
+  indexes {
+    ("product_brand_id", "commodity_type_id") [unique]
+  }
+}
+
+Table "product_types" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "name" varchar [not null]
+  "description" varchar
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+}
+
+Table "province_commodities" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "province_id" uuid [not null]
+  "commodity_type_id" uuid [not null]
+  "area" real
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+}
+
+Table "province_lands" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "province_id" uuid [not null]
+  "land_type_id" uuid [not null]
+  "area" real
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+}
+
+Table "province_potentials" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "province_id" uuid [not null]
+  "product_brand_id" uuid [not null]
+  "potential" real
+  "description" varchar
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+}
+
+Table "provinces" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "code" varchar(3) [unique, not null]
+  "name" varchar [not null]
+  "area" real
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+}
+
+Table "regencies" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "code" varchar(5) [unique, not null]
+  "province_id" uuid [not null]
+  "name" varchar [not null]
+  "area" real
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+}
+
+Table "regency_commodities" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "regency_id" uuid [not null]
+  "commodity_type_id" uuid [not null]
+  "area" real
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+}
+
+Table "regency_lands" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "regency_id" uuid [not null]
+  "land_type_id" uuid [not null]
+  "area" real
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+}
+
+Table "regency_potentials" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "regency_id" uuid [not null]
+  "product_brand_id" uuid [not null]
+  "potential" real
+  "description" varchar
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+}
+
+Table "sales_realizations" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "report_date" date [not null]
+  "product_brand_id" uuid [not null]
+  "realization_daily" real
+  "month" varchar
+  "realization_monthly" real
+  "rkap_monthly" real
+  "realization_ytd" real
+  "rkap_ytd" real
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+  "rkap_yearly" real
+  "realization_last_year" real
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+}
+
+Table "session" {
+  "id" uuid [pk, not null]
+  "expires_at" timestamp [not null]
+  "token" text [unique, not null]
+  "created_at" timestamp [not null]
+  "updated_at" timestamp [not null]
+  "ip_address" text
+  "user_agent" text
+  "user_id" uuid [not null]
+}
+
+Table "stall_product_brands" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "stall_id" uuid [not null]
+  "product_brand_id" uuid [not null]
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+}
+
+Table "stalls" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "name" varchar [not null]
+  "address" varchar
+  "regency_id" uuid [not null]
+  "province_id" uuid [not null]
+  "latitude" real
+  "longitude" real
+  "owner" varchar
+  "no_telp" varchar
+  "criteria" text
+  "created_at" timestamp [default: `now()`]
+  "updated_at" timestamp [default: `now()`]
+  "year" varchar [default: `(EXTRACT(year FROM CURRENT_DATE))::text`]
+}
+
+Table "todo" {
+  "id" uuid [pk, not null]
+  "text" text [not null]
+  "completed" boolean [not null, default: `false`]
+}
+
+Table "user" {
+  "id" uuid [pk, not null]
+  "name" text [not null]
+  "email" text [unique, not null]
+  "email_verified" boolean [not null]
+  "image" text
+  "created_at" timestamp [not null]
+  "updated_at" timestamp [not null]
+  "role" text [not null]
+}
+
+Table "verification" {
+  "id" uuid [pk, not null]
+  "identifier" text [not null]
+  "value" text [not null]
+  "expires_at" timestamp [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Ref "account_user_id_user_id_fk": "account"."user_id" > "user"."id" [delete: cascade]
+Ref "commodity_types_land_type_id_land_types_id_fk": "commodity_types"."land_type_id" > "land_types"."id"
+Ref "daily_sales_product_brand_id_product_brands_id_fk": "daily_sales"."product_brand_id" > "product_brands"."id"
+Ref "product_brands_product_type_id_product_types_id_fk": "product_brands"."product_type_id" > "product_types"."id"
+Ref "product_dosages_commodity_type_id_commodity_types_id_fk": "product_dosages"."commodity_type_id" > "commodity_types"."id"
+Ref "province_commodities_commodity_type_id_commodity_types_id_fk": "province_commodities"."commodity_type_id" > "commodity_types"."id"
+Ref "province_commodities_province_id_provinces_id_fk": "province_commodities"."province_id" > "provinces"."id"
+Ref "province_lands_province_id_provinces_id_fk": "province_lands"."province_id" > "provinces"."id"
+Ref "province_potentials_province_id_provinces_id_fk": "province_potentials"."province_id" > "provinces"."id"
+Ref "regencies_province_id_provinces_id_fk": "regencies"."province_id" > "provinces"."id" [delete: cascade]
+Ref "regency_commodities_commodity_type_id_commodity_types_id_fk": "regency_commodities"."commodity_type_id" > "commodity_types"."id"
+Ref "regency_commodities_regency_id_regencies_id_fk": "regency_commodities"."regency_id" > "regencies"."id"
+Ref "regency_lands_regency_id_regencies_id_fk": "regency_lands"."regency_id" > "regencies"."id"
+Ref "regency_potentials_regency_id_regencies_id_fk": "regency_potentials"."regency_id" > "regencies"."id"
+Ref "sales_realizations_product_brand_id_product_brands_id_fk": "sales_realizations"."product_brand_id" > "product_brands"."id"
+Ref "session_user_id_user_id_fk": "session"."user_id" > "user"."id" [delete: cascade]
+Ref "stall_product_brands_product_brand_id_product_brands_id_fk": "stall_product_brands"."product_brand_id" > "product_brands"."id"
+Ref "stall_product_brands_stall_id_stalls_id_fk": "stall_product_brands"."stall_id" > "stalls"."id"
+Ref "stalls_province_id_provinces_id_fk": "stalls"."province_id" > "provinces"."id"
+Ref "stalls_regency_id_regencies_id_fk": "stalls"."regency_id" > "regencies"."id"
